@@ -24,6 +24,18 @@ public abstract class Aventurier extends ObjetIdentifie {
         this.pion = pion;
     }
 
+    //METHODES
+    
+    public void removeCarte(CarteTirage carte){
+        main.remove(carte);
+    }
+    
+    public void addCarte(CarteTirage carte){
+        main.add(carte);
+    }
+    
+    //GETTER AND SETTER
+    
     public int getNbAction() {
         return nbAction;
     }
@@ -48,10 +60,6 @@ public abstract class Aventurier extends ObjetIdentifie {
         this.main = main;
     }
     
-    public ArrayList<Tuile> getTuilesAccessibles() {
-        
-    }
- 
     
     
     
