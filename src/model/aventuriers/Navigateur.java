@@ -16,6 +16,7 @@ public class Navigateur extends Aventurier {
     
     public Navigateur(Tuile positionDepart, Pion pion) {
         super(positionDepart, pion);
+        super.nbAction = 4;
     }
     
 }

@@ -11,10 +11,10 @@ import util.Utils.Pion;
  * @author IUT2-Dept Info
  */
 public abstract class Aventurier extends ObjetIdentifie {
-    private int nbAction;
-    private Pion pion;
-    private Tuile position;
-    private ArrayList<CarteTirage> main;
+    protected int nbAction;
+    protected Pion pion;
+    protected Tuile position;
+    protected ArrayList<CarteTirage> main;
 
     public Aventurier(Tuile positionDepart, Pion pion) {
         super();
