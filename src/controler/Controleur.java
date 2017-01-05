@@ -15,6 +15,11 @@ public class Controleur implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        initialiserPartie();
+    }
+    
+    public void initialiserPartie() {
+        
     }
 
 }
