@@ -5,10 +5,17 @@
  */
 package model.aventuriers;
 
+import model.cases.Tuile;
+import util.Utils.Pion;
+
 /**
  *
  * @author legergw
  */
-public class Ingenieur {
+public class Ingenieur extends Aventurier {
+    
+    public Ingenieur(Tuile positionDepart, Pion pion) {
+        super(positionDepart, pion);
+    }
     
 }

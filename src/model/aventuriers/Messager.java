@@ -5,10 +5,17 @@
  */
 package model.aventuriers;
 
+import model.cases.Tuile;
+import util.Utils.Pion;
+
 /**
  *
  * @author legergw
  */
-public class Messager {
+public class Messager extends Aventurier {
+    
+    public Messager(Tuile positionDepart, Pion pion) {
+        super(positionDepart, pion);
+    }
     
 }

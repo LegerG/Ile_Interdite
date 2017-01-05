@@ -5,10 +5,17 @@
  */
 package model.aventuriers;
 
+import model.cases.Tuile;
+import util.Utils.Pion;
+
 /**
  *
  * @author legergw
  */
-public class Plongeur {
+public class Plongeur extends Aventurier {
+    
+    public Plongeur(Tuile positionDepart, Pion pion) {
+        super(positionDepart, pion);
+    }
     
 }
