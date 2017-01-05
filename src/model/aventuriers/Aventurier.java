@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import model.ObjetIdentifie;
 import model.cartes.CarteTirage;
 import model.cases.Tuile;
+import util.Utils.Pion;
 
 /**
  *
@@ -11,14 +12,16 @@ import model.cases.Tuile;
  */
 public abstract class Aventurier extends ObjetIdentifie {
     private int nbAction;
+    private Pion pion;
     private Tuile position;
     private ArrayList<CarteTirage> main;
 
-    public Aventurier(Tuile positionDepart) {
+    public Aventurier(Tuile positionDepart, Pion pion) {
         super();
         this.nbAction = 3;
         this.position = positionDepart;
         this.main = new ArrayList<>();
+        this.pion = pion;
     }
 
     public int getNbAction() {
@@ -44,6 +47,12 @@ public abstract class Aventurier extends ObjetIdentifie {
     public void setMain(ArrayList<CarteTirage> main) {
         this.main = main;
     }
+    
+    public ArrayList<Tuile> getTuilesAccessibles() {
+        
+    }
+ 
+    
     
     
     
