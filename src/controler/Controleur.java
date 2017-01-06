@@ -2,6 +2,7 @@ package controler;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import model.aventuriers.Aventurier;
@@ -14,7 +15,9 @@ import view.VueNiveau;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
+import util.Utils;
 import util.Utils.Commandes;
+import util.Utils.EtatTuile;
 import util.Utils.Tresor;
 import static util.Utils.melangerPositions;
 import view.VueInscription;
@@ -28,8 +31,6 @@ public class Controleur implements Observer {
     private VueInscription vueInscription;
     private Grille grille;
     private Tuile[] tuiles = new Tuile[24];
-
-
     private ArrayList<VueAventurier> vueaventuriers;
     private Explorateur av;
     private VuePlateau vuePlateau;
@@ -39,6 +40,7 @@ public class Controleur implements Observer {
     public Controleur() {
         this.vueInscription = new VueInscription();
         this.vueInscription.addObserver(this);
+        this.remplirTuiles();
     }
 
 
@@ -64,10 +66,10 @@ public class Controleur implements Observer {
         //Création des tuiles
         tuiles[0] = new Tuile(Tresor.CRISTAL, "Caverne du Brasier");
         tuiles[1] = new Tuile(null, "Les Dunes de L'Illusion");
-        tuiles[2] = new Tuile(null, "Les falaises del'Oublis");
+        tuiles[2] = new Tuile(null, "Les falaises del'Oublis");// this.tuiles[2].setEtatTuile(EtatTuile.INONDEE);
         tuiles[3] = new Tuile(Tresor.PIERRE, "Le Temple du Soleil");
         tuiles[4] = new Tuile(null, "Val du Crépuscule");
-        tuiles[5] = new Tuile(null, "L'Observatoire");
+        tuiles[5] = new Tuile(null, "L'Observatoire"); //this.tuiles[5].setEtatTuile(EtatTuile.INONDEE);
         tuiles[6] = new Tuile(Tresor.CALICE, "Le Palais de Corail");
         tuiles[7] = new Tuile(null, "Le Lagon Perdu");
         tuiles[8] = new Tuile(null, "Le Marais Brumeux");
@@ -87,11 +89,21 @@ public class Controleur implements Observer {
         tuiles[22] = new Tuile(null, "La Forêt Pourpre");
         tuiles[23] = new Tuile(Tresor.CRISTAL, "La Caverne des Ombres");
         
-        tuiles = melangerPositions(tuiles);
+       // tuiles = melangerPositions(tuiles);
         
         this.grille = new Grille(tuiles);
         
-
+        HashMap<String,Boolean> listeContraintes = new HashMap<>();
+        listeContraintes.put("plongeur", false);
+        listeContraintes.put("explorateur", false);
+        listeContraintes.put("pilote", false);
+        
+        for (Integer i :this.grille.getTuilesAssechables(listeContraintes, 2)){
+            System.out.println("KEK");
+            System.out.println(i);
+        }
+      
+        
     }
 
     
