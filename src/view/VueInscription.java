@@ -148,3 +148,4 @@ public class VueInscription extends Observable  {
         VueInscription vue = new VueInscription();
     }
 }
+

@@ -28,7 +28,7 @@ public class Utils {
         JOUER("Lancement de la partie"),
         REGLES("Règles du jeu"),
         QUITTER("Fin du jeu");
-
+    
         private final String libelle ;
 
         Commandes(String libelle) {
