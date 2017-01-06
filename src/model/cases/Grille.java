@@ -2,6 +2,7 @@ package model.cases;
 
 import java.util.Scanner;
 import view.VueNiveau;
+import java.util.Collections;
 
 /**
  * Classe permettant de gérer la grille des tuiles du jeu
@@ -20,12 +21,13 @@ public class Grille {
 
     Tuile[][] tuiles ; // Les tuiles du jeu
     
+    
     /** -------------------------------------------------------------------------------------------------------------
      * Constructeur
      */
     public Grille() {
         this.tuiles = new Tuile[6][6];
-        tuiles[3][2]=new Tuile();
+        
     }
     
     public void initTuiles(){
