@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.JOptionPane;
 import model.aventuriers.Aventurier;
+import model.cases.Tuile;
 
 /**
  *
@@ -172,7 +173,7 @@ public class Utils {
         return arrayList ;
     }
     
-    public static Integer[] melangerPositions(Integer[] tableau) {
+    public static Tuile[] melangerPositions(Tuile[] tableau) {
         if (Parameters.ALEAS) {
             Collections.shuffle(Arrays.asList(tableau));
         }

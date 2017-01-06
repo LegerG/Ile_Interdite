@@ -1,5 +1,6 @@
 package controler;
 
+import java.util.HashMap;
 
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ import view.VueNiveau;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
-import util.Utils;
 import util.Utils.Commandes;
 import util.Utils.Tresor;
+import static util.Utils.melangerPositions;
 import view.VueInscription;
 
 
@@ -28,6 +29,8 @@ import view.VueInscription;
 public class Controleur implements Observer {
     private VueInscription vueInscription;
     private Grille grille;
+    private Tuile[] tuiles = new Tuile[24];
+
     private ArrayList<Tuile> tuiles = new ArrayList<>();
     private ArrayList<VueAventurier> vueaventuriers;
     private Explorateur av;
@@ -46,7 +49,7 @@ public class Controleur implements Observer {
         initVueAventuriers(3);
         this.vueInscription = new VueInscription();
         this.vueInscription.addObserver(this);
-        this.grille = new Grille();
+        
         
 
         
@@ -71,30 +74,34 @@ public class Controleur implements Observer {
     }
     
     public void remplirTuiles() {
-        Tuile t1 = new Tuile(Tresor.CRISTAL, "Caverne du Brasier");
-        Tuile t2 = new Tuile(null, "Les Dunes de L'Illusion");
-        Tuile t3 = new Tuile(null, "Les falaises del'Oublis");
-        Tuile t4 = new Tuile(Tresor.PIERRE, "Le Temple du Soleil");
-        Tuile t5 = new Tuile(null, "Val du Crépuscule");
-        Tuile t6 = new Tuile(null, "L'Observatoire");
-        Tuile t7 = new Tuile(Tresor.CALICE, "Le Palais de Corail");
-        Tuile t8 = new Tuile(null, "Le Lagon Perdu");
-        Tuile t9 = new Tuile(null, "Le Marais Brumeux");
-        Tuile t10 = new Tuile(Tresor.ZEPHYR, "Le Jardin des Murmures");
-        Tuile t11 = new Tuile(null, "Le Pont des Abîmes");
-        Tuile t12 = new Tuile(Tresor.CALICE, "Le Palais des Marées");
-        Tuile t13 = new Tuile(null, "Le Rocher Fantôme");
-        Tuile t14 = new Tuile(Tresor.PIERRE, "Le Temple de la Lune");
-        Tuile t15 = new Tuile(null, "La Porte d'Or");
-        Tuile t16 = new Tuile(Tresor.ZEPHYR, "Le Jardin des Hurlements");
-        Tuile t17 = new Tuile(null, "La Porte de Bronze");
-        Tuile t18 = new Tuile(null, "La Porte de Fer");
-        Tuile t19 = new Tuile(null, "La Tour de Guet");
-        Tuile t20 = new Tuile(null, "La Porte de Cuivre");
-        Tuile t21 = new Tuile(null, "La Porte d'Argent");
-        Tuile t22 = new Tuile(null, "L'Héliport");
-        Tuile t23 = new Tuile(null, "La Forêt Pourpre");
-        Tuile t24 = new Tuile(Tresor.CRISTAL, "La Caverne des Ombres");
+        tuiles[0] = new Tuile(Tresor.CRISTAL, "Caverne du Brasier");
+        tuiles[1] = new Tuile(null, "Les Dunes de L'Illusion");
+        tuiles[2] = new Tuile(null, "Les falaises del'Oublis");
+        tuiles[3] = new Tuile(Tresor.PIERRE, "Le Temple du Soleil");
+        tuiles[4] = new Tuile(null, "Val du Crépuscule");
+        tuiles[5] = new Tuile(null, "L'Observatoire");
+        tuiles[6] = new Tuile(Tresor.CALICE, "Le Palais de Corail");
+        tuiles[7] = new Tuile(null, "Le Lagon Perdu");
+        tuiles[8] = new Tuile(null, "Le Marais Brumeux");
+        tuiles[9] = new Tuile(Tresor.ZEPHYR, "Le Jardin des Murmures");
+        tuiles[10] = new Tuile(null, "Le Pont des Abîmes");
+        tuiles[11] = new Tuile(Tresor.CALICE, "Le Palais des Marées");
+        tuiles[12] = new Tuile(null, "Le Rocher Fantôme");
+        tuiles[13] = new Tuile(Tresor.PIERRE, "Le Temple de la Lune");
+        tuiles[14] = new Tuile(null, "La Porte d'Or");
+        tuiles[15] = new Tuile(Tresor.ZEPHYR, "Le Jardin des Hurlements");
+        tuiles[16] = new Tuile(null, "La Porte de Bronze");
+        tuiles[17] = new Tuile(null, "La Porte de Fer");
+        tuiles[18] = new Tuile(null, "La Tour de Guet");
+        tuiles[19] = new Tuile(null, "La Porte de Cuivre");
+        tuiles[20] = new Tuile(null, "La Porte d'Argent");
+        tuiles[21] = new Tuile(null, "L'Héliport");
+        tuiles[22] = new Tuile(null, "La Forêt Pourpre");
+        tuiles[23] = new Tuile(Tresor.CRISTAL, "La Caverne des Ombres");
+        
+        tuiles = melangerPositions(tuiles);
+        
+        this.grille = new Grille(tuiles);
         
 
     }
