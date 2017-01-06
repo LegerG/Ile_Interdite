@@ -1,6 +1,7 @@
 package model.aventuriers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import model.ObjetIdentifie;
 
 import model.cases.Grille;
@@ -25,6 +26,9 @@ public abstract class Aventurier extends ObjetIdentifie {
     protected Pion pion;
     protected Tuile position;
     protected ArrayList<CarteTirage> main;
+    protected Boolean deplaceDiagonale=false;
+    protected Boolean deplacePartout=false;
+    protected Boolean deplaceEau=false;
 
     public Aventurier(Tuile positionDepart, Pion pion) {
         super();
@@ -70,16 +74,15 @@ public abstract class Aventurier extends ObjetIdentifie {
         this.main = main;
     }
     
-     public ArrayList<Integer> getCasesAccessibles(Grille grille){
-        
-      ArrayList<Integer> listeID = new ArrayList<>();
-  
-//        listeID.add(grille.getTuiles()[][])
-        
-        
-        
-        return listeID;
-        
+   
+
+    public HashMap<String,Boolean> getContraintes() {
+        HashMap<String,Boolean> listeContraintes = new HashMap<>();
+        listeContraintes.put("plongeur", deplaceEau);
+        listeContraintes.put("explorateur", deplaceDiagonale);
+        listeContraintes.put("pilote", deplacePartout);
+    
+    return listeContraintes;
     }
     
     

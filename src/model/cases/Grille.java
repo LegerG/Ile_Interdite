@@ -1,8 +1,10 @@
 package model.cases;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import view.VueNiveau;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * Classe permettant de gérer la grille des tuiles du jeu
@@ -40,6 +42,16 @@ public class Grille {
         return tuiles;
     }
     
+      public ArrayList<Integer> getTuilesAccessibles(HashMap<String, Boolean> listeContrainte,Tuile pos){
+        
+      ArrayList<Integer> listeID = new ArrayList<>();
+  
+        
+        
+        
+        return listeID;
+        
+    }
 
 
 public static void main(String[] args) {   

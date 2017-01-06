@@ -17,5 +17,7 @@ public class Ingenieur extends Aventurier {
     public Ingenieur(Tuile positionDepart, Pion pion) {
         super(positionDepart, pion);
     }
+   
+    
     
 }
