@@ -37,7 +37,7 @@ public class Controleur implements Observer {
 
         
         grille = new Grille();
-        av = new Aventurier();
+//        av = new Aventurier();
         vp = new VuePlateau();
         vn = new VueNiveau(1);
         this.vueaventuriers=new ArrayList<>();
@@ -108,7 +108,7 @@ public class Controleur implements Observer {
          
      public void deplacer(){
 //         int[][] table = new int[10][2];
-        int[] table= av.getCasesAccessibles(grille);
+//        int[] table= av.getCasesAccessibles(grille);
 //         System.out.println(table[0][0]+" :  " + table[0][1]);
 //         if (grille.getTuiles()[table[0][0]][table[0][1]]==null){
 //             System.out.println("Comme la tuile possible donnée par l'aventurier est null");

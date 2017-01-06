@@ -74,7 +74,7 @@ public abstract class Aventurier extends ObjetIdentifie {
         
       ArrayList<Integer> listeID = new ArrayList<>();
   
-        listeID.add(grille.getTuiles()[][])
+//        listeID.add(grille.getTuiles()[][])
         
         
         
