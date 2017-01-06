@@ -1,14 +1,10 @@
 package controler;
 
-import java.util.HashMap;
 
-import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import model.aventuriers.Aventurier;
-import model.cases.Grille;
-import model.cases.Tuile;
 import view.VueAventurier;
 import view.VueNiveau;
 import view.VuePlateau;
@@ -28,28 +24,15 @@ public class Controleur implements Observer {
     private VueInscription vueInscription;
     private Grille grille;
     private Tuile[] tuiles = new Tuile[24];
-
-    private ArrayList<Tuile> tuiles = new ArrayList<>();
-    private ArrayList<VueAventurier> vueaventuriers;
-    private Aventurier av;
-    private VuePlateau vp;
-    private VueNiveau vn;
+    private ArrayList<VueAventurier> vueaventuriers = new ArrayList<>();;
+    private Aventurier jCourant;
+    private VuePlateau vuePlateau;
+    private VueNiveau vueNiveau;
    
     
     public Controleur() {
-
-        
-        grille = new Grille();
-//        av = new Aventurier();
-        vp = new VuePlateau();
-        vn = new VueNiveau(1);
-        this.vueaventuriers=new ArrayList<>();
-        initVueAventuriers(3);
         this.vueInscription = new VueInscription();
         this.vueInscription.addObserver(this);
-        
-        
-
     }
 
 
@@ -65,12 +48,14 @@ public class Controleur implements Observer {
     public void initialiserPartie() {
         //Création du plateau
         remplirTuiles();
-        
+        this.vuePlateau = new VuePlateau(grille);
+        this.vuePlateau.addObserver(this);
         //Création des joueurs
         
     }
     
     public void remplirTuiles() {
+        //Création des tuiles
         tuiles[0] = new Tuile(Tresor.CRISTAL, "Caverne du Brasier");
         tuiles[1] = new Tuile(null, "Les Dunes de L'Illusion");
         tuiles[2] = new Tuile(null, "Les falaises del'Oublis");
@@ -104,30 +89,12 @@ public class Controleur implements Observer {
     }
 
     
-     public void initVueAventuriers(int nbAventuriers){
-        
-         for(int i=0;i<nbAventuriers;i++){
-             VueAventurier va = new VueAventurier(i);
-             this.vueaventuriers.add(va);
-         }
-     }    
-         
-         
-     public void deplacer(){
-//         int[][] table = new int[10][2];
-//        int[] table= av.getCasesAccessibles(grille);
-//         System.out.println(table[0][0]+" :  " + table[0][1]);
-//         if (grille.getTuiles()[table[0][0]][table[0][1]]==null){
-//             System.out.println("Comme la tuile possible donnée par l'aventurier est null");
-             
-         }
-         
-     
-     
-     public static void main(String[] args) {   
-        
-    Controleur c = new Controleur();
-    c.deplacer();
-         
-     }
+    public void initVueAventuriers(int nbAventuriers){
+
+        for(int i=0;i<nbAventuriers;i++){
+            VueAventurier va = new VueAventurier(i);
+            this.vueaventuriers.add(va);
+        }
+    }    
+
 }

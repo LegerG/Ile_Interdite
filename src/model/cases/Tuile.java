@@ -23,6 +23,10 @@ public class Tuile extends ObjetIdentifie {
         this.nom = nom;
         this.etatTuile = EtatTuile.ASSECHEE;
     }
+
+    public String getNom() {
+        return nom;
+    }
     
     
     
