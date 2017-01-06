@@ -19,7 +19,7 @@ public class VueTuile extends JLabel{
         this.id = id;
 //        this.tuilePanel.add(this.nom);
         this.tuilePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        ImageIcon icon = new ImageIcon(new ImageIcon(cheminDAcces + "Heliport_Inonde.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+        ImageIcon icon = new ImageIcon(new ImageIcon(cheminDAcces + nom + ".png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
         JLabel image = new JLabel(icon);
         this.tuilePanel.setLayout(new BorderLayout());
         this.tuilePanel.add(image, BorderLayout.CENTER);

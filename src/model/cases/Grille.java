@@ -48,8 +48,7 @@ public class Grille {
             }
         }
         
-        
-    }   
+    }
 
     public Integer[][] getIdTuiles() {
         return idTuiles;

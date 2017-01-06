@@ -79,6 +79,7 @@ public class Controleur implements Observer {
         remplirTuiles();
         this.vueInscription.fermerFenetre();
         this.vuePlateau = new VuePlateau(grille);
+        this.vueNiveau = new VueNiveau(nbCartesInnondationsPioches);
         this.vuePlateau.addObserver(this);
         //piocher 6 cartes innondations
         
@@ -124,13 +125,13 @@ public class Controleur implements Observer {
     
     public void remplirTuiles() {
         //Création des tuiles
-        tuiles[0] = new Tuile(Tresor.CRISTAL, "Caverne du Brasier");
+        tuiles[0] = new Tuile(Tresor.CRISTAL, "CaverneDuBrasier");
         tuiles[1] = new Tuile(null, "Les Dunes de L'Illusion");
         tuiles[2] = new Tuile(null, "Les falaises del'Oublis");
-        tuiles[3] = new Tuile(Tresor.PIERRE, "Le Temple du Soleil");
-        tuiles[4] = new Tuile(null, "Val du Crépuscule");
-        tuiles[5] = new Tuile(null, "L'Observatoire");
-        tuiles[6] = new Tuile(Tresor.CALICE, "Le Palais de Corail");
+        tuiles[3] = new Tuile(Tresor.PIERRE, "LeTempleDuSoleil");
+        tuiles[4] = new Tuile(null, "ValDuCrépuscule");
+        tuiles[5] = new Tuile(null, "Observatoire");
+        tuiles[6] = new Tuile(Tresor.CALICE, "LePalaisDeCorail");
         tuiles[7] = new Tuile(null, "Le Lagon Perdu");
         tuiles[8] = new Tuile(null, "Le Marais Brumeux");
         tuiles[9] = new Tuile(Tresor.ZEPHYR, "Le Jardin des Murmures");
