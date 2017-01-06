@@ -14,8 +14,8 @@ import util.Utils.Pion;
  */
 public class Pilote extends Aventurier {
     
-    public Pilote(Tuile positionDepart, Pion pion) {
-        super(positionDepart, pion);
+    public Pilote(Tuile positionDepart, Pion pion, String nom) {
+        super(positionDepart, pion, nom);
     }
     
 }

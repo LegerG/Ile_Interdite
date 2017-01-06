@@ -14,8 +14,8 @@ import util.Utils.Pion;
  */
 public class Ingenieur extends Aventurier {
     
-    public Ingenieur(Tuile positionDepart, Pion pion) {
-        super(positionDepart, pion);
+    public Ingenieur(Tuile positionDepart, Pion pion, String nom) {
+        super(positionDepart, pion, nom);
     }
    
     

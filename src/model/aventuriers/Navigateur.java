@@ -14,8 +14,8 @@ import util.Utils.Pion;
  */
 public class Navigateur extends Aventurier {
     
-    public Navigateur(Tuile positionDepart, Pion pion) {
-        super(positionDepart, pion);
+    public Navigateur(Tuile positionDepart, Pion pion, String nom) {
+        super(positionDepart, pion, nom);
         super.nbAction = 4;
     }
     

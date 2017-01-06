@@ -26,7 +26,7 @@ public class VueInscription extends Observable  {
     private final JButton boutonRegles;
     private final JButton boutonQuitter;
     private final JLabel messageErreur;
-    private ArrayList<JTextField> nomJoueur = new ArrayList<>();
+    private ArrayList<JTextField> jTextFieldJoueur = new ArrayList<>();
      
 
     public VueInscription(int nbJoueurs) {
@@ -51,7 +51,7 @@ public class VueInscription extends Observable  {
             panel.add(new JLabel("Joueur "+(i+1) +" :"));
             JTextField joueur = new JTextField("");
             panel.add(joueur);
-            nomJoueur.add(joueur);
+            jTextFieldJoueur.add(joueur);
         }
         
         messageErreur = new JLabel("");
@@ -114,5 +114,16 @@ public class VueInscription extends Observable  {
      public void setMessageErreur(String message) {
         messageErreur.setText(message);
     }
+
+    public ArrayList<String> getNomJoueur() {
+        ArrayList<String> nomJoueurs = new ArrayList<>();
+        for (JTextField t : jTextFieldJoueur) {
+            nomJoueurs.add(t.getText());
+        }
+        
+        return nomJoueurs;
+    }
+     
+    
 }
 

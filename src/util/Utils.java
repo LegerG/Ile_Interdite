@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.JOptionPane;
 import model.aventuriers.Aventurier;
+import model.aventuriers.Explorateur;
 import model.cases.Tuile;
 
 /**
@@ -23,6 +24,8 @@ public class Utils {
      {0,1,1,1,1,0},
      {0,0,1,1,0,0},        
     };
+    
+
     
     public static enum Commandes {
         VALIDER_INSCRIPTION("Valider l'inscription des joueurs"),
@@ -51,6 +54,15 @@ public class Utils {
         public String toString() {
             return this.libelle ;
         }
+    }
+    
+    public static enum RoleAventurier {
+        Explorateur,
+        Ingenieur,
+        Pilote,
+        Messager,
+        Plongeur,
+        Navigateur;
     }
 
     public static enum EtatTuile {
@@ -216,6 +228,12 @@ public class Utils {
         return FORME_GRILLE;
     }
     
+    public static RoleAventurier[] melangerRole(RoleAventurier[] tableau) {
+        if (Parameters.ALEAS) {
+            Collections.shuffle(Arrays.asList(tableau));
+        }
+        return tableau;
+    }
     
     
 }

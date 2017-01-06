@@ -4,15 +4,27 @@ package controler;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
+import model.aventuriers.Ingenieur;
+import model.aventuriers.Messager;
+import model.aventuriers.Navigateur;
+import model.aventuriers.Pilote;
+import model.aventuriers.Plongeur;
 import view.VueAventurier;
 import view.VueNiveau;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
+import util.Utils;
 import util.Utils.Commandes;
+import util.Utils.RoleAventurier;
+import static util.Utils.RoleAventurier.Ingenieur;
+import static util.Utils.RoleAventurier.Messager;
+import static util.Utils.RoleAventurier.Navigateur;
 import util.Utils.Tresor;
 import static util.Utils.melangerPositions;
+import static util.Utils.melangerRole;
 import view.VueConnexion;
 import view.VueInscription;
 
@@ -27,11 +39,13 @@ public class Controleur implements Observer {
     private Grille grille;
     private Tuile[] tuiles = new Tuile[24];
     private ArrayList<VueAventurier> vueaventuriers;
-    private Explorateur av;
+    private ArrayList<Aventurier> joueurs = new ArrayList<>();
     private VuePlateau vuePlateau;
     private VueNiveau vueNiveau;
     private int nbJoueurs;
     private int difficulte;
+    
+    
    
     
     public Controleur() {
@@ -62,8 +76,40 @@ public class Controleur implements Observer {
         this.vuePlateau = new VuePlateau(grille);
         this.vuePlateau.addObserver(this);
         //Création des joueurs
+        attribuerRoleJoueurs();
+//        System.out.println(joueurs.get(1).getNom());
+//        System.out.println(joueurs.get(1).getClass());
         
     }
+    
+    public void attribuerRoleJoueurs() {
+        RoleAventurier[] rolesAventurier = melangerRole(RoleAventurier.values());
+        int i = 0;
+        Aventurier a = null;
+        while (i < vueInscription.getNomJoueur().size()) {
+            if (rolesAventurier[i] == RoleAventurier.Explorateur) {
+                a = new Explorateur(null, Utils.Pion.VERT, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Ingenieur){
+                a = new Ingenieur(null, Utils.Pion.ROUGE, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Messager){
+                a = new Messager(null, Utils.Pion.ORANGE, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Navigateur){
+                a = new Navigateur(null, Utils.Pion.JAUNE, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Pilote){
+                a = new Pilote(null, Utils.Pion.BLEU, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Plongeur){
+                a = new Plongeur(null, Utils.Pion.VIOLET, vueInscription.getNomJoueur().get(i));
+            }
+            
+            joueurs.add(a);
+        }
+    }
+    
     
     public void remplirTuiles() {
         //Création des tuiles
@@ -92,9 +138,9 @@ public class Controleur implements Observer {
         tuiles[22] = new Tuile(null, "La Forêt Pourpre");
         tuiles[23] = new Tuile(Tresor.CRISTAL, "La Caverne des Ombres");
         
-        tuiles = melangerPositions(tuiles);
+        Tuile[] tuilesMelange = melangerPositions(tuiles);
         
-        this.grille = new Grille(tuiles);
+        this.grille = new Grille(tuilesMelange);
         
 
     }

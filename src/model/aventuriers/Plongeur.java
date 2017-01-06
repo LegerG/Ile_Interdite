@@ -14,8 +14,8 @@ import util.Utils.Pion;
  */
 public class Plongeur extends Aventurier {
     
-    public Plongeur(Tuile positionDepart, Pion pion) {
-        super(positionDepart, pion);
+    public Plongeur(Tuile positionDepart, Pion pion, String nom) {
+        super(positionDepart, pion, nom);
     }
     
 }
