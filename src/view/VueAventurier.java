@@ -14,8 +14,9 @@ public class VueAventurier extends Observable {
         window = new JFrame();
         window.setVisible(true);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        window.setLocation(dim.width-100,i * 150);
-        window.setSize(50,100);
+        window.setLocation(dim.width-200,i * 200);
+        window.setSize(300,175);
+        window.setTitle("Aventurier" + i);
     }
     
    
