@@ -1,6 +1,8 @@
 package model.aventuriers;
 
+import java.util.ArrayList;
 import model.ObjetIdentifie;
+import model.cases.Grille;
 
 /**
  *
@@ -9,17 +11,15 @@ import model.ObjetIdentifie;
 public  class Aventurier extends ObjetIdentifie {
     private int position =2;
     
-    public int[][] getCasesAccessibles(){
+    public ArrayList<Integer> getCasesAccessibles(Grille grille){
         
-      int[][] table = new int[10][2];
-        table[0][0]=this.position+1;
-        table[0][1]=this.position;
-        table[1][0]=this.position-1;
-        table[1][1]=this.position;
+      ArrayList<Integer> listeID = new ArrayList<>();
+  
+        listeID.add(grille.getTuiles()[][])
         
         
         
-        return table;
+        return listeID;
         
     }
     
