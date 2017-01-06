@@ -1,5 +1,7 @@
 package model.cases;
 
+import java.util.Collections;
+
 /**
  * Classe permettant de gérer la grille des tuiles du jeu
  Elle gère un unique attribut : un tableau de 6 x 6 tuiles
@@ -17,10 +19,22 @@ public class Grille {
 
     Tuile[][] tuiles ; // Les tuiles du jeu
     
+    
     /** -------------------------------------------------------------------------------------------------------------
      * Constructeur
      */
     public Grille() {
         this.tuiles = new Tuile[6][6];
     }
+
+    public void setTuiles(Tuile[][] tuiles) {
+        this.tuiles = tuiles;
+    }
+
+    public Tuile[][] getTuiles() {
+        return tuiles;
+    }
+    
+    
+    
 }
