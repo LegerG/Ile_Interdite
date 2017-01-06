@@ -12,14 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Observable;
-import java.util.Scanner;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import static javax.swing.text.StyleConstants.Bold;
 import util.Utils;
 
 /**
@@ -41,11 +39,11 @@ public class VueConnexion extends Observable{
         window.setTitle("L'ILE INTERDITE");
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         window.setSize(700, 200);
-        
+        window.setLocationRelativeTo(null);
         JPanel mainPanel = new JPanel(new GridLayout(5,1));
         window.add(mainPanel);
         
-        messageBonjour = new JLabel("Bienvenue sur l'île interdite du Turfu :");
+        messageBonjour = new JLabel("Bienvenue sur l'île interdite :");
         mainPanel.add(messageBonjour);
         messageBonjour.setHorizontalAlignment(JLabel.CENTER);
               

@@ -38,12 +38,13 @@ public class Controleur implements Observer {
     private VueConnexion vueConnexion;
     private Grille grille;
     private Tuile[] tuiles = new Tuile[24];
-    private ArrayList<VueAventurier> vueaventuriers;
+    private ArrayList<VueAventurier> vueAventuriers;
     private ArrayList<Aventurier> joueurs = new ArrayList<>();
     private VuePlateau vuePlateau;
     private VueNiveau vueNiveau;
     private int nbJoueurs;
-    private int difficulte;
+    private int nbCartesInnondationsPioches;
+    private int niveauEau;
     
     
    
@@ -60,7 +61,7 @@ public class Controleur implements Observer {
             initialiserPartie();    
         } 
         else if (arg == Commandes.VALIDER_CONNEXION) {
-            this.inscription();
+            this.lancementInscription();
         } 
         else if (arg == Commandes.QUITTER) {
             this.quitter(o);
@@ -71,14 +72,23 @@ public class Controleur implements Observer {
     }
     
     public void initialiserPartie() {
+        //Creation des cartes
+        
+        
         //Création du plateau
         remplirTuiles();
+        this.vueInscription.fermerFenetre();
         this.vuePlateau = new VuePlateau(grille);
         this.vuePlateau.addObserver(this);
+        //piocher 6 cartes innondations
+        
         //Création des joueurs
         attribuerRoleJoueurs();
-//        System.out.println(joueurs.get(1).getNom());
-//        System.out.println(joueurs.get(1).getClass());
+        
+        //donner deux cartes aux joueurs
+        
+        //init niveau d'eau
+        
         
     }
     
@@ -88,25 +98,26 @@ public class Controleur implements Observer {
         Aventurier a = null;
         while (i < vueInscription.getNomJoueur().size()) {
             if (rolesAventurier[i] == RoleAventurier.Explorateur) {
-                a = new Explorateur(null, Utils.Pion.VERT, vueInscription.getNomJoueur().get(i));
+                a = new Explorateur(tuiles[16], Utils.Pion.VERT, vueInscription.getNomJoueur().get(i));
             }
             else if (rolesAventurier[i] == RoleAventurier.Ingenieur){
-                a = new Ingenieur(null, Utils.Pion.ROUGE, vueInscription.getNomJoueur().get(i));
+                a = new Ingenieur(tuiles[17], Utils.Pion.ROUGE, vueInscription.getNomJoueur().get(i));
             }
             else if (rolesAventurier[i] == RoleAventurier.Messager){
-                a = new Messager(null, Utils.Pion.ORANGE, vueInscription.getNomJoueur().get(i));
+                a = new Messager(tuiles[19], Utils.Pion.ORANGE, vueInscription.getNomJoueur().get(i));
             }
             else if (rolesAventurier[i] == RoleAventurier.Navigateur){
-                a = new Navigateur(null, Utils.Pion.JAUNE, vueInscription.getNomJoueur().get(i));
+                a = new Navigateur(tuiles[20], Utils.Pion.JAUNE, vueInscription.getNomJoueur().get(i));
             }
             else if (rolesAventurier[i] == RoleAventurier.Pilote){
-                a = new Pilote(null, Utils.Pion.BLEU, vueInscription.getNomJoueur().get(i));
+                a = new Pilote(tuiles[21], Utils.Pion.BLEU, vueInscription.getNomJoueur().get(i));
             }
             else if (rolesAventurier[i] == RoleAventurier.Plongeur){
-                a = new Plongeur(null, Utils.Pion.VIOLET, vueInscription.getNomJoueur().get(i));
+                a = new Plongeur(tuiles[14], Utils.Pion.VIOLET, vueInscription.getNomJoueur().get(i));
             }
             
             joueurs.add(a);
+            i++;
         }
     }
     
@@ -145,17 +156,18 @@ public class Controleur implements Observer {
 
     }
 
-    public void inscription() {
+    public void lancementInscription() {
         nbJoueurs = vueConnexion.getNbJoueurs();
-        difficulte = vueConnexion.getDifficulte();
+        niveauEau = vueConnexion.getDifficulte() + 1;
+        setNbCartesInnondationsPioches(niveauEau);
         
-        if (nbJoueurs == -1 && difficulte == -1) {
+        if (nbJoueurs == -1 && niveauEau == 0) {
             vueConnexion.setMessageErreur("Veuillez choisir un nombre de joueur ainsi qu'une difficulté.");
         }
         else if (nbJoueurs == -1) {
             vueConnexion.setMessageErreur("Veuillez choisir un nombre de joueur.");
         } 
-        else if(difficulte == -1) {
+        else if(niveauEau == 0) {
             vueConnexion.setMessageErreur("Veuillez choisir une difficulté.");
         } 
         else {
@@ -163,6 +175,7 @@ public class Controleur implements Observer {
             this.vueInscription.addObserver(this);
             this.vueConnexion.fermerFenetre();
         }  
+        
     }
     
     public void quitter(Object o){
@@ -180,7 +193,24 @@ public class Controleur implements Observer {
        
     }
     
-
+    public void setNbCartesInnondationsPioches(int nvEau) {
+        if (nvEau <= 2) {
+            nbCartesInnondationsPioches = 2;
+        }
+        else if (nvEau >= 3 && nvEau <= 5) {
+            nbCartesInnondationsPioches = 3;
+        }
+        else if (nvEau >= 6 && nvEau <= 7) {
+            nbCartesInnondationsPioches = 4;
+        }
+        else if (nvEau >= 8 && nvEau < 10) {
+            nbCartesInnondationsPioches = 5;
+        }
+        else {
+            nbCartesInnondationsPioches = 6;
+        }
+        
+    }
         
 }
         

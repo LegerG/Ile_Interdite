@@ -2,20 +2,14 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Observable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import model.cases.Grille;
-import model.cases.Tuile;
-import static util.Utils.getFORME_GRILLE;
 
 /**
  *
@@ -32,8 +26,12 @@ public class VuePlateau extends Observable {
                
         window = new JFrame();
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
         // Définit la taille de la fenêtre en pixels
-        window.setSize(1138, 831);
+        window.setSize(900, 900);
+        window.setResizable(false);
+        
+        
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
         
@@ -42,9 +40,9 @@ public class VuePlateau extends Observable {
         mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
         
         window.add(mainPanel);
+        
+        window.setLocationRelativeTo(null);
         window.setVisible(true);
-        
-        
    
     
         
