@@ -1,6 +1,7 @@
 package model.cases;
 
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * Classe permettant de gérer la grille des tuiles du jeu
@@ -17,24 +18,61 @@ import java.util.Collections;
  */
 public class Grille {
 
-    Tuile[][] tuiles ; // Les tuiles du jeu
-    
+    private Integer[][] idTuiles = new Integer[6][6]; // Tableau d'ID
+    private HashMap<Integer, Tuile> tuiles = new HashMap<>();
+    private final Integer[][] tableauBase = 
+    {
+     {0,0,1,1,0,0},
+     {0,1,1,1,1,0},
+     {1,1,1,1,1,1},
+     {1,1,1,1,1,1},
+     {0,1,1,1,1,0},
+     {0,0,1,1,0,0},        
+    };
     
     /** -------------------------------------------------------------------------------------------------------------
      * Constructeur
      */
-    public Grille() {
-        this.tuiles = new Tuile[6][6];
+    public Grille(Tuile[] tuiles) {
+        for (int i=0; i < tuiles.length; i++){ //Remplissage de this.tuiles
+            this.tuiles.put(tuiles[i].getId(), tuiles[i]);
+        }
+        
+        //Remplissage de idTuiles
+        int t =0; //indice d'une truile dans le tableau de tuile en parametre
+        for (int i = 0; i<6; i++) {
+            for (int j = 0 ; j< 6; j++) {
+                if (tableauBase[i][j] != 0) {
+                    this.idTuiles[i][j] = tuiles[t].getId();
+                    t++;
+                }
+            }
+        }
+        
+        
+    }   
+
+    public Integer[][] getIdTuiles() {
+        return idTuiles;
     }
 
-    public void setTuiles(Tuile[][] tuiles) {
+    public void setIdTuiles(Integer[][] idTuiles) {
+        this.idTuiles = idTuiles;
+    }
+
+    public HashMap<Integer, Tuile> getTuiles() {
+        return tuiles;
+    }
+
+    public void setTuiles(HashMap<Integer, Tuile> tuiles) {
         this.tuiles = tuiles;
     }
 
-    public Tuile[][] getTuiles() {
-        return tuiles;
-    }
     
+    
+    public void addTuile(Tuile tuile ){
+        
+    }
     
     
 }
