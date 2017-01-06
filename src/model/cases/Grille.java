@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import util.Utils;
 import util.Utils.EtatTuile;
+import static util.Utils.getFORME_GRILLE;
 
 /**
  * Classe permettant de gérer la grille des tuiles du jeu
@@ -25,21 +26,14 @@ public class Grille {
 
     private Integer[][] idTuiles = new Integer[6][6]; // Tableau d'ID
     private HashMap<Integer, Tuile> tuiles = new HashMap<>();
-    private final Integer[][] tableauBase = 
-    {
-     {0,0,1,1,0,0},
-     {0,1,1,1,1,0},
-     {1,1,1,1,1,1},
-     {1,1,1,1,1,1},
-     {0,1,1,1,1,0},
-     {0,0,1,1,0,0},        
-    };
+    
     
     /** -------------------------------------------------------------------------------------------------------------
      * Constructeur
      */
     public Grille(Tuile[] tuiles) {
-        for (int i=0; i < tuiles.length; i++){ //Remplissage de this.tuiles
+        //Remplissage de this.tuiles
+        for (int i=0; i < tuiles.length; i++){ 
             this.tuiles.put(tuiles[i].getId(), tuiles[i]);
         }
         
@@ -47,7 +41,7 @@ public class Grille {
         int t =0; //indice d'une tuile dans le tableau de tuile en parametre
         for (int i = 0; i<6; i++) {
             for (int j = 0 ; j< 6; j++) {
-                if (tableauBase[i][j] != 0) {
+                if (getFORME_GRILLE()[i][j] != 0) {
                     this.idTuiles[i][j] = tuiles[t].getId();
                     t++;
                 }
@@ -79,7 +73,9 @@ public class Grille {
         
     }
     
+        
     
+
       public ArrayList<Integer> getTuilesAccessibles(HashMap<String, Boolean> listeContrainte,int idTuile, boolean powerpilote){
         
           ArrayList<Integer> listeID = new ArrayList<>();
@@ -141,4 +137,9 @@ public class Grille {
 
 
 
+
 }
+    
+
+
+

@@ -1,8 +1,6 @@
 package controler;
 
-import java.util.HashMap;
 
-import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,28 +29,16 @@ public class Controleur implements Observer {
     private Grille grille;
     private Tuile[] tuiles = new Tuile[24];
 
-    private ArrayList<Tuile> tuiles = new ArrayList<>();
+
     private ArrayList<VueAventurier> vueaventuriers;
     private Explorateur av;
-    private VuePlateau vp;
-    private VueNiveau vn;
+    private VuePlateau vuePlateau;
+    private VueNiveau vueNiveau;
    
     
     public Controleur() {
-
-        
-        grille = new Grille();
-        av = new Explorateur();
-        vp = new VuePlateau();
-        vn = new VueNiveau(1);
-        this.vueaventuriers=new ArrayList<>();
-        initVueAventuriers(3);
         this.vueInscription = new VueInscription();
         this.vueInscription.addObserver(this);
-        
-        
-
-        
     }
 
 
@@ -68,12 +54,14 @@ public class Controleur implements Observer {
     public void initialiserPartie() {
         //Création du plateau
         remplirTuiles();
-        
+        this.vuePlateau = new VuePlateau(grille);
+        this.vuePlateau.addObserver(this);
         //Création des joueurs
         
     }
     
     public void remplirTuiles() {
+        //Création des tuiles
         tuiles[0] = new Tuile(Tresor.CRISTAL, "Caverne du Brasier");
         tuiles[1] = new Tuile(null, "Les Dunes de L'Illusion");
         tuiles[2] = new Tuile(null, "Les falaises del'Oublis");
@@ -107,28 +95,11 @@ public class Controleur implements Observer {
     }
 
     
-     public void initVueAventuriers(int nbAventuriers){
-        
-         for(int i=0;i<nbAventuriers;i++){
-             VueAventurier va = new VueAventurier(i);
-             this.vueaventuriers.add(va);
-         }
-     }    
-         
-         
-     public void deplacer(){
 
-         
-         grille.getTuilesAccessibles(av.getContraintes(),av.getPosition().getId());
-             
-         }
-         
-     
-     
-     public static void main(String[] args) {   
         
-    Controleur c = new Controleur();
-    c.deplacer();
-         
-     }
+     
 }
+        
+        
+
+        

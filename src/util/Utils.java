@@ -14,6 +14,16 @@ import model.cases.Tuile;
  */
 public class Utils {
     
+    private static final Integer[][] FORME_GRILLE = 
+    {
+     {0,0,1,1,0,0},
+     {0,1,1,1,1,0},
+     {1,1,1,1,1,1},
+     {1,1,1,1,1,1},
+     {0,1,1,1,1,0},
+     {0,0,1,1,0,0},        
+    };
+    
     public static enum Commandes {
         VALIDER_JOUEURS("Valider l'inscription des joueurs"),
         BOUGER("Déplacer son pion"),
@@ -199,4 +209,11 @@ public class Utils {
     public static void afficherInformation(String message) {
         JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.OK_OPTION);
     }
+
+    public static Integer[][] getFORME_GRILLE() {
+        return FORME_GRILLE;
+    }
+    
+    
+    
 }
