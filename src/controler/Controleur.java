@@ -4,11 +4,7 @@ package controler;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
-import model.aventuriers.Ingenieur;
-import model.cases.Grille;
-import model.cases.Tuile;
 import view.VueAventurier;
 import view.VueNiveau;
 import view.VuePlateau;
@@ -17,6 +13,7 @@ import model.cases.Tuile;
 import util.Utils.Commandes;
 import util.Utils.Tresor;
 import static util.Utils.melangerPositions;
+import view.VueConnexion;
 import view.VueInscription;
 
 
@@ -26,29 +23,37 @@ import view.VueInscription;
  */
 public class Controleur implements Observer {
     private VueInscription vueInscription;
+    private VueConnexion vueConnexion;
     private Grille grille;
     private Tuile[] tuiles = new Tuile[24];
-
-
     private ArrayList<VueAventurier> vueaventuriers;
     private Explorateur av;
     private VuePlateau vuePlateau;
     private VueNiveau vueNiveau;
+    private int nbJoueurs;
+    private int difficulte;
    
     
     public Controleur() {
-        this.vueInscription = new VueInscription();
-        this.vueInscription.addObserver(this);
+        this.vueConnexion = new VueConnexion();
+        this.vueConnexion.addObserver(this);
     }
 
 
     @Override
     public void update(Observable o, Object arg) {
-
-        if (arg == Commandes.VALIDER_JOUEURS) {
-            initialiserPartie();
+        if (arg == Commandes.VALIDER_INSCRIPTION) {
+            initialiserPartie();    
+        } 
+        else if (arg == Commandes.VALIDER_CONNEXION) {
+            this.inscription();
+        } 
+        else if (arg == Commandes.QUITTER) {
+            this.quitter(o);
         }
-        
+        else if (arg == Commandes.RETOUR) {
+            this.retour();
+        }
     }
     
     public void initialiserPartie() {
@@ -94,10 +99,43 @@ public class Controleur implements Observer {
 
     }
 
+    public void inscription() {
+        nbJoueurs = vueConnexion.getNbJoueurs();
+        difficulte = vueConnexion.getDifficulte();
+        
+        if (nbJoueurs == -1 && difficulte == -1) {
+            vueConnexion.setMessageErreur("Veuillez choisir un nombre de joueur ainsi qu'une difficulté.");
+        }
+        else if (nbJoueurs == -1) {
+            vueConnexion.setMessageErreur("Veuillez choisir un nombre de joueur.");
+        } 
+        else if(difficulte == -1) {
+            vueConnexion.setMessageErreur("Veuillez choisir une difficulté.");
+        } 
+        else {
+            this.vueInscription = new VueInscription(nbJoueurs);
+            this.vueInscription.addObserver(this);
+            this.vueConnexion.fermerFenetre();
+        }  
+    }
+    
+    public void quitter(Object o){
+        if (o instanceof VueConnexion) {
+            this.vueConnexion.fermerFenetre();
+        }
+        else if (o instanceof VueInscription) {
+            this.vueInscription.fermerFenetre();
+        }
+    } 
+    
+    public void retour(){
+        this.vueInscription.fermerFenetre();
+        this.vueConnexion.ouvrirFenetre();
+       
+    }
     
 
         
-     
 }
         
         

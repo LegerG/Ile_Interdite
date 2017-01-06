@@ -25,7 +25,8 @@ public class VuePlateau extends Observable {
     
     private JFrame window;
     private ArrayList<JButton> listeBouton = new ArrayList<>();
-    protected JPanel grillePanel = new JPanel(new GridLayout(6,6));
+    protected VueGrille vueGrille;
+    private JPanel mainPanel;
     
     public VuePlateau(Grille grille) {
                
@@ -36,29 +37,14 @@ public class VuePlateau extends Observable {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
         
+        vueGrille = new VueGrille(grille);
+        mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
         
-        
-        
-        window.add(grillePanel);
+        window.add(mainPanel);
         window.setVisible(true);
         
-        int t =0; //indice d'une tuile dans le tableau de tuile en parametre
-       
-        for (int i = 0; i <6; i++) {
-            for (int j = 0 ; j < 6; j++) {
-                if (getFORME_GRILLE()[i][j] != 0) {
-                    JButton bouton = new JButton(grille.getTuiles().get(grille.getIdTuiles()[i][j]).getNom());
-                    listeBouton.add(bouton);
-                    grillePanel.add(bouton);
-                    t++;
-                    
-                } else {
-                  grillePanel.add(new JLabel(""));
-                  
-                } 
-              
-            }
-        } 
+        
    
     
         
