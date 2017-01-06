@@ -35,6 +35,7 @@ public class Controleur implements Observer {
     private Explorateur av;
     private VuePlateau vuePlateau;
     private VueNiveau vueNiveau;
+    private Boolean joueurEnDeplacement;
    
     
     public Controleur() {
@@ -66,15 +67,15 @@ public class Controleur implements Observer {
         //Création des tuiles
         tuiles[0] = new Tuile(Tresor.CRISTAL, "Caverne du Brasier");
         tuiles[1] = new Tuile(null, "Les Dunes de L'Illusion");
-        tuiles[2] = new Tuile(null, "Les falaises del'Oublis");// this.tuiles[2].setEtatTuile(EtatTuile.INONDEE);
+        tuiles[2] = new Tuile(null, "Les falaises del'Oublis");
         tuiles[3] = new Tuile(Tresor.PIERRE, "Le Temple du Soleil");
         tuiles[4] = new Tuile(null, "Val du Crépuscule");
-        tuiles[5] = new Tuile(null, "L'Observatoire"); //this.tuiles[5].setEtatTuile(EtatTuile.INONDEE);
-        tuiles[6] = new Tuile(Tresor.CALICE, "Le Palais de Corail");
+        tuiles[5] = new Tuile(null, "L'Observatoire"); 
+        tuiles[6] = new Tuile(Tresor.CALICE, "Le Palais de Corail");this.tuiles[5].setEtatTuile(EtatTuile.INONDEE);
         tuiles[7] = new Tuile(null, "Le Lagon Perdu");
         tuiles[8] = new Tuile(null, "Le Marais Brumeux");
         tuiles[9] = new Tuile(Tresor.ZEPHYR, "Le Jardin des Murmures");
-        tuiles[10] = new Tuile(null, "Le Pont des Abîmes");
+        tuiles[10] = new Tuile(null, "Le Pont des Abîmes");this.tuiles[10].setEtatTuile(EtatTuile.INONDEE);
         tuiles[11] = new Tuile(Tresor.CALICE, "Le Palais des Marées");
         tuiles[12] = new Tuile(null, "Le Rocher Fantôme");
         tuiles[13] = new Tuile(Tresor.PIERRE, "Le Temple de la Lune");
@@ -94,13 +95,11 @@ public class Controleur implements Observer {
         this.grille = new Grille(tuiles);
         
         HashMap<String,Boolean> listeContraintes = new HashMap<>();
-        listeContraintes.put("plongeur", false);
+        listeContraintes.put("plongeur", true);
         listeContraintes.put("explorateur", false);
         listeContraintes.put("pilote", false);
-        
-        for (Integer i :this.grille.getTuilesAssechables(listeContraintes, 2)){
-            System.out.println("KEK");
-            System.out.println(i);
+        for (Integer i :this.grille.getTuilesAccessibles(listeContraintes, 2,true)){
+            System.out.println("    "+i);
         }
       
         

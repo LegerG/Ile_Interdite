@@ -35,7 +35,7 @@ public class Grille {
     public Grille(Tuile[] tuiles) {
         //Remplissage de this.tuiles
         for (int i=0; i < tuiles.length; i++){ 
-            this.tuiles.put(tuiles[i].getId(), tuiles[i]);
+            this.tuiles.put(tuiles[i].getId()-1, tuiles[i]);
         }
         
         //Remplissage de idTuiles
@@ -70,7 +70,7 @@ public class Grille {
     }
 
       public ArrayList<Integer> getTuilesAccessibles(HashMap<String, Boolean> listeContrainte,int idTuile, boolean powerpilote){
-        
+          ArrayList<Integer> listefinale = new ArrayList<>();
           ArrayList<Integer> listeID = new ArrayList<>();
           int i,j;
           int[] coor = new int[2];
@@ -90,32 +90,58 @@ public class Grille {
               this.addCasesDiagonales(i, j, listeID);
               
           }
-          if(listeContrainte.get("plongeur")){
-              for(Integer m : listeID){
-                  if (tuiles.get(m).getEtatTuile()!=EtatTuile.ASSECHEE){
-                       int x,y;
-                       int[] coorxy = new int[2];
-                       coorxy=this.getCoordonneesAvecId(m);
-                       x=coorxy[0];
-                       y=coorxy[1];
-                       this.addCasesAdjacentes(x, y, listeID);
-                  }                 
-              }
+          if(listeContrainte.get("plongeur")){                
+                int x= 0; int y=0;
+                boolean connexion=true;
+                ArrayList<Integer> listeconnectee = new ArrayList<>(); 
+                do {
+                    this.ajoutListeSansDoublon(listefinale, listeID);
+                    for (Integer n : listefinale){
+                        System.out.println("liste finale : "+n);
+                    }
+                    connexion=true;
+                    
+                    
+                    for(Integer m : listeID){
+                        
+                         if (tuiles.get(m).getEtatTuile()!=EtatTuile.ASSECHEE){ 
+                            int[] coorxy = new int[2];
+                            coorxy=this.getCoordonneesAvecId(m);
+                            x=coorxy[0];
+                            y=coorxy[1];
+                            this.addCasesAdjacentes(x, y, listeconnectee);
+                            connexion=false;
+                         }
+                    }
+                    listeID.clear();
+                    listeID.addAll(listeconnectee);
+                     for (Integer n : listefinale){
+                       if (listeID.contains(n)) listeID.remove(n);  // On retire a la liste ID ce qui a été déjà pris en compte = ce qui est dans la liste finale
+                    } 
+                    for (Integer n : listeconnectee){
+                        System.out.println("liste connectée : "+n);
+                    }
+                    listeconnectee.clear();
+                } while (!connexion);
+                  }
+              
           }
-          }
+          
           
         
           Iterator it = listeID.iterator();
           while(it.hasNext()){
               Integer id = (Integer) it.next();
-             if (tuiles.get(id)==null || tuiles.get(id).getEtatTuile()==EtatTuile.COULEE){
+             if (tuiles.get(id)==null || tuiles.get(id).getEtatTuile()==EtatTuile.COULEE){                
                  it.remove();
+                
               }
           }
-             
-        return listeID;
+        listefinale.remove(idTuiles[i][j]); // transformer listefinale listeID
+        return listefinale;
         
     }
+
       public ArrayList<Integer> getTuilesAssechables(HashMap<String, Boolean> listeContrainte, int idTuile){
           ArrayList<Integer> listeID = new ArrayList<>();
           int i,j;
@@ -188,6 +214,14 @@ public class Grille {
           coor[1]=j;
           return coor;
       }
+      
+      private void ajoutListeSansDoublon(ArrayList<Integer> listeID, ArrayList<Integer> listeconnectee){
+          for (Integer n : listeconnectee){
+              if (!listeID.contains(n)) listeID.add(n);
+          }
+              
+      }
+      
 
 
 
