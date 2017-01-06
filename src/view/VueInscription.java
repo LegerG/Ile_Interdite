@@ -40,16 +40,16 @@ public class VueInscription extends Observable  {
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
         
-        JPanel centralPanel = new JPanel(new GridLayout(6,1));
+        JPanel centralPanel = new JPanel(new GridLayout(7,1));
         mainPanel.add(centralPanel);
         
         centralPanel.add(new JLabel("Inscription des joueurs :"));
         
         JPanel panelJ1 = new JPanel(new GridLayout(1,2));
         centralPanel.add(panelJ1);
-        panelJ1.add(new JLabel("Joueur 1 :"));
+        panelJ1.add(new JLabel("Joueur 1 :"), 0);
         joueur1 = new JTextField("");
-        panelJ1.add(joueur1);
+        panelJ1.add(joueur1, 1);
         
         JPanel panelJ2 = new JPanel(new GridLayout(1,2));
         centralPanel.add(panelJ2);
@@ -69,11 +69,13 @@ public class VueInscription extends Observable  {
         joueur4 = new JTextField("");
         panelJ4.add(joueur4);
         
+           centralPanel.add(new JLabel(""));
+        
         
         JPanel panelBouton = new JPanel(new GridLayout(1,3));
         centralPanel.add(panelBouton);
         
-        centralPanel.add(new JLabel(""));
+     
         
         boutonJouer = new JButton("Jouer");
         boutonJouer.addActionListener(new ActionListener() {
@@ -86,7 +88,7 @@ public class VueInscription extends Observable  {
         });
         panelBouton.add(boutonJouer);
         
-        boutonRegles = new JButton("Règles du jeu");
+        boutonRegles = new JButton("Règles");
         boutonRegles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,7 +97,7 @@ public class VueInscription extends Observable  {
                 clearChanged();
             }
         });
-        panelBouton.add(boutonJouer);
+        panelBouton.add(boutonRegles);
         
         boutonQuitter = new JButton("Quitter");
         boutonQuitter.addActionListener(new ActionListener() {
