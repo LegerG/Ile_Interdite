@@ -1,5 +1,7 @@
 package model.cases;
 
+import java.util.Scanner;
+import view.VueNiveau;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -75,4 +77,14 @@ public class Grille {
     }
     
     
+
+
+public static void main(String[] args) {   
+        
+    Grille grille = new Grille();
+    if (grille.getTuiles()[0][0] == null){
+        System.out.println("NULL");
+    }
+    }    
+
 }

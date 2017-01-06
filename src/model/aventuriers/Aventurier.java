@@ -2,6 +2,16 @@ package model.aventuriers;
 
 import java.util.ArrayList;
 import model.ObjetIdentifie;
+
+import model.cases.Grille;
+
+/**
+ *
+ * @author IUT2-Dept Info
+ */
+
+ 
+
 import model.cartes.CarteTirage;
 import model.cases.Tuile;
 import util.Utils.Pion;
@@ -60,11 +70,22 @@ public abstract class Aventurier extends ObjetIdentifie {
         this.main = main;
     }
     
-    
+     public ArrayList<Integer> getCasesAccessibles(Grille grille){
+        
+      ArrayList<Integer> listeID = new ArrayList<>();
+  
+//        listeID.add(grille.getTuiles()[][])
+        
+        
+        
+        return listeID;
+        
+    }
     
     
     
     
     
 }
+
 
