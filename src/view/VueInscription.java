@@ -1,9 +1,11 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,54 +25,39 @@ public class VueInscription extends Observable  {
     private final JButton boutonJouer;
     private final JButton boutonRegles;
     private final JButton boutonQuitter;
-    private final JTextField joueur1;
-    private final JTextField joueur2;
-    private final JTextField joueur3;
-    private final JTextField joueur4;
+    private final JLabel messageErreur;
+    private ArrayList<JTextField> jTextFieldJoueur = new ArrayList<>();
      
 
-    public VueInscription() {
+    public VueInscription(int nbJoueurs) {
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         window.setSize(500, 400);
         
-        window.setTitle("Connexion");
+        window.setTitle("Inscription des joueurs");
         window.setLocationRelativeTo(null);
         
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
         
-        JPanel centralPanel = new JPanel(new GridLayout(7,1));
+        JPanel centralPanel = new JPanel(new GridLayout(nbJoueurs+3,1));
         mainPanel.add(centralPanel);
         
-        centralPanel.add(new JLabel("Inscription des joueurs :"));
+        centralPanel.add(new JLabel("Rentrer le nom des joueurs :"));
         
-        JPanel panelJ1 = new JPanel(new GridLayout(1,2));
-        centralPanel.add(panelJ1);
-        panelJ1.add(new JLabel("Joueur 1 :"), 0);
-        joueur1 = new JTextField("");
-        panelJ1.add(joueur1, 1);
+        for (int i = 0; i < nbJoueurs; i++){
+            JPanel panel = new JPanel(new GridLayout(1,2));
+            centralPanel.add(panel);
+            panel.add(new JLabel("Joueur "+(i+1) +" :"));
+            JTextField joueur = new JTextField("");
+            panel.add(joueur);
+            jTextFieldJoueur.add(joueur);
+        }
         
-        JPanel panelJ2 = new JPanel(new GridLayout(1,2));
-        centralPanel.add(panelJ2);
-        panelJ2.add(new JLabel("joueur 2 :"));
-        joueur2 = new JTextField("");
-        panelJ2.add(joueur2);
-        
-        JPanel panelJ3 = new JPanel(new GridLayout(1,2));
-        centralPanel.add(panelJ3);
-        panelJ3.add(new JLabel("Joueur 3 :"));
-        joueur3 = new JTextField("");
-        panelJ3.add(joueur3);
-        
-        JPanel panelJ4 = new JPanel(new GridLayout(1,2));
-        centralPanel.add(panelJ4);
-        panelJ4.add(new JLabel("joueur 4 :"));
-        joueur4 = new JTextField("");
-        panelJ4.add(joueur4);
-        
-           centralPanel.add(new JLabel(""));
-        
+        messageErreur = new JLabel("");
+        centralPanel.add(messageErreur);
+        messageErreur.setHorizontalAlignment(JLabel.CENTER);
+        messageErreur.setForeground(Color.red);
         
         JPanel panelBouton = new JPanel(new GridLayout(1,3));
         centralPanel.add(panelBouton);
@@ -82,18 +69,18 @@ public class VueInscription extends Observable  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers(Commandes.VALIDER_JOUEURS);
+                notifyObservers(Commandes.VALIDER_INSCRIPTION);
                 clearChanged();
             }
         });
         panelBouton.add(boutonJouer);
         
-        boutonRegles = new JButton("Règles");
+        boutonRegles = new JButton("Retour");
         boutonRegles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setChanged();
-                notifyObservers(Commandes.REGLES);
+                notifyObservers(Commandes.RETOUR);
                 clearChanged();
             }
         });
@@ -118,34 +105,25 @@ public class VueInscription extends Observable  {
         return window;
     }
 
-    public JTextField getJoueur1() {
-        return joueur1;
+   
+    
+    public void fermerFenetre() {
+        window.dispose();
+    }
+    
+     public void setMessageErreur(String message) {
+        messageErreur.setText(message);
     }
 
-    public JTextField getJoueur2() {
-        return joueur2;
+    public ArrayList<String> getNomJoueur() {
+        ArrayList<String> nomJoueurs = new ArrayList<>();
+        for (JTextField t : jTextFieldJoueur) {
+            nomJoueurs.add(t.getText());
+        }
+        
+        return nomJoueurs;
     }
+     
     
-    public String getChampJoueur1(){
-        return joueur1.getText();
-    }
-    
-    public String getChampJoueur2(){
-        return joueur2.getText();
-    }
-
-    public JTextField getJoueur3() {
-        return joueur3;
-    }
-
-    public JTextField getJoueur4() {
-        return joueur4;
-    }
-    
-    
-    
-    public static void main(String[] args) {
-        VueInscription vue = new VueInscription();
-    }
 }
 

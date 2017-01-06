@@ -26,16 +26,19 @@ public abstract class Aventurier extends ObjetIdentifie {
     protected Pion pion;
     protected Tuile position;
     protected ArrayList<CarteTirage> main;
+    protected String nom;
     protected Boolean deplaceDiagonale=false;
     protected Boolean deplacePartout=false;
     protected Boolean deplaceEau=false;
 
-    public Aventurier(Tuile positionDepart, Pion pion) {
+    public Aventurier(Tuile positionDepart, Pion pion, String nom) {
         super();
         this.nbAction = 3;
         this.position = positionDepart;
         this.main = new ArrayList<>();
         this.pion = pion;
+        this.nom = nom;
+        
     }
 
     //METHODES
@@ -84,6 +87,11 @@ public abstract class Aventurier extends ObjetIdentifie {
     
     return listeContraintes;
     }
+
+    public String getNom() {
+        return nom;
+    }
+    
     
     
     

@@ -24,8 +24,10 @@ public class Utils {
      {0,0,1,1,0,0},        
     };
     
+
+    
     public static enum Commandes {
-        VALIDER_JOUEURS("Valider l'inscription des joueurs"),
+        VALIDER_INSCRIPTION("Valider l'inscription des joueurs"),
         BOUGER("Déplacer son pion"),
         ASSECHER("Assécher une tuile"),
         DONNER("Donner une carte à un autre joueur"),
@@ -33,11 +35,13 @@ public class Utils {
         TERMINER("Terminer son tour"),
         RECEVOIR("Recevoir la carte donnée par un autre joueur"), 
         CHOISIR_CARTE("Utiliser une carte trésor"),
-        CHOISIR_TUILE("Sélectionner une tuile"), 
+        CHOISIR_TUILE("Sélectionner une tuile"),
         DEPLACER("Déplacer un autre joueur"),
         VOIR_DEFAUSSE("Un joueur souhaite voir la défausse de cartes Tirage"),
         REGLES("Règles du jeu"),
-        QUITTER("Fin du jeu");
+        RETOUR("Revenir en arrière"),
+        QUITTER("Fin du jeu"),
+        VALIDER_CONNEXION("Les joueurs on choisi la difficulté et le nombre de joueurs");
     
         private final String libelle ;
 
@@ -49,6 +53,15 @@ public class Utils {
         public String toString() {
             return this.libelle ;
         }
+    }
+    
+    public static enum RoleAventurier {
+        Explorateur,
+        Ingenieur,
+        Pilote,
+        Messager,
+        Plongeur,
+        Navigateur;
     }
 
     public static enum EtatTuile {
@@ -214,6 +227,12 @@ public class Utils {
         return FORME_GRILLE;
     }
     
+    public static RoleAventurier[] melangerRole(RoleAventurier[] tableau) {
+        if (Parameters.ALEAS) {
+            Collections.shuffle(Arrays.asList(tableau));
+        }
+        return tableau;
+    }
     
     
 }
