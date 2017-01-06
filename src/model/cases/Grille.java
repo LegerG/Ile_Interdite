@@ -111,7 +111,7 @@ public class Grille {
           if(listeContrainte.get("plongeur")){
               for(Integer m : listeID){
                   if (tuiles.get(m).getEtatTuile()!=EtatTuile.ASSECHEE){
-                      
+                       
                   }                 
               }
           }
