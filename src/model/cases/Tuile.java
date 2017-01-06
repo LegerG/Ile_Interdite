@@ -23,6 +23,38 @@ public class Tuile extends ObjetIdentifie {
         this.nom = nom;
         this.etatTuile = EtatTuile.ASSECHEE;
     }
+
+    public Tresor getTresor() {
+        return tresor;
+    }
+
+    public void setTresor(Tresor tresor) {
+        this.tresor = tresor;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public EtatTuile getEtatTuile() {
+        return etatTuile;
+    }
+
+    public void setEtatTuile(EtatTuile etatTuile) {
+        this.etatTuile = etatTuile;
+    }
+
+    public ArrayList<Aventurier> getAventuriers() {
+        return aventuriers;
+    }
+
+    public void setAventuriers(ArrayList<Aventurier> aventuriers) {
+        this.aventuriers = aventuriers;
+    }
     
     
     

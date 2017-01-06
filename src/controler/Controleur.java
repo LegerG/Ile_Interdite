@@ -119,7 +119,7 @@ public class Controleur implements Observer {
      public void deplacer(){
 
          
-         grille.getTuilesAccessibles(av.getContraintes(),av.getPosition());
+         grille.getTuilesAccessibles(av.getContraintes(),av.getPosition().getId());
              
          }
          

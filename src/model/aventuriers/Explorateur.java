@@ -20,9 +20,7 @@ public class Explorateur extends Aventurier{
         this.deplaceDiagonale=true;
     }
 
-    public Explorateur() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
   
   
 }
