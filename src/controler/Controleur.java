@@ -34,6 +34,7 @@ import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
 import view.VueConnexion;
 import view.VueInscription;
+import view.VueRegles;
 
 
 /**
@@ -47,6 +48,7 @@ public class Controleur implements Observer {
     private ArrayList<VueAventurier> vueAventuriers;
     private VuePlateau vuePlateau;
     private VueNiveau vueNiveau;
+    private VueRegles vueRegles;
     
     //Plateau
     private Grille grille;
@@ -61,7 +63,7 @@ public class Controleur implements Observer {
     private int nbCartesInnondationsPioches;
     
     //Cartes
-    private CarteInondation[] deffausseInondation = new CarteInondation[24];;
+    private CarteInondation[] deffausseInondation = new CarteInondation[24];
     private CarteInondation[] piocheInondation = new CarteInondation[24];
     private CarteTirage[] deffausseTirage = new CarteTirage[27];
     private CarteTirage[] piocheTirage = new CarteTirage[27];
@@ -88,6 +90,9 @@ public class Controleur implements Observer {
         }
         else if (arg == Commandes.RETOUR) {
             this.retour();
+        }
+        else if (arg == Commandes.REGLES) {
+            this.afficherRegles();
         }
     }
     
@@ -279,6 +284,9 @@ public class Controleur implements Observer {
         else if (o instanceof VueInscription) {
             this.vueInscription.fermerFenetre();
         }
+        else if (o instanceof VueRegles) {
+            this.vueRegles.fermerFenetre();
+        }
     } 
     
     public void retour(){
@@ -304,6 +312,11 @@ public class Controleur implements Observer {
             nbCartesInnondationsPioches = 6;
         }
         
+    }
+    
+    public void afficherRegles() {
+        vueRegles = new VueRegles();        
+        this.vueRegles.addObserver(this);
     }
         
 }
