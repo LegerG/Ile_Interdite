@@ -36,8 +36,11 @@ public class VuePlateau extends Observable {
         window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
         
         vueGrille = new VueGrille(grille);
-        mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout()); 
+        //On met le plateau dans le Center du BorderLayout
         mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
+        //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
+        
         
         window.add(mainPanel);
         
