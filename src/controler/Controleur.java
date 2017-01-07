@@ -49,7 +49,8 @@ public class Controleur implements Observer {
     private int niveauEau;
     
     public Controleur() {
-    
+        this.vueConnexion = new VueConnexion();
+        this.vueConnexion.addObserver(this);
     
     
     }
@@ -76,6 +77,7 @@ public class Controleur implements Observer {
         
         
         //Création du plateau
+        
         remplirTuiles();
         this.vueInscription.fermerFenetre();
         this.vuePlateau = new VuePlateau(grille);
@@ -128,8 +130,10 @@ public class Controleur implements Observer {
         tuiles[0] = new Tuile(Tresor.CRISTAL, "CaverneDuBrasier");
         tuiles[1] = new Tuile(null, "Les Dunes de L'Illusion");
         tuiles[2] = new Tuile(null, "Les falaises del'Oublis");
-        this.vueConnexion = new VueConnexion();
-        this.vueConnexion.addObserver(this);
+        tuiles[3] = new Tuile(Tresor.PIERRE, "LeTempleDuSoleil");
+        tuiles[4] = new Tuile(null, "ValDuCrépuscule");
+        tuiles[5] = new Tuile(null, "Observatoire");
+        tuiles[6] = new Tuile(Tresor.CALICE, "LePalaisDeCorail");
         tuiles[7] = new Tuile(null, "Le Lagon Perdu");
         tuiles[8] = new Tuile(null, "Le Marais Brumeux");
         tuiles[9] = new Tuile(Tresor.ZEPHYR, "Le Jardin des Murmures");
@@ -148,18 +152,17 @@ public class Controleur implements Observer {
         tuiles[22] = new Tuile(null, "La Forêt Pourpre");
         tuiles[23] = new Tuile(Tresor.CRISTAL, "La Caverne des Ombres");
         
-        tuiles[3] = new Tuile(Tresor.PIERRE, "LeTempleDuSoleil");
-        tuiles[4] = new Tuile(null, "ValDuCrépuscule");
-        tuiles[5] = new Tuile(null, "Observatoire");
-        tuiles[6] = new Tuile(Tresor.CALICE, "LePalaisDeCorail");
         
+        
+        Tuile[] tuilesMelange = melangerPositions(tuiles);
         this.grille = new Grille(tuilesMelange);
         
         HashMap<String,Boolean> listeContraintes = new HashMap<>();
-        listeContraintes.put("plongeur", true);
-        listeContraintes.put("explorateur", false);
-        listeContraintes.put("pilote", false);
-        for (Integer i :this.grille.getTuilesAccessibles(listeContraintes, 2,true)){
+            listeContraintes.put("plongeur", true);
+            listeContraintes.put("explorateur", false);
+            listeContraintes.put("pilote", false);
+            
+        for (Integer i : this.grille.getTuilesAccessibles(listeContraintes, 2,true)){
             System.out.println("    "+i);
         }
       
@@ -227,4 +230,4 @@ public class Controleur implements Observer {
         
 
         
-        Tuile[] tuilesMelange = melangerPositions(tuiles);
+        

@@ -69,28 +69,29 @@ public class Grille {
         this.tuiles = tuiles;
     }
 
-      public ArrayList<Integer> getTuilesAccessibles(HashMap<String, Boolean> listeContrainte,int idTuile, boolean powerpilote){
-          ArrayList<Integer> listefinale = new ArrayList<>();
-          ArrayList<Integer> listeID = new ArrayList<>();
-          int i,j;
-          int[] coor = new int[2];
-          coor=this.getCoordonneesAvecId(idTuile);
-          i=coor[0];
-          j=coor[1];
-          if(listeContrainte.get("pilote") && powerpilote){
-              for (int x = 0; x<6; x++) {
+    public ArrayList<Integer> getTuilesAccessibles(HashMap<String, Boolean> listeContrainte,int idTuile, boolean powerpilote){
+        ArrayList<Integer> listefinale = new ArrayList<>();
+        ArrayList<Integer> listeID = new ArrayList<>();
+        int i,j;
+        int[] coor = new int[2];
+        coor=this.getCoordonneesAvecId(idTuile);
+        i=coor[0];
+        j=coor[1];
+        if(listeContrainte.get("pilote") && powerpilote){
+            for (int x = 0; x<6; x++) {
                 for (int y = 0 ; y<6; y++) {
-                        listeID.add(idTuiles[x][y]);
-                    }
+                    listeID.add(idTuiles[x][y]);
                 }
             }
-          else{
-          this.addCasesAdjacentes(i, j, listeID);
-          if(listeContrainte.get("explorateur")){
-              this.addCasesDiagonales(i, j, listeID);
-              
-          }
-          if(listeContrainte.get("plongeur")){                
+        }
+        else {
+            this.addCasesAdjacentes(i, j, listeID);
+            
+            if(listeContrainte.get("explorateur")) {
+                this.addCasesDiagonales(i, j, listeID);
+            }
+            
+            if(listeContrainte.get("plongeur")){                
                 int x= 0; int y=0;
                 boolean connexion=true;
                 ArrayList<Integer> listeconnectee = new ArrayList<>(); 
@@ -100,74 +101,74 @@ public class Grille {
                         System.out.println("liste finale : "+n);
                     }
                     connexion=true;
-                    
-                    
+
+
                     for(Integer m : listeID){
-                        
-                         if (tuiles.get(m).getEtatTuile()!=EtatTuile.ASSECHEE){ 
+
+                        if (tuiles.get(m).getEtatTuile()!=EtatTuile.ASSECHEE){ 
                             int[] coorxy = new int[2];
                             coorxy=this.getCoordonneesAvecId(m);
                             x=coorxy[0];
                             y=coorxy[1];
                             this.addCasesAdjacentes(x, y, listeconnectee);
                             connexion=false;
-                         }
+                        }
                     }
                     listeID.clear();
                     listeID.addAll(listeconnectee);
-                     for (Integer n : listefinale){
-                       if (listeID.contains(n)) listeID.remove(n);  // On retire a la liste ID ce qui a été déjà pris en compte = ce qui est dans la liste finale
+                    for (Integer n : listefinale){
+                        if (listeID.contains(n)) listeID.remove(n);  // On retire a la liste ID ce qui a été déjà pris en compte = ce qui est dans la liste finale
                     } 
                     for (Integer n : listeconnectee){
                         System.out.println("liste connectée : "+n);
                     }
                     listeconnectee.clear();
                 } while (!connexion);
-                  }
-              
-          }
-          
-          
-        
-          Iterator it = listeID.iterator();
-          while(it.hasNext()){
-              Integer id = (Integer) it.next();
-             if (tuiles.get(id)==null || tuiles.get(id).getEtatTuile()==EtatTuile.COULEE){                
-                 it.remove();
-                
-              }
-          }
+            }
+
+        }
+
+
+
+        Iterator it = listeID.iterator();
+        while(it.hasNext()){
+            Integer id = (Integer) it.next();
+            if (tuiles.get(id)==null || tuiles.get(id).getEtatTuile()==EtatTuile.COULEE){                
+                it.remove();
+
+            }
+        }
         listefinale.remove(idTuiles[i][j]); // transformer listefinale listeID
         return listefinale;
         
     }
 
-      public ArrayList<Integer> getTuilesAssechables(HashMap<String, Boolean> listeContrainte, int idTuile){
-          ArrayList<Integer> listeID = new ArrayList<>();
-          int i,j;
-          int[] coor = new int[2];
-          coor=this.getCoordonneesAvecId(idTuile);
-          i=coor[0];
-          j=coor[1];
-          this.addCasesAdjacentes(i, j, listeID);
-          listeID.add(idTuiles[i][j]);
-          if(listeContrainte.get("explorateur")){
-             this.addCasesDiagonales(i, j, listeID);
-          }
-        
-          
-           Iterator it = listeID.iterator();
-           while(it.hasNext()){
-              Integer id = (Integer) it.next();
-             if (tuiles.get(id)==null || tuiles.get(id).getEtatTuile()!=EtatTuile.INONDEE){
-                 System.out.println(id);
-                 it.remove();
-              }
-          }
-         
-         
-          return listeID;
-      }
+    public ArrayList<Integer> getTuilesAssechables(HashMap<String, Boolean> listeContrainte, int idTuile){
+        ArrayList<Integer> listeID = new ArrayList<>();
+        int i,j;
+        int[] coor = new int[2];
+        coor=this.getCoordonneesAvecId(idTuile);
+        i=coor[0];
+        j=coor[1];
+        this.addCasesAdjacentes(i, j, listeID);
+        listeID.add(idTuiles[i][j]);
+        if(listeContrainte.get("explorateur")){
+           this.addCasesDiagonales(i, j, listeID);
+        }
+
+
+        Iterator it = listeID.iterator();
+        while(it.hasNext()){
+            Integer id = (Integer) it.next();
+            if (tuiles.get(id)==null || tuiles.get(id).getEtatTuile()!=EtatTuile.INONDEE){
+                System.out.println(id);
+                it.remove();
+            }
+        }
+
+
+        return listeID;
+    }
       
       private void addCasesAdjacentes(int i, int j, ArrayList<Integer> newTuiles){
         if(i!=5) newTuiles.add(idTuiles[i+1][j]);

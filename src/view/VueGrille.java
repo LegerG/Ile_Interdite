@@ -11,8 +11,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.cases.Grille;
-import util.Parameters;
-import static util.Parameters.SIMPLIFIED;
 import static util.Utils.getFORME_GRILLE;
  
 public class VueGrille extends Observable {
