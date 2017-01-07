@@ -36,7 +36,7 @@ public class VueGrille extends Observable {
                             setChanged();
                             notifyObservers(v.getId());
                             clearChanged();
-                            System.out.println(v.getNom().toString());
+                            System.out.println(v.getNomFichier().toString());
                         }
 
                         @Override
