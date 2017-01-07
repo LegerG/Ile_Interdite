@@ -34,6 +34,7 @@ public class VueNiveau {
         window.setSize(cellWidth*2+Parameters.SWING_BORDERS_HEIGHT, Parameters.HAUTEUR_AUTRES_VUES);        
         window.setLocation(30, Parameters.TOP_AUTRES_VUES);
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        window.setTitle("Niveau d'eau");
         
         window.setUndecorated(Parameters.UNDECORATED);
         window.setResizable(Parameters.RESIZABLE);

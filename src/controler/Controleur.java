@@ -21,9 +21,6 @@ import util.Utils;
 import util.Utils.Commandes;
 import util.Utils.EtatTuile;
 import util.Utils.RoleAventurier;
-import static util.Utils.RoleAventurier.Ingenieur;
-import static util.Utils.RoleAventurier.Messager;
-import static util.Utils.RoleAventurier.Navigateur;
 import util.Utils.Tresor;
 import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
@@ -131,17 +128,17 @@ public class Controleur implements Observer {
     
     public void remplirTuiles() {
         //Création des tuiles
-        tuiles[0] = new Tuile(Tresor.CRISTAL, "CaverneDuBrasier");
+        tuiles[0] = new Tuile(Tresor.CRISTAL, "LaCarverneDuBrasier");
         tuiles[1] = new Tuile(null, "LesDunesDeLIllusion");
-        tuiles[2] = new Tuile(null, "LesFalaisesDeLOublis");
+        tuiles[2] = new Tuile(null, "LesFalaisesDeLOubli");
         tuiles[3] = new Tuile(Tresor.PIERRE, "LeTempleDuSoleil");
-        tuiles[4] = new Tuile(null, "ValDuCrepuscule");
+        tuiles[4] = new Tuile(null, "LeValDuCrepuscule");
         tuiles[5] = new Tuile(null, "Observatoire");
         tuiles[6] = new Tuile(Tresor.CALICE, "LePalaisDeCorail");
         tuiles[7] = new Tuile(null, "LeLagonPerdu");
         tuiles[8] = new Tuile(null, "LeMaraisBrumeux");
         tuiles[9] = new Tuile(Tresor.ZEPHYR, "LeJardinDesMurmures");
-        tuiles[10] = new Tuile(null, "Le Pont des Abîmes");this.tuiles[10].setEtatTuile(EtatTuile.INONDEE);
+        tuiles[10] = new Tuile(null, "LePontDesAbimes"); this.tuiles[10].setEtatTuile(EtatTuile.INONDEE);
         tuiles[11] = new Tuile(Tresor.CALICE, "LePalaisDesMarees");
         tuiles[12] = new Tuile(null, "LeRocherFantome");
         tuiles[13] = new Tuile(Tresor.PIERRE, "LeTempleDeLaLune");
@@ -154,7 +151,7 @@ public class Controleur implements Observer {
         tuiles[20] = new Tuile(null, "LaPortedArgent");
         tuiles[21] = new Tuile(null, "Heliport");
         tuiles[22] = new Tuile(null, "LaForetPourpre");
-        tuiles[23] = new Tuile(Tresor.CRISTAL, "LaCaverneDesOmbres");
+        tuiles[23] = new Tuile(Tresor.CRISTAL, "LaCarverneDesOmbres");
         
         
         

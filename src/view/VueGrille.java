@@ -1,13 +1,15 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Observable;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.cases.Grille;
@@ -26,7 +28,10 @@ public class VueGrille extends Observable {
         for (int i = 0; i <6; i++) {
             for (int j = 0 ; j < 6; j++) {
                 if (getFORME_GRILLE()[i][j] != 0) {
-                    VueTuile v = new VueTuile(grille.getTuiles().get(grille.getIdTuiles()[i][j]).getNom(), grille.getTuiles().get(grille.getIdTuiles()[i][j]).getId());
+                    
+                    String nomTuile = grille.getTuiles().get(grille.getIdTuiles()[i][j] - 1).getNom();
+                    VueTuile v;
+                    v = new VueTuile(nomTuile, grille.getTuiles().get(grille.getIdTuiles()[i][j] - 1).getId());
                     vueTuiles.add(v);
                     grillePanel.add(v.getTuilePanel());
                     
@@ -36,7 +41,7 @@ public class VueGrille extends Observable {
                             setChanged();
                             notifyObservers(v.getId());
                             clearChanged();
-                            System.out.println(v.getNomFichier().toString());
+                            
                         }
 
                         @Override
@@ -56,7 +61,7 @@ public class VueGrille extends Observable {
 
                         @Override
                         public void mouseExited(MouseEvent e) {
-                            v.getTuilePanel().setBorder(BorderFactory.createLineBorder(Color.black));
+                            v.getTuilePanel().setBorder(null);
                         }
                     });
                     
@@ -64,7 +69,9 @@ public class VueGrille extends Observable {
                     t++;
                     
                 } else {
-                  grillePanel.add(new JLabel(""));
+                    ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Users\\Gwenaël Léger\\Documents\\NetBeansProjects\\Ile_Interdite\\images\\ocean.jpg").getImage().getScaledInstance(900, 900, Image.SCALE_DEFAULT)); //
+                    JLabel image = new JLabel(icon);
+                    grillePanel.add(image);
                   
                 } 
               

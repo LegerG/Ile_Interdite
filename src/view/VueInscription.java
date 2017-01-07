@@ -34,7 +34,7 @@ public class VueInscription extends Observable  {
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         window.setSize(500, 400);
         
-        window.setTitle("Inscription des joueurs");
+        window.setTitle("Inscription");
         window.setLocationRelativeTo(null);
         
         JPanel mainPanel = new JPanel(new BorderLayout());

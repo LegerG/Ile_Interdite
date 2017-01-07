@@ -10,16 +10,18 @@ import javax.swing.JPanel;
 
 public class VueTuile extends JLabel{
     private JPanel tuilePanel = new JPanel();
-    private String nomFichier;
+    private JLabel nomFichier;
     private Integer id;
-    private static final String cheminDAcces = "/users/info/etu-s2/legergw/Documents/ileInterdite_DODE_BAUNEZ_DOLIDON_LEGER/ileInterdite_sujet/images/tuiles/";
+    private static final String cheminDAcces = "C:\\Users\\Gwenaël Léger\\Documents\\NetBeansProjects\\Ile_Interdite\\images\\tuiles\\"; //A changer
     
+    /* chemin d'acces si vous êtes sous windows : C:\\Users\\userName\\... Chemin d'acces ...\\images\\tuiles\\
+    */
     public VueTuile(String nom, Integer id ) {
-        this.nomFichier = nom;
+        this.nomFichier = new JLabel(nom);
         this.id = id;
 //        this.tuilePanel.add(this.nom);
-        this.tuilePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        ImageIcon icon = new ImageIcon(new ImageIcon(cheminDAcces + this.nomFichier + ".png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+//        this.tuilePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        ImageIcon icon = new ImageIcon(new ImageIcon(cheminDAcces + nomFichier.getText() +".png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
         JLabel image = new JLabel(icon);
         this.tuilePanel.setLayout(new BorderLayout());
         this.tuilePanel.add(image, BorderLayout.CENTER);
@@ -33,7 +35,7 @@ public class VueTuile extends JLabel{
         return tuilePanel;
     }
 
-    public String getNomFichier() {
+    public JLabel getNomFichier() {
         return nomFichier;
     }
     

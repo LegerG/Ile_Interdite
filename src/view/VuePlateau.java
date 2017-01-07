@@ -1,12 +1,17 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Observable;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import model.cases.Grille;
@@ -26,9 +31,10 @@ public class VuePlateau extends Observable {
                
         window = new JFrame();
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        window.setTitle("Plateau de Jeu");
         
         // Définit la taille de la fenêtre en pixels
-        window.setSize(900, 900);
+        window.setSize(902, 902);
         window.setResizable(false);
         
         
@@ -37,6 +43,8 @@ public class VuePlateau extends Observable {
         
         vueGrille = new VueGrille(grille);
         mainPanel = new JPanel(new BorderLayout()); 
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        
         //On met le plateau dans le Center du BorderLayout
         mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
         //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
