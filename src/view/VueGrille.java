@@ -69,7 +69,7 @@ public class VueGrille extends Observable {
                     t++;
                     
                 } else {
-                    ImageIcon icon = new ImageIcon(new ImageIcon("C:\\Users\\Gwenaël Léger\\Documents\\NetBeansProjects\\Ile_Interdite\\images\\ocean.jpg").getImage().getScaledInstance(900, 900, Image.SCALE_DEFAULT)); //
+                    ImageIcon icon = new ImageIcon(new ImageIcon("images/ocean.jpg").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT)); 
                     JLabel image = new JLabel(icon);
                     grillePanel.add(image);
                   

@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.JOptionPane;
 import model.aventuriers.Aventurier;
+import model.cartes.CarteInondation;
+import model.cartes.CarteTirage;
 import model.cases.Tuile;
 
 /**
@@ -41,7 +43,7 @@ public class Utils {
         REGLES("Règles du jeu"),
         RETOUR("Revenir en arrière"),
         QUITTER("Fin du jeu"),
-        VALIDER_CONNEXION("Les joueurs on choisi la difficulté et le nombre de joueurs");
+        VALIDER_CONNEXION("Les joueurs ont choisi la difficulté et le nombre de joueurs");
     
         private final String libelle ;
 
@@ -196,12 +198,6 @@ public class Utils {
         return arrayList ;
     }
     
-    public static Tuile[] melangerPositions(Tuile[] tableau) {
-        if (Parameters.ALEAS) {
-            Collections.shuffle(Arrays.asList(tableau));
-        }
-        return tableau ;
-    }
     
     /**
      * Permet de poser une question à laquelle l'utilisateur répond par oui ou non
@@ -235,4 +231,24 @@ public class Utils {
     }
     
     
+    public static Tuile[] melangerPositions(Tuile[] tableau) {
+        if (Parameters.ALEAS) {
+            Collections.shuffle(Arrays.asList(tableau));
+        }
+        return tableau ;
+    }
+    
+    public static CarteInondation[] melangerCartesInondations(CarteInondation[] tableau) {
+        if (Parameters.ALEAS) {
+            Collections.shuffle(Arrays.asList(tableau));
+        }
+        return tableau ;
+    }
+    
+    public static CarteTirage[] melangerCartesTirages(CarteTirage[] tableau) {
+        if (Parameters.ALEAS) {
+            Collections.shuffle(Arrays.asList(tableau));
+        }
+        return tableau ;
+    }
 }

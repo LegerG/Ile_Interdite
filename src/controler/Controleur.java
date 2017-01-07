@@ -28,6 +28,8 @@ import util.Utils.Commandes;
 import util.Utils.EtatTuile;
 import util.Utils.RoleAventurier;
 import util.Utils.Tresor;
+import static util.Utils.melangerCartesInondations;
+import static util.Utils.melangerCartesTirages;
 import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
 import view.VueConnexion;
@@ -91,7 +93,8 @@ public class Controleur implements Observer {
     
     public void initialiserPartie() {
         //Creation des cartes
-        remplirPioche();
+        remplirPioches();
+        
         
         //Création du plateau
         
@@ -112,7 +115,7 @@ public class Controleur implements Observer {
         
     }
     
-    public void remplirPioche() {
+    public void remplirPioches() {
         //Carte inondation
         piocheInondation[0] = new CarteInondation(("LaCarverneDuBrasier"));
         piocheInondation[1] = new CarteInondation(("LesDunesDeLIllusion"));
@@ -167,7 +170,11 @@ public class Controleur implements Observer {
         piocheTirage[24] = new CarteHelicoptere("Helicoptere");
         piocheTirage[25] = new CarteMonteeDesEaux("MonteeDesEaux");
         piocheTirage[26] = new CarteMonteeDesEaux("MonteeDesEaux");
-       
+        
+        //melange des pioches initiales
+        piocheInondation = melangerCartesInondations(piocheInondation);
+        piocheTirage = melangerCartesTirages(piocheTirage);
+        
     }
     
     public void remplirTuiles() {
