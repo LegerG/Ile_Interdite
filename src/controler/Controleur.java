@@ -12,6 +12,12 @@ import model.aventuriers.Messager;
 import model.aventuriers.Navigateur;
 import model.aventuriers.Pilote;
 import model.aventuriers.Plongeur;
+import model.cartes.CarteHelicoptere;
+import model.cartes.CarteInondation;
+import model.cartes.CarteMonteeDesEaux;
+import model.cartes.CarteSacsDeSable;
+import model.cartes.CarteTirage;
+import model.cartes.CarteTresor;
 import view.VueAventurier;
 import view.VueNiveau;
 import view.VuePlateau;
@@ -33,17 +39,31 @@ import view.VueInscription;
  * @author IUT2-Dept Info
  */
 public class Controleur implements Observer {
+    //IHMs
     private VueInscription vueInscription;
     private VueConnexion vueConnexion;
-    private Grille grille;
-    private Tuile[] tuiles = new Tuile[24];
     private ArrayList<VueAventurier> vueAventuriers;
-    private ArrayList<Aventurier> joueurs = new ArrayList<>();
     private VuePlateau vuePlateau;
     private VueNiveau vueNiveau;
-   private int nbJoueurs;
-    private int nbCartesInnondationsPioches;
+    
+    //Plateau
+    private Grille grille;
+    private Tuile[] tuiles = new Tuile[24];
     private int niveauEau;
+    
+    //Partie
+    private ArrayList<Aventurier> joueurs = new ArrayList<>();
+    private Aventurier jCourant;
+    private Aventurier jExceptionnel; //a prevoir pour les inturuptions de parties lors des deffausses de cartes ou autre
+    private int nbJoueurs;
+    private int nbCartesInnondationsPioches;
+    
+    //Cartes
+    private CarteInondation[] deffausseInondation = new CarteInondation[24];;
+    private CarteInondation[] piocheInondation = new CarteInondation[24];
+    private CarteTirage[] deffausseTirage = new CarteTirage[27];
+    private CarteTirage[] piocheTirage = new CarteTirage[27];
+    
     
     public Controleur() {
         this.vueConnexion = new VueConnexion();
@@ -93,38 +113,62 @@ public class Controleur implements Observer {
     }
     
     public void remplirPioche() {
+        //Carte inondation
+        piocheInondation[0] = new CarteInondation(("LaCarverneDuBrasier"));
+        piocheInondation[1] = new CarteInondation(("LesDunesDeLIllusion"));
+        piocheInondation[2] = new CarteInondation(("LesFalaisesDeLOubli"));
+        piocheInondation[3] = new CarteInondation(("LeTempleDuSoleil"));
+        piocheInondation[4] = new CarteInondation(("LeValDuCrepuscule"));
+        piocheInondation[5] = new CarteInondation(("Observatoire"));
+        piocheInondation[6] = new CarteInondation(("LePalaisDeCorail"));
+        piocheInondation[7] = new CarteInondation(("LeLagonPerdu"));
+        piocheInondation[8] = new CarteInondation(("LeMaraisBrumeux"));
+        piocheInondation[9] = new CarteInondation(("LeJardinDesMurmures"));
+        piocheInondation[10] = new CarteInondation(("LePontDesAbimes"));
+        piocheInondation[11] = new CarteInondation(("LeRocherFantome"));
+        piocheInondation[12] = new CarteInondation(("LaPortedOr"));
+        piocheInondation[13] = new CarteInondation(("LeJardinDesHurlements"));
+        piocheInondation[14] = new CarteInondation(("LaPorteDeBronze"));
+        piocheInondation[15] = new CarteInondation(("LaPorteDeFer"));
+        piocheInondation[16] = new CarteInondation(("LaTourDuGuet"));
+        piocheInondation[17] = new CarteInondation(("LaPorteDeCuivre"));
+        piocheInondation[18] = new CarteInondation(("LaPortedArgent"));
+        piocheInondation[19] = new CarteInondation(("Heliport"));
+        piocheInondation[20] = new CarteInondation(("LaForetPourpre"));
+        piocheInondation[21] = new CarteInondation(("LaCarverneDesOmbres"));
+        piocheInondation[22] = new CarteInondation(("LePalaisDesMarees"));
+        piocheInondation[23] = new CarteInondation(("LeTempleDeLaLune"));
         
+        //Carte Tirage
+        piocheTirage[0] = new CarteTresor("Calice", Tresor.CALICE);
+        piocheTirage[1] = new CarteTresor("Calice", Tresor.CALICE);
+        piocheTirage[2] = new CarteTresor("Calice", Tresor.CALICE);
+        piocheTirage[3] = new CarteTresor("Calice", Tresor.CALICE);
+        piocheTirage[4] = new CarteTresor("Calice", Tresor.CALICE);
+        piocheTirage[5] = new CarteTresor("Cristal", Tresor.CRISTAL);
+        piocheTirage[6] = new CarteTresor("Cristal", Tresor.CRISTAL);
+        piocheTirage[7] = new CarteTresor("Cristal", Tresor.CRISTAL);
+        piocheTirage[8] = new CarteTresor("Cristal", Tresor.CRISTAL);
+        piocheTirage[9] = new CarteTresor("Cristal", Tresor.CRISTAL);
+        piocheTirage[10] = new CarteTresor("Pierre", Tresor.PIERRE);
+        piocheTirage[11] = new CarteTresor("Pierre", Tresor.PIERRE);
+        piocheTirage[12] = new CarteTresor("Pierre", Tresor.PIERRE);
+        piocheTirage[13] = new CarteTresor("Pierre", Tresor.PIERRE);
+        piocheTirage[14] = new CarteTresor("Pierre", Tresor.PIERRE);
+        piocheTirage[15] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
+        piocheTirage[16] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
+        piocheTirage[17] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
+        piocheTirage[18] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
+        piocheTirage[19] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
+        piocheTirage[20] = new CarteSacsDeSable("SacsDeSable");
+        piocheTirage[21] = new CarteSacsDeSable("SacsDeSable");
+        piocheTirage[22] = new CarteHelicoptere("Helicoptere");
+        piocheTirage[23] = new CarteHelicoptere("Helicoptere");
+        piocheTirage[24] = new CarteHelicoptere("Helicoptere");
+        piocheTirage[25] = new CarteMonteeDesEaux("MonteeDesEaux");
+        piocheTirage[26] = new CarteMonteeDesEaux("MonteeDesEaux");
+       
     }
-    
-    public void attribuerRoleJoueurs() {
-        RoleAventurier[] rolesAventurier = melangerRole(RoleAventurier.values());
-        int i = 0;
-        Aventurier a = null;
-        while (i < vueInscription.getNomJoueur().size()) {
-            if (rolesAventurier[i] == RoleAventurier.Explorateur) {
-                a = new Explorateur(tuiles[16], Utils.Pion.VERT, vueInscription.getNomJoueur().get(i));
-            }
-            else if (rolesAventurier[i] == RoleAventurier.Ingenieur){
-                a = new Ingenieur(tuiles[17], Utils.Pion.ROUGE, vueInscription.getNomJoueur().get(i));
-            }
-            else if (rolesAventurier[i] == RoleAventurier.Messager){
-                a = new Messager(tuiles[19], Utils.Pion.ORANGE, vueInscription.getNomJoueur().get(i));
-            }
-            else if (rolesAventurier[i] == RoleAventurier.Navigateur){
-                a = new Navigateur(tuiles[20], Utils.Pion.JAUNE, vueInscription.getNomJoueur().get(i));
-            }
-            else if (rolesAventurier[i] == RoleAventurier.Pilote){
-                a = new Pilote(tuiles[21], Utils.Pion.BLEU, vueInscription.getNomJoueur().get(i));
-            }
-            else if (rolesAventurier[i] == RoleAventurier.Plongeur){
-                a = new Plongeur(tuiles[14], Utils.Pion.VIOLET, vueInscription.getNomJoueur().get(i));
-            }
-            
-            joueurs.add(a);
-            i++;
-        }
-    }
-    
     
     public void remplirTuiles() {
         //Création des tuiles
@@ -168,6 +212,35 @@ public class Controleur implements Observer {
         }
       
         
+    }
+    
+    public void attribuerRoleJoueurs() {
+        RoleAventurier[] rolesAventurier = melangerRole(RoleAventurier.values());
+        int i = 0;
+        Aventurier a = null;
+        while (i < vueInscription.getNomJoueur().size()) {
+            if (rolesAventurier[i] == RoleAventurier.Explorateur) {
+                a = new Explorateur(tuiles[16], Utils.Pion.VERT, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Ingenieur){
+                a = new Ingenieur(tuiles[17], Utils.Pion.ROUGE, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Messager){
+                a = new Messager(tuiles[19], Utils.Pion.ORANGE, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Navigateur){
+                a = new Navigateur(tuiles[20], Utils.Pion.JAUNE, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Pilote){
+                a = new Pilote(tuiles[21], Utils.Pion.BLEU, vueInscription.getNomJoueur().get(i));
+            }
+            else if (rolesAventurier[i] == RoleAventurier.Plongeur){
+                a = new Plongeur(tuiles[14], Utils.Pion.VIOLET, vueInscription.getNomJoueur().get(i));
+            }
+            
+            joueurs.add(a);
+            i++;
+        }
     }
 
     public void lancementInscription() {
