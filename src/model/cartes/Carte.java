@@ -8,4 +8,11 @@ import model.ObjetIdentifie;
  */
 public abstract class Carte extends ObjetIdentifie {
     private  String nomFichier;
+
+    public Carte(String nomFichier) {
+        super();
+        this.nomFichier = nomFichier;
+    }
+    
+    
 }
