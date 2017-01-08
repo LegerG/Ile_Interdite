@@ -107,10 +107,10 @@ public class Controleur implements Observer {
             this.recupererTresor();
         }
         else if (arg == Commandes.BOUGER){
-          for(int i :  this.grille.getTuilesAccessibles(jCourant.getContraintes(), jCourant.getPosition().getId(), powerpilote)){
-              //this.vuePlateau.surbriller(i);
-          }
-          this.phaseDeDeplacement=true;
+            for(int i : this.grille.getTuilesAccessibles(jCourant.getContraintes(), jCourant.getPosition().getId(), powerpilote)){
+                this.vuePlateau.surbriller(i); //fonctionnel, créer une bordure jaune sur les tuiles sur lesquelles ont peut cliquer
+            }
+            this.phaseDeDeplacement=true;
         }
         else if(arg == Commandes.ASSECHER){
             for(int i :  this.grille.getTuilesAssechables(jCourant.getContraintes(), jCourant.getPosition().getId())){
@@ -118,33 +118,34 @@ public class Controleur implements Observer {
           }  
             this.phaseAssechement=true;
         }
-        
         else if(arg == Commandes.TERMINER){
             this.finTour(); // fin du tour
         }
-        
-         if(arg instanceof Integer){
-             if(phaseDeDeplacement==true){
-                 if (this.grille.getTuilesAccessibles(jCourant.getContraintes(), jCourant.getPosition().getId(), powerpilote).contains(arg)){
-                      this.jCourant.getPosition().getAventuriers().remove(jCourant);
-                      this.jCourant.setPosition(this.grille.getTuileAvecID((int)arg));
-                      this.phaseDeDeplacement=false;
-                      actionsRestantes--;
-                 }
-                 else{
-                     //on ne peut pas se déplacer là
-                 }
-                         
-             }
-             if(phaseAssechement==true && this.grille.getTuilesAccessibles(jCourant.getContraintes(), jCourant.getPosition().getId(), powerpilote).contains(arg)){
+        else if(arg instanceof Integer){
+            System.out.println("azerty");
+            if(phaseDeDeplacement==true){
+                if (this.grille.getTuilesAccessibles(jCourant.getContraintes(), 
+                        jCourant.getPosition().getId(), powerpilote).contains(arg))
+                {
+                    this.jCourant.getPosition().getAventuriers().remove(jCourant);
+                    this.jCourant.setPosition(this.grille.getTuileAvecID((int)arg));
+                    this.phaseDeDeplacement=false;
+                    actionsRestantes--;
+                }
+                else{
+                    //on ne peut pas se déplacer là
+                }
+
+            }
+            if(phaseAssechement==true && this.grille.getTuilesAccessibles(jCourant.getContraintes(), 
+                    jCourant.getPosition().getId(), powerpilote).contains(arg))
+            {
                 this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
                 this.phaseAssechement=false;
                 actionsRestantes--;
-             }
-             
-             
-         }  
-         
+            }
+        }  
+        
     }
     
     public void initialiserPartie() {
@@ -156,7 +157,7 @@ public class Controleur implements Observer {
         
         remplirTuiles();
         this.vueInscription.fermerFenetre();
-        this.vuePlateau = new VuePlateau(grille);
+        this.vuePlateau = new VuePlateau(grille, this);
         this.vueNiveau = new VueNiveau(nbCartesInnondationsPioches);
         this.vuePlateau.addObserver(this);
         //piocher 6 cartes innondations
@@ -171,7 +172,51 @@ public class Controleur implements Observer {
         
     }
     
-    public void remplirPioches() {
+    public void remplirTuiles() {
+        //Création des tuiles
+        tuiles[0] = new Tuile(Tresor.CRISTAL, "LaCarverneDuBrasier");
+        tuiles[1] = new Tuile(null, "LesDunesDeLIllusion");
+        tuiles[2] = new Tuile(null, "LesFalaisesDeLOubli");
+        tuiles[3] = new Tuile(Tresor.PIERRE, "LeTempleDuSoleil");
+        tuiles[4] = new Tuile(null, "LeValDuCrepuscule");
+        tuiles[5] = new Tuile(null, "Observatoire");
+        tuiles[6] = new Tuile(Tresor.CALICE, "LePalaisDeCorail");
+        tuiles[7] = new Tuile(null, "LeLagonPerdu");
+        tuiles[8] = new Tuile(null, "LeMaraisBrumeux");
+        tuiles[9] = new Tuile(Tresor.ZEPHYR, "LeJardinDesMurmures");
+        tuiles[10] = new Tuile(null, "LePontDesAbimes"); this.tuiles[10].setEtatTuile(EtatTuile.INONDEE);
+        tuiles[11] = new Tuile(Tresor.CALICE, "LePalaisDesMarees");
+        tuiles[12] = new Tuile(null, "LeRocherFantome");
+        tuiles[13] = new Tuile(Tresor.PIERRE, "LeTempleDeLaLune");
+        tuiles[14] = new Tuile(null, "LaPortedOr");
+        tuiles[15] = new Tuile(Tresor.ZEPHYR, "LeJardinDesHurlements");
+        tuiles[16] = new Tuile(null, "LaPorteDeBronze");
+        tuiles[17] = new Tuile(null, "LaPorteDeFer");
+        tuiles[18] = new Tuile(null, "LaTourDuGuet");
+        tuiles[19] = new Tuile(null, "LaPorteDeCuivre");
+        tuiles[20] = new Tuile(null, "LaPortedArgent");
+        tuiles[21] = new Tuile(null, "Heliport");
+        tuiles[22] = new Tuile(null, "LaForetPourpre");
+        tuiles[23] = new Tuile(Tresor.CRISTAL, "LaCarverneDesOmbres");
+        
+        
+        
+        Tuile[] tuilesMelange = melangerPositions(tuiles);
+        this.grille = new Grille(tuilesMelange);
+        
+        HashMap<String,Boolean> listeContraintes = new HashMap<>();
+            listeContraintes.put("plongeur", true);
+            listeContraintes.put("explorateur", false);
+            listeContraintes.put("pilote", false);
+            
+        for (Integer i : this.grille.getTuilesAccessibles(listeContraintes, 2,true)){
+            System.out.println("    "+i);
+        }
+      
+        
+    }
+    
+     public void remplirPioches() {
         //Carte inondation
         piocheInondation[0] = new CarteInondation(("LaCarverneDuBrasier"));
         piocheInondation[1] = new CarteInondation(("LesDunesDeLIllusion"));
@@ -230,50 +275,6 @@ public class Controleur implements Observer {
         //melange des pioches initiales
         piocheInondation = melangerCartesInondations(piocheInondation);
         piocheTirage = melangerCartesTirages(piocheTirage);
-        
-    }
-    
-    public void remplirTuiles() {
-        //Création des tuiles
-        tuiles[0] = new Tuile(Tresor.CRISTAL, "LaCarverneDuBrasier");
-        tuiles[1] = new Tuile(null, "LesDunesDeLIllusion");
-        tuiles[2] = new Tuile(null, "LesFalaisesDeLOubli");
-        tuiles[3] = new Tuile(Tresor.PIERRE, "LeTempleDuSoleil");
-        tuiles[4] = new Tuile(null, "LeValDuCrepuscule");
-        tuiles[5] = new Tuile(null, "Observatoire");
-        tuiles[6] = new Tuile(Tresor.CALICE, "LePalaisDeCorail");
-        tuiles[7] = new Tuile(null, "LeLagonPerdu");
-        tuiles[8] = new Tuile(null, "LeMaraisBrumeux");
-        tuiles[9] = new Tuile(Tresor.ZEPHYR, "LeJardinDesMurmures");
-        tuiles[10] = new Tuile(null, "LePontDesAbimes"); this.tuiles[10].setEtatTuile(EtatTuile.INONDEE);
-        tuiles[11] = new Tuile(Tresor.CALICE, "LePalaisDesMarees");
-        tuiles[12] = new Tuile(null, "LeRocherFantome");
-        tuiles[13] = new Tuile(Tresor.PIERRE, "LeTempleDeLaLune");
-        tuiles[14] = new Tuile(null, "LaPortedOr");
-        tuiles[15] = new Tuile(Tresor.ZEPHYR, "LeJardinDesHurlements");
-        tuiles[16] = new Tuile(null, "LaPorteDeBronze");
-        tuiles[17] = new Tuile(null, "LaPorteDeFer");
-        tuiles[18] = new Tuile(null, "LaTourDuGuet");
-        tuiles[19] = new Tuile(null, "LaPorteDeCuivre");
-        tuiles[20] = new Tuile(null, "LaPortedArgent");
-        tuiles[21] = new Tuile(null, "Heliport");
-        tuiles[22] = new Tuile(null, "LaForetPourpre");
-        tuiles[23] = new Tuile(Tresor.CRISTAL, "LaCarverneDesOmbres");
-        
-        
-        
-        Tuile[] tuilesMelange = melangerPositions(tuiles);
-        this.grille = new Grille(tuilesMelange);
-        
-        HashMap<String,Boolean> listeContraintes = new HashMap<>();
-            listeContraintes.put("plongeur", true);
-            listeContraintes.put("explorateur", false);
-            listeContraintes.put("pilote", false);
-            
-        for (Integer i : this.grille.getTuilesAccessibles(listeContraintes, 2,true)){
-            System.out.println("    "+i);
-        }
-      
         
     }
     
@@ -383,30 +384,27 @@ public class Controleur implements Observer {
 //        this.deffausseTirage.add();
     }
 
-    
-    
     public void recupererTresor(){
-        if(this.jCourant.getPosition().getTresor()!=null){ //Si il y a une carte
-        int nbTresor=0;
-        for (CarteTresor t :this.jCourant.getTresors()){
-            if(t.getTypeTresor()==this.jCourant.getPosition().getTresor()){
-                nbTresor++;
+        if(this.jCourant.getPosition().getTresor()!=null){ //test si le suite sur la quelle se trouve le jCourant possède un trésor
+            int nbTresor=0;
+            for (CarteTresor t :this.jCourant.getTresors()){
+                if(t.getTypeTresor()==this.jCourant.getPosition().getTresor()){
+                    nbTresor++;
+                }
             }
-            
-        }
-        if(nbTresor==4 && !this.tresorsGagnes.contains(this.jCourant.getPosition().getTresor())){ // si on a 4 cartes trésor et qu'on a pas déjà le trésor
-            this.tresorsGagnes.add(this.jCourant.getPosition().getTresor());
-            //mettre dans la défausse les 4 cartes trésor
-        }
-        else if(nbTresor!=4){
-            //ta pas les 4 cartes trésor
-        }
-        else {
-            //tu a déjà le trésor
-        }
-    }
+            if(nbTresor==4 && !this.tresorsGagnes.contains(this.jCourant.getPosition().getTresor())){ // si on a 4 cartes trésor et qu'on a pas déjà le trésor
+                this.tresorsGagnes.add(this.jCourant.getPosition().getTresor());
+                //mettre dans la défausse les 4 cartes trésor
+            }
+            else if(nbTresor!=4){
+                //nombre de carte trésor insuffisante
+            }
+            else {
+                //le trésor en question à déjà été récupéré
+            }
+        }   
         else{
-            //ya pas de trésors sur ta carte
+            //la tuile sur laquelle se trouve le jCourant n'as pas de trésor. 
         }
         
         

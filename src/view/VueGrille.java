@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,7 +16,7 @@ import model.cases.Grille;
 import static util.Utils.getFORME_GRILLE;
  
 public class VueGrille extends Observable {
-    private ArrayList<VueTuile> vueTuiles = new ArrayList<>();
+    private HashMap<Integer, VueTuile> vuesTuiles = new HashMap<Integer, VueTuile>();
     private JPanel grillePanel;
     
     public VueGrille (Grille grille) {
@@ -31,36 +32,35 @@ public class VueGrille extends Observable {
                     String nomTuile = grille.getTuiles().get(grille.getIdTuiles()[i][j] - 1).getNom();
                     VueTuile v;
                     v = new VueTuile(nomTuile, grille.getTuiles().get(grille.getIdTuiles()[i][j] - 1).getId());
-                    vueTuiles.add(v);
+                    vuesTuiles.put(v.getId(), v);
                     grillePanel.add(v.getTuilePanel());
                     
                     v.getTuilePanel().addMouseListener(new MouseListener() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             setChanged();
-                            notifyObservers(v.getId());
+                            notifyObservers((Integer) v.getId());
                             clearChanged();
-                            
                         }
 
                         @Override
                         public void mousePressed(MouseEvent e) {
-//                            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                            
                         }
 
                         @Override
                         public void mouseReleased(MouseEvent e) {
-//                            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                            
                         }
 
                         @Override
                         public void mouseEntered(MouseEvent e) {
-                            v.getTuilePanel().setBorder(BorderFactory.createLineBorder(Color.red));
+                         
                         }
 
                         @Override
                         public void mouseExited(MouseEvent e) {
-                            v.getTuilePanel().setBorder(null);
+                            
                         }
                     });
                     
@@ -82,12 +82,15 @@ public class VueGrille extends Observable {
         return grillePanel;
     }
 
-    public ArrayList<VueTuile> getVueTuiles() {
-        return vueTuiles;
+    public HashMap<Integer, VueTuile> getVuesTuiles() {
+        return vuesTuiles;
     }
 
-   
     
+   
+    public void surbriller(Integer i) {
+        vuesTuiles.get(i).getTuilePanel().setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
+    }
     
     
 }

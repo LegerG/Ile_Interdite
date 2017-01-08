@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,7 +26,7 @@ public class VuePlateau extends Observable {
     protected VueGrille vueGrille;
     private JPanel mainPanel;
     
-    public VuePlateau(Grille grille) {
+    public VuePlateau(Grille grille, Observer o) {
                
         window = new JFrame();
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -40,6 +41,8 @@ public class VuePlateau extends Observable {
         window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
         
         vueGrille = new VueGrille(grille);
+        vueGrille.addObserver(o);
+        
         mainPanel = new JPanel(new BorderLayout()); 
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         
@@ -53,8 +56,12 @@ public class VuePlateau extends Observable {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
    
-        vueGrille.getVueTuiles().get(0).ajouterPion(Utils.Pion.VERT);
+//        vueGrille.getVuesTuiles().get(0).ajouterPion(Utils.Pion.VERT);
         
+    }
+    
+    public void surbriller(Integer i) {
+        vueGrille.surbriller(i);
     }
     
     public static void main(String[] args) {
