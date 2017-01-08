@@ -16,6 +16,7 @@ public class Plongeur extends Aventurier {
     
     public Plongeur(Tuile positionDepart, Pion pion, String nom) {
         super(positionDepart, pion, nom);
+        this.isPlongeur=true;
     }
     
 }

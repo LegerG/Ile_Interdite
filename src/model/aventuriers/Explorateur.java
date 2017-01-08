@@ -17,7 +17,7 @@ public class Explorateur extends Aventurier{
 
     public Explorateur(Tuile positionDepart, Pion pion, String nom) {
         super(positionDepart, pion, nom);
-        this.deplaceDiagonale=true;
+        this.isExplorateur=true;
     }
 
    

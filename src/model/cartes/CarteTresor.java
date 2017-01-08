@@ -14,4 +14,9 @@ public class CarteTresor extends CarteTirage {
         this.typeTresor = typeTresor;
         
     }
+
+    public Tresor getTypeTresor() {
+        return typeTresor;
+    }
+    
 }

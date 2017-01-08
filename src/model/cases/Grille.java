@@ -77,6 +77,8 @@ public class Grille {
         coor=this.getCoordonneesAvecId(idTuile);
         i=coor[0];
         j=coor[1];
+        
+        // Déplacement du pilote avec son pouvoir
         if(listeContrainte.get("pilote") && powerpilote){
             for (int x = 0; x<6; x++) {
                 for (int y = 0 ; y<6; y++) {
@@ -86,17 +88,20 @@ public class Grille {
         }
         else {
             this.addCasesAdjacentes(i, j, listeID);
-            
+
+            // Déplacement explorateur
             if(listeContrainte.get("explorateur")) {
                 this.addCasesDiagonales(i, j, listeID);
             }
             
+            // Déplacement plongeur
             if(listeContrainte.get("plongeur")){                
                 int x= 0; int y=0;
                 boolean connexion=true;
                 ArrayList<Integer> listeconnectee = new ArrayList<>(); 
                 do {
-                    this.ajoutListeSansDoublon(listefinale, listeID);
+                    this.ajoutListeSansDoublon(listefinale, listeID); 
+                    // on ajoute les cases de listeID dans la liste finale de tuiles accessibles
                     for (Integer n : listefinale){
                         System.out.println("liste finale : "+n);
                     }
@@ -110,20 +115,26 @@ public class Grille {
                             coorxy=this.getCoordonneesAvecId(m);
                             x=coorxy[0];
                             y=coorxy[1];
-                            this.addCasesAdjacentes(x, y, listeconnectee);
-                            connexion=false;
+                            this.addCasesAdjacentes(x, y, listeconnectee); 
+                            // on trouve la position des tuiles inondées ou coulées et on ajoute leurs cases adjacentes
+                            connexion=false; // il y au moins 1 tuile inondéé ou coulée
                         }
                     }
-                    listeID.clear();
+                    listeID.clear(); // on veut maintenant reboucler sur la listeconnectée
                     listeID.addAll(listeconnectee);
-                    for (Integer n : listefinale){
-                        if (listeID.contains(n)) listeID.remove(n);  // On retire a la liste ID ce qui a été déjà pris en compte = ce qui est dans la liste finale
+                    for (Integer n : listefinale){ 
+                        if (listeID.contains(n)) listeID.remove(n);  
+                        // On retire a la liste ID ce qui a été déjà pris en compte = ce qui est dans la liste finale
                     } 
                     for (Integer n : listeconnectee){
                         System.out.println("liste connectée : "+n);
                     }
-                    listeconnectee.clear();
+                    listeconnectee.clear(); 
+                    // on veut maintenant avoir dans la liste connectée les tuiles inondées adjacentes des tuiles inondées
                 } while (!connexion);
+               listeID.addAll(listefinale);
+               listeID.remove(idTuiles[i][j]); // enlever la case ou on se trouve dans le cas du plongeur
+
             }
 
         }
@@ -138,8 +149,7 @@ public class Grille {
 
             }
         }
-        listefinale.remove(idTuiles[i][j]); // transformer listefinale listeID
-        return listefinale;
+        return listeID;
         
     }
 
@@ -221,6 +231,10 @@ public class Grille {
               if (!listeID.contains(n)) listeID.add(n);
           }
               
+      }
+      
+      public Tuile getTuileAvecID(int id){
+         return this.tuiles.get(id);
       }
       
 

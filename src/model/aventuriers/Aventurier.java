@@ -14,6 +14,7 @@ import model.cases.Grille;
  
 
 import model.cartes.CarteTirage;
+import model.cartes.CarteTresor;
 import model.cases.Tuile;
 import util.Utils.Pion;
 
@@ -26,10 +27,11 @@ public abstract class Aventurier extends ObjetIdentifie {
     protected Pion pion;
     protected Tuile position;
     protected ArrayList<CarteTirage> main;
+    protected ArrayList<CarteTresor> tresors;
     protected String nom;
-    protected Boolean deplaceDiagonale=false;
-    protected Boolean deplacePartout=false;
-    protected Boolean deplaceEau=false;
+    protected Boolean isExplorateur=false;
+    protected Boolean isPilote=false;
+    protected Boolean isPlongeur=false;
 
     public Aventurier(Tuile positionDepart, Pion pion, String nom) {
         super();
@@ -81,15 +83,23 @@ public abstract class Aventurier extends ObjetIdentifie {
 
     public HashMap<String,Boolean> getContraintes() {
         HashMap<String,Boolean> listeContraintes = new HashMap<>();
-        listeContraintes.put("plongeur", deplaceEau);
-        listeContraintes.put("explorateur", deplaceDiagonale);
-        listeContraintes.put("pilote", deplacePartout);
+        listeContraintes.put("plongeur", isPlongeur);
+        listeContraintes.put("explorateur", isExplorateur);
+        listeContraintes.put("pilote", isPilote);
     
     return listeContraintes;
     }
 
     public String getNom() {
         return nom;
+    }
+
+    public ArrayList<CarteTresor> getTresors() {
+        return tresors;
+    }
+
+    public void setTresors(ArrayList<CarteTresor> tresors) {
+        this.tresors = tresors;
     }
     
     

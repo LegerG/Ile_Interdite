@@ -16,6 +16,7 @@ public class Pilote extends Aventurier {
     
     public Pilote(Tuile positionDepart, Pion pion, String nom) {
         super(positionDepart, pion, nom);
+        this.isPilote=true;
     }
     
 }

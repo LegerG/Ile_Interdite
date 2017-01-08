@@ -61,12 +61,19 @@ public class Controleur implements Observer {
     private Aventurier jExceptionnel; //a prevoir pour les inturuptions de parties lors des deffausses de cartes ou autre
     private int nbJoueurs;
     private int nbCartesInnondationsPioches;
+    private ArrayList<Tresor> tresorsGagnes;
+    private boolean powerpilote;
+    private boolean phaseDeDeplacement;
+    private int actionsRestantes;
+
+
     
     //Cartes
     private CarteInondation[] deffausseInondation = new CarteInondation[24];
     private CarteInondation[] piocheInondation = new CarteInondation[24];
     private CarteTirage[] deffausseTirage = new CarteTirage[27];
     private CarteTirage[] piocheTirage = new CarteTirage[27];
+    private boolean phaseAssechement;
     
     
     public Controleur() {
@@ -94,6 +101,49 @@ public class Controleur implements Observer {
         else if (arg == Commandes.REGLES) {
             this.afficherRegles();
         }
+        else if (arg == Commandes.RECUPERER_TRESOR) {
+            this.recupererTresor();
+        }
+        else if (arg == Commandes.BOUGER){
+          for(int i :  this.grille.getTuilesAccessibles(jCourant.getContraintes(), jCourant.getPosition().getId(), powerpilote)){
+              //this.vuePlateau.surbriller(i);
+          }
+          this.phaseDeDeplacement=true;
+        }
+          
+        else if(arg == Commandes.ASSECHER){
+            for(int i :  this.grille.getTuilesAssechables(jCourant.getContraintes(), jCourant.getPosition().getId())){
+              //this.vuePlateau.surbriller(i);
+          }  
+            this.phaseAssechement=true;
+        }
+        
+        else if(arg == Commandes.TERMINER){
+            this.finTour(); // fin du tour
+        }
+        
+         if(arg instanceof Integer){
+             if(phaseDeDeplacement==true){
+                 if (this.grille.getTuilesAccessibles(jCourant.getContraintes(), jCourant.getPosition().getId(), powerpilote).contains(arg)){
+                      this.jCourant.getPosition().getAventuriers().remove(jCourant);
+                      this.jCourant.setPosition(this.grille.getTuileAvecID((int)arg));
+                      this.phaseDeDeplacement=false;
+                      actionsRestantes--;
+                 }
+                 else{
+                     //on ne peut pas se déplacer là
+                 }
+                         
+             }
+             if(phaseAssechement==true && this.grille.getTuilesAccessibles(jCourant.getContraintes(), jCourant.getPosition().getId(), powerpilote).contains(arg)){
+                this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
+                this.phaseAssechement=false;
+                actionsRestantes--;
+             }
+             
+             
+         }  
+         
     }
     
     public void initialiserPartie() {
@@ -318,7 +368,54 @@ public class Controleur implements Observer {
         vueRegles = new VueRegles();        
         this.vueRegles.addObserver(this);
     }
+    
+    public void piocherCartesTirage(){
         
+        
+        this.jCourant.addCarte(this.piocheTirage[this.piocheTirage.length-1]);
+        this.jCourant.addCarte(this.piocheTirage[this.piocheTirage.length-2]);
+        //passer en arraylist
+        this.piocheTirage[this.piocheTirage.length-1]=null; //ça ne remove pas
+        this.piocheTirage[this.piocheTirage.length-1]=null;
+
+//        this.deffausseTirage.add();
+//        this.deffausseTirage.add();
+    }
+
+    
+    
+    public void recupererTresor(){
+        if(this.jCourant.getPosition().getTresor()!=null){ //Si il y a une carte
+        int nbTresor=0;
+        for (CarteTresor t :this.jCourant.getTresors()){
+            if(t.getTypeTresor()==this.jCourant.getPosition().getTresor()){
+                nbTresor++;
+            }
+            
+        }
+        if(nbTresor==4 && !this.tresorsGagnes.contains(this.jCourant.getPosition().getTresor())){ // si on a 4 cartes trésor et qu'on a pas déjà le trésor
+            this.tresorsGagnes.add(this.jCourant.getPosition().getTresor());
+            //mettre dans la défausse les 4 cartes trésor
+        }
+        else if(nbTresor!=4){
+            //ta pas les 4 cartes trésor
+        }
+        else {
+            //tu a déjà le trésor
+        }
+    }
+        else{
+            //ya pas de trésors sur ta carte
+        }
+        
+        
+    }
+
+    private void finTour() {
+        //faire la distribution des cartes
+        //passer au joueur suivant
+        this.actionsRestantes=3;
+    }
 }
         
         
