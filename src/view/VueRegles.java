@@ -7,6 +7,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,10 +16,12 @@ import java.util.Observable;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
 import util.Utils;
 
@@ -40,33 +43,35 @@ public class VueRegles extends Observable{
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Règles du jeu");
-        window.setSize(900, 900);
+        window.setSize(700, 700);
         
         
         mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
         
-        gridPanel = new JPanel(new GridLayout(8, 1));
-//        tentative de scroll pour les regles
-//        scroll = new JScrollPane(gridPanel);
-//        window.add(scroll);
-//        scroll.setLayout(new ScrollPaneLayout());
-                
-        southPanel = new JPanel(new GridLayout(1, 3));
-        mainPanel.add(gridPanel, BorderLayout.CENTER);
-        mainPanel.add(southPanel, BorderLayout.SOUTH);
+        JEditorPane html = new JEditorPane();
+        html.setContentType("text/html");
         
+        
+        JScrollPane scrollPane = new JScrollPane(html);        
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        mainPanel.add(scrollPane, BorderLayout.CENTER) ;
+        
+        String texte = "";
         
         
         for (Integer i = 0; i < 8; i++) {
             int j = i + 1;
-            ImageIcon icon = new ImageIcon(new ImageIcon("images/regles/regle-page-00" + j + ".jpg").getImage()); 
-            JLabel image = new JLabel(icon);
-            gridPanel.add(image);
-            image.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-            
-            
+            texte += "<div> <p> <img src=\"file:images/regles/regle-page-00" + j + ".jpg\" width=700 height=933 /> </p>  </div>" ; //style=\"width:700px;height:933px;\" 
+            html.setText(texte);  
+
         }
+        
+        
+        southPanel = new JPanel(new GridLayout(1, 3));
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
+
         
         boutonQuitter = new JButton("Quitter");
         boutonQuitter.addActionListener(new ActionListener() {
@@ -81,12 +86,15 @@ public class VueRegles extends Observable{
         southPanel.add(boutonQuitter);
         southPanel.add(new JLabel("                    "));
         
-        window.setVisible(true);
         window.setLocationRelativeTo(null);
     }
     
     public void fermerFenetre() {
         window.dispose();
+    }
+    
+    public void afficherFenetre() {
+        window.setVisible(true);
     }
     
     

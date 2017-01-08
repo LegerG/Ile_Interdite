@@ -79,7 +79,9 @@ public class Controleur implements Observer {
     public Controleur() {
         this.vueConnexion = new VueConnexion();
         this.vueConnexion.addObserver(this);
-    
+        
+        vueRegles = new VueRegles();        
+        this.vueRegles.addObserver(this);
     
     }
 
@@ -110,7 +112,6 @@ public class Controleur implements Observer {
           }
           this.phaseDeDeplacement=true;
         }
-          
         else if(arg == Commandes.ASSECHER){
             for(int i :  this.grille.getTuilesAssechables(jCourant.getContraintes(), jCourant.getPosition().getId())){
               //this.vuePlateau.surbriller(i);
@@ -365,8 +366,8 @@ public class Controleur implements Observer {
     }
     
     public void afficherRegles() {
-        vueRegles = new VueRegles();        
-        this.vueRegles.addObserver(this);
+        vueRegles.afficherFenetre();
+        
     }
     
     public void piocherCartesTirage(){
