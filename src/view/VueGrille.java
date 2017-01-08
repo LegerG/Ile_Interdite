@@ -82,8 +82,11 @@ public class VueGrille extends Observable {
         return grillePanel;
     }
 
+    public ArrayList<VueTuile> getVueTuiles() {
+        return vueTuiles;
+    }
+
    
-    
     
     
     

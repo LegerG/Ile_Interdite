@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import model.cases.Grille;
+import util.Utils;
 
 /**
  *
@@ -52,7 +53,7 @@ public class VuePlateau extends Observable {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
    
-    
+        vueGrille.getVueTuiles().get(0).ajouterPion(Utils.Pion.VERT);
         
     }
     
