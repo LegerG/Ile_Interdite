@@ -47,7 +47,7 @@ public class VueRegles extends Observable{
         window.add(mainPanel);
         
         gridPanel = new JPanel(new GridLayout(8, 1));
-        //tentative de scroll pour les regles
+//        tentative de scroll pour les regles
 //        scroll = new JScrollPane(gridPanel);
 //        window.add(scroll);
 //        scroll.setLayout(new ScrollPaneLayout());
@@ -90,5 +90,7 @@ public class VueRegles extends Observable{
     }
     
     
-
+    public static void main(String[] args) {
+        VueRegles vueRegle = new VueRegles();
+    }
 }
