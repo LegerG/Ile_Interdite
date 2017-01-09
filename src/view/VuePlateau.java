@@ -70,10 +70,17 @@ public class VuePlateau extends Observable {
         JPanel panelMilieu = new JPanel(new BorderLayout());
         mainPanel.add(panelMilieu);
         
-        vueGrille = new VueGrille(grille);
-        vueGrille.addObserver(o);
-        panelMilieu.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
+        vueGrille = new VueGrille(grille, this);
         
+        mainPanel = new JPanel(new BorderLayout()); 
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        
+        //On met le plateau dans le Center du BorderLayout
+        mainPanel.add(vueGrille, BorderLayout.CENTER);
+        //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
+        
+        
+        window.add(mainPanel);
         vueBouton = new VueBouton();
         panelMilieu.add(vueBouton.getMainPanel(), BorderLayout.CENTER);
         
@@ -95,6 +102,12 @@ public class VuePlateau extends Observable {
     
     public void setPosition(Aventurier jCourant, Tuile nouvellePosition, Tuile anciennePosition) {
         vueGrille.setPosition(jCourant, nouvellePosition, anciennePosition);
+    }
+    
+    public void notifierObservateur(Object arg) {
+        setChanged();
+        notifyObservers(arg);
+        clearChanged();
     }
     
 }
