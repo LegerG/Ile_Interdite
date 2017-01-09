@@ -3,8 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -15,8 +13,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import model.aventuriers.Aventurier;
 import model.cases.Grille;
-import util.Utils;
+import model.cases.Tuile;
 
 /**
  *
@@ -71,6 +70,10 @@ public class VuePlateau extends Observable {
     
     public static void main(String[] args) {
       //  VuePlateau vuePlateau = new VuePlateau(tuiles[]);
+    }
+    
+    public void setPosition(Aventurier jCourant, Tuile nouvellePosition, Tuile anciennePosition) {
+        vueGrille.setPosition(jCourant, nouvellePosition, anciennePosition);
     }
     
 }

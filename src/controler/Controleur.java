@@ -66,8 +66,6 @@ public class Controleur implements Observer {
     private boolean phaseDeDeplacement;
     private int actionsRestantes;
 
-
-    
     //Cartes
     private CarteInondation[] deffausseInondation = new CarteInondation[24];
     private CarteInondation[] piocheInondation = new CarteInondation[24];
@@ -84,7 +82,7 @@ public class Controleur implements Observer {
         this.vueRegles.addObserver(this);
     
     }
-
+    
 
     @Override
     public void update(Observable o, Object arg) {
@@ -215,7 +213,7 @@ public class Controleur implements Observer {
         
     }
     
-     public void remplirPioches() {
+    public void remplirPioches() {
         //Carte inondation
         piocheInondation[0] = new CarteInondation(("LaCarverneDuBrasier"));
         piocheInondation[1] = new CarteInondation(("LesDunesDeLIllusion"));
@@ -413,6 +411,15 @@ public class Controleur implements Observer {
         //faire la distribution des cartes
         //passer au joueur suivant
         this.actionsRestantes=3;
+    }
+    
+    /**
+        Cette méthode déplace le joueur a une nouvelle position
+    */
+    public void deplacerJCourant(Tuile nouvellePosition) {
+        Tuile anciennePosition = jCourant.getPosition();
+        jCourant.setPosition(nouvellePosition);
+        vuePlateau.setPosition(jCourant, nouvellePosition, anciennePosition);
     }
 }
         

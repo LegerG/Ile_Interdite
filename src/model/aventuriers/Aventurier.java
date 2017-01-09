@@ -108,9 +108,10 @@ public abstract class Aventurier extends ObjetIdentifie {
     public RoleAventurier getRoleAventurier() {
         return roleAventurier;
     }
-    
-    
-    
+
+    public Pion getPion() {
+        return pion;
+    }
     
     
     

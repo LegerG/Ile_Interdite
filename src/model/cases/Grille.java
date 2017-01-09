@@ -1,12 +1,8 @@
 package model.cases;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-import view.VueNiveau;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import util.Utils;
 import util.Utils.EtatTuile;
 import static util.Utils.getFORME_GRILLE;
 

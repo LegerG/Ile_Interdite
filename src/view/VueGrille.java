@@ -5,14 +5,15 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import model.aventuriers.Aventurier;
 import model.cases.Grille;
+import model.cases.Tuile;
 import static util.Utils.getFORME_GRILLE;
  
 public class VueGrille extends Observable {
@@ -64,7 +65,6 @@ public class VueGrille extends Observable {
                         }
                     });
                     
-                    
                     t++;
                     
                 } else {
@@ -91,6 +91,17 @@ public class VueGrille extends Observable {
     public void surbriller(Integer i) {
         vuesTuiles.get(i).setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
     }
+    
+    public void setPosition(Aventurier jCourant, Tuile nouvellePosition, Tuile anciennePosition) {
+        //Suppression du pion de jCourant sur l'ancienne tuile
+        VueTuile ancienneTuile = vuesTuiles.get(anciennePosition.getId());
+        ancienneTuile.effacerPion(jCourant.getPion());
+        
+        //Ajout du pion de jCourant sur la nouvelle tuile
+        VueTuile nouvelleTuile = vuesTuiles.get(nouvellePosition.getId());
+        nouvelleTuile.ajouterPion(jCourant.getPion());        
+    }
+    
     
     
 }
