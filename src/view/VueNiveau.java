@@ -189,4 +189,10 @@ public class VueNiveau {
         suite = scanner.nextLine();
         vueNiveau.setNiveau(10);
     }    
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+    
+    
 }

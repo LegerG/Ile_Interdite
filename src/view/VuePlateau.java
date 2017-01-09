@@ -28,6 +28,8 @@ public class VuePlateau extends Observable {
     protected VueGrille vueGrille;
     private JPanel mainPanel;
     private ImageIcon imageFond;
+    private VueNiveau vueNiveau;
+    private VueBouton vueBouton;
     
     public VuePlateau(Grille grille, Observer o) {
                
@@ -40,21 +42,40 @@ public class VuePlateau extends Observable {
         window.setResizable(false);
         
         
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
+//        
+//        vueGrille = new VueGrille(grille);
+//        vueGrille.addObserver(o);
+//        
+//        mainPanel = new JPanel(new BorderLayout()); 
+//        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+//        
+//        //On met le plateau dans le Center du BorderLayout
+//        mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
+//        //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
+        
+        mainPanel = new JPanel(new BorderLayout());
+        window.add(mainPanel);
+        
+        
+        // panel de gauche
+        vueNiveau = new VueNiveau(2);   
+        mainPanel.add(vueNiveau.getMainPanel(), BorderLayout.WEST);
+        
+        // panel de droite 
+        
+        // panel du milieu
+        
+        JPanel panelMilieu = new JPanel(new BorderLayout());
+        mainPanel.add(panelMilieu);
         
         vueGrille = new VueGrille(grille);
         vueGrille.addObserver(o);
+        panelMilieu.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
         
-        mainPanel = new JPanel(new BorderLayout()); 
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-        
-        //On met le plateau dans le Center du BorderLayout
-        mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
-        //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
-        
-        
-        window.add(mainPanel);
+        vueBouton = new VueBouton();
+        panelMilieu.add(vueBouton.getMainPanel(), BorderLayout.CENTER);
         
         window.setLocationRelativeTo(null);
         window.setVisible(true);

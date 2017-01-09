@@ -156,7 +156,7 @@ public class Controleur implements Observer {
         this.vueInscription.fermerFenetre();
         this.vuePlateau = new VuePlateau(grille, this);
         this.vueNiveau = new VueNiveau(nbCartesInnondationsPioches);
-        this.vuePlateau.addObserver(this);
+        //this.vuePlateau.addObserver(this);
         //piocher 6 cartes innondations
         
         //Création des joueurs
