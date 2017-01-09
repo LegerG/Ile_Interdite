@@ -3,11 +3,14 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,6 +28,7 @@ public class VuePlateau extends Observable {
     private ArrayList<JButton> listeBouton = new ArrayList<>();
     protected VueGrille vueGrille;
     private JPanel mainPanel;
+    private ImageIcon imageFond;
     
     public VuePlateau(Grille grille, Observer o) {
                
@@ -55,6 +59,7 @@ public class VuePlateau extends Observable {
         
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+        
    
 //        vueGrille.getVuesTuiles().get(0).ajouterPion(Utils.Pion.VERT);
         

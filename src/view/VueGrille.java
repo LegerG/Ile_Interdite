@@ -33,9 +33,9 @@ public class VueGrille extends Observable {
                     VueTuile v;
                     v = new VueTuile(nomTuile, grille.getTuiles().get(grille.getIdTuiles()[i][j] - 1).getId());
                     vuesTuiles.put(v.getId(), v);
-                    grillePanel.add(v.getTuilePanel());
+                    grillePanel.add(v);
                     
-                    v.getTuilePanel().addMouseListener(new MouseListener() {
+                    v.addMouseListener(new MouseListener() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             setChanged();
@@ -89,7 +89,7 @@ public class VueGrille extends Observable {
     
    
     public void surbriller(Integer i) {
-        vuesTuiles.get(i).getTuilePanel().setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
+        vuesTuiles.get(i).setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
     }
     
     
