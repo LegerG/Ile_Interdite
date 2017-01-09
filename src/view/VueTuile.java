@@ -19,7 +19,7 @@ public class VueTuile extends JPanel {
     
     
     public VueTuile(String nom, Integer id ) {
-        super();
+        
         
         
         this.nomFichier = new JLabel(nom);
@@ -30,7 +30,6 @@ public class VueTuile extends JPanel {
         } catch (IOException ex) {
             System.err.println("Erreur de lecture du fichier" + nomFichier.getText() + ".png");
         }
-        
         
         this.tuilePanel.setLayout(new GridLayout(2, 2));
         this.repaint();
@@ -51,8 +50,7 @@ public class VueTuile extends JPanel {
     
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(imageTuile, 0, 0, 150, 150, null, this);
+        g.drawImage(imageTuile, 0, 0, null);
     }
 
 }
