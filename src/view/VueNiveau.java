@@ -176,19 +176,19 @@ public class VueNiveau {
         }
     }
     
-    public static void main(String[] args) {   
-        VueNiveau vueNiveau = new VueNiveau(1);
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Pour passer au niveau 5, appuyer sur entrée");
-        String suite = scanner.nextLine();        
-        vueNiveau.setNiveau(5);
-
-        System.out.println("Pour passer au niveau 5, appuyer sur entrée");
-        suite = scanner.nextLine();
-        vueNiveau.setNiveau(10);
-    }    
+//    public static void main(String[] args) {   
+//        VueNiveau vueNiveau = new VueNiveau(1);
+//
+//        Scanner scanner = new Scanner(System.in);
+//
+//        System.out.println("Pour passer au niveau 5, appuyer sur entrée");
+//        String suite = scanner.nextLine();        
+//        vueNiveau.setNiveau(5);
+//
+//        System.out.println("Pour passer au niveau 5, appuyer sur entrée");
+//        suite = scanner.nextLine();
+//        vueNiveau.setNiveau(10);
+//    }    
 
     public JPanel getMainPanel() {
         return mainPanel;
