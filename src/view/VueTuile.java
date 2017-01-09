@@ -31,6 +31,7 @@ public class VueTuile extends JPanel {
         this.setOpaque(false);
         
         for (int i = 0; i < 4; i++) {
+            labelsJoueurs.add(new JLabel(""));
             this.add(labelsJoueurs.get(i));
         }
         
