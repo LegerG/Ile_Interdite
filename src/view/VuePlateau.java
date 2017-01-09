@@ -29,7 +29,7 @@ public class VuePlateau extends Observable {
     public VuePlateau(Grille grille, Observer o) {
                
         window = new JFrame();
-        window.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        window.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         window.setTitle("Plateau de Jeu");
         
         // Définit la taille de la fenêtre en pixels
