@@ -1,29 +1,40 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import static java.awt.image.BufferedImage.TYPE_INT_RGB;
-import javax.swing.ImageIcon;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import util.Utils.Pion;
 
-public class VueTuile {
+public class VueTuile extends JPanel {
     private JPanel tuilePanel = new JPanel();
     private JLabel nomFichier;
     private Integer id;
-    private ImageIcon iconTuile;
+    private Image imageTuile;
+    private ArrayList<JLabel> joueursLabels;
     
     
     public VueTuile(String nom, Integer id ) {
+        super();
+        
+        
         this.nomFichier = new JLabel(nom);
         this.id = id;
-        iconTuile = new ImageIcon(new ImageIcon("images/tuiles/" + nomFichier.getText() + ".png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
-        JLabel image = new JLabel(iconTuile);
-        this.tuilePanel.setLayout(new BorderLayout());
-        this.tuilePanel.add(image, BorderLayout.CENTER);
+        
+        try {
+            this.imageTuile = ImageIO.read(new File("images/tuiles/" + nomFichier.getText() + ".png"));
+        } catch (IOException ex) {
+            System.err.println("Erreur de lecture du fichier" + nomFichier.getText() + ".png");
+        }
+        
+        
+        this.tuilePanel.setLayout(new GridLayout(2, 2));
+        this.repaint();
+       
     }
 
     public Integer getId() {
@@ -38,18 +49,10 @@ public class VueTuile {
         return nomFichier;
     }
     
-    /*
-        Cette méthode permet de rajouter un pion sur l'image de la tuile.
-    */
-    public void ajouterPion(Pion pion) {
-        ImageIcon iconPion = new ImageIcon(new ImageIcon("images/pions/pionBleu.png").getImage().getScaledInstance(75, 75, Image.SCALE_DEFAULT));
-        Image imageTuile = iconTuile.getImage();
-        Image imagePion = iconPion.getImage();
-        
-        BufferedImage image = new BufferedImage(150, 150,  TYPE_INT_RGB);
-        Graphics2D g2 = (Graphics2D) imageTuile.getGraphics();
-        g2.drawImage(imageTuile, 150, 150, null);
-        g2.drawImage(imagePion, 150, 150, null);
-
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(imageTuile, 0, 0, 150, 150, null, this);
     }
+
 }
