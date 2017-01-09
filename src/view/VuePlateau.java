@@ -43,14 +43,13 @@ public class VuePlateau extends Observable {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
         
-        vueGrille = new VueGrille(grille);
-        vueGrille.addObserver(o);
+        vueGrille = new VueGrille(grille, this);
         
         mainPanel = new JPanel(new BorderLayout()); 
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         
         //On met le plateau dans le Center du BorderLayout
-        mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
+        mainPanel.add(vueGrille, BorderLayout.CENTER);
         //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
         
         
@@ -74,6 +73,12 @@ public class VuePlateau extends Observable {
     
     public void setPosition(Aventurier jCourant, Tuile nouvellePosition, Tuile anciennePosition) {
         vueGrille.setPosition(jCourant, nouvellePosition, anciennePosition);
+    }
+    
+    public void notifierObservateur(Object arg) {
+        setChanged();
+        notifyObservers(arg);
+        clearChanged();
     }
     
 }

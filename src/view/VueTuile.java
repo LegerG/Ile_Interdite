@@ -27,11 +27,12 @@ public class VueTuile extends JPanel {
         this.nomFichier = nom;
         this.id = id;
         this.setLayout(new GridLayout(2, 2));
-        this.imageTuile = new ImageIcon(new ImageIcon("images/tuiles/" + nomFichier.trim() + ".png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+        this.imageTuile = new ImageIcon(new ImageIcon("images/tuiles/" + nomFichier.trim() + ".png").getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
         this.setOpaque(false);
         
         for (int i = 0; i < 4; i++) {
-            labelsJoueurs.add(new JLabel(""));
+            
+            labelsJoueurs.add(new JLabel());
             this.add(labelsJoueurs.get(i));
         }
         

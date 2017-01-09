@@ -1,12 +1,12 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
-import java.util.Observable;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -16,13 +16,14 @@ import model.cases.Grille;
 import model.cases.Tuile;
 import static util.Utils.getFORME_GRILLE;
  
-public class VueGrille extends Observable {
+public class VueGrille extends JPanel{
     private HashMap<Integer, VueTuile> vuesTuiles = new HashMap<Integer, VueTuile>();
-    private JPanel grillePanel;
+    private VuePlateau vuePlateau;
+    ImageIcon imageFond ;
     
-    public VueGrille (Grille grille) {
-        grillePanel = new JPanel(new GridLayout(6,6));
-        
+    public VueGrille (Grille grille, VuePlateau vuePlateau) {
+        this.setLayout(new GridLayout(6,6));
+        this.vuePlateau = vuePlateau;
         
         int t =0; //indice d'une tuile dans le tableau de tuile en parametre
        
@@ -34,14 +35,12 @@ public class VueGrille extends Observable {
                     VueTuile v;
                     v = new VueTuile(nomTuile, grille.getTuiles().get(grille.getIdTuiles()[i][j] - 1).getId());
                     vuesTuiles.put(v.getId(), v);
-                    grillePanel.add(v);
+                    this.add(v);
                     
                     v.addMouseListener(new MouseListener() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            setChanged();
-                            notifyObservers((Integer) v.getId());
-                            clearChanged();
+                            vuePlateau.notifierObservateur((Integer) v.getId());
                         }
 
                         @Override
@@ -68,18 +67,17 @@ public class VueGrille extends Observable {
                     t++;
                     
                 } else {
-                    ImageIcon icon = new ImageIcon(new ImageIcon("images/ocean.jpg").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT)); 
-                    JLabel image = new JLabel(icon);
-                    grillePanel.add(image);
+//                    ImageIcon icon = new ImageIcon(new ImageIcon("images/ocean.jpg").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT)); 
+//                    JLabel image = new JLabel(icon);
+                    this.add(new JLabel());
                   
                 } 
               
             }
-        } 
-    }
-
-    public JPanel getGrillePanel() {
-        return grillePanel;
+        }
+        imageFond = new ImageIcon(new ImageIcon("images/oceanFond.jpg").getImage().getScaledInstance(900, 900, Image.SCALE_DEFAULT)); 
+        this.setOpaque(false);
+        
     }
 
     public HashMap<Integer, VueTuile> getVuesTuiles() {
@@ -102,7 +100,10 @@ public class VueGrille extends Observable {
         nouvelleTuile.ajouterPion(jCourant.getPion());        
     }
     
-    
+    @Override
+    public void paintComponent(Graphics g) {
+        g.drawImage(imageFond.getImage(), 0, 0, null);
+    }
     
 }
     
