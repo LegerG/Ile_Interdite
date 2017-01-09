@@ -47,7 +47,7 @@ public class VuePlateau extends Observable {
         vueGrille.addObserver(o);
         
         mainPanel = new JPanel(new BorderLayout()); 
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         
         //On met le plateau dans le Center du BorderLayout
         mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
