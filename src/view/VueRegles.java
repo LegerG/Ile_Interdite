@@ -43,7 +43,7 @@ public class VueRegles extends Observable{
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Règles du jeu");
-        window.setSize(700, 700);
+        window.setSize(900, 900);
         
         
         mainPanel = new JPanel(new BorderLayout());
@@ -51,7 +51,7 @@ public class VueRegles extends Observable{
         
         JEditorPane html = new JEditorPane();
         html.setContentType("text/html");
-        
+        html.setEditable(false);
         
         JScrollPane scrollPane = new JScrollPane(html);        
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -63,7 +63,7 @@ public class VueRegles extends Observable{
         
         for (Integer i = 0; i < 8; i++) {
             int j = i + 1;
-            texte += "<div> <p> <img src=\"file:images/regles/regle-page-00" + j + ".jpg\" width=700 height=933 /> </p>  </div>" ; //style=\"width:700px;height:933px;\" 
+            texte += "<div> <p> <img src=\"file:images/regles/regle-page-00" + j + ".jpg\" width=900 height=1200 /> </p>  </div>" ; //style=\"width:700px;height:933px;\" 
             html.setText(texte);  
 
         }
@@ -73,7 +73,7 @@ public class VueRegles extends Observable{
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
         
-        boutonQuitter = new JButton("Quitter");
+        boutonQuitter = new JButton("J'ai compris");
         boutonQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
