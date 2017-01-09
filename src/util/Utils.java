@@ -26,9 +26,7 @@ public class Utils {
      {0,0,1,1,0,0},        
     };
     
-    //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
-//        window.setLocation(100, dim.height/2-window.getSize().height/2);
 
     
     public static enum Commandes {
