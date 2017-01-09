@@ -17,6 +17,7 @@ import model.cartes.CarteTirage;
 import model.cartes.CarteTresor;
 import model.cases.Tuile;
 import util.Utils.Pion;
+import util.Utils.RoleAventurier;
 
 /**
  *
@@ -29,6 +30,7 @@ public abstract class Aventurier extends ObjetIdentifie {
     protected ArrayList<CarteTirage> main;
     protected ArrayList<CarteTresor> tresors;
     protected String nom;
+    protected RoleAventurier roleAventurier;
     protected Boolean isExplorateur=false;
     protected Boolean isPilote=false;
     protected Boolean isPlongeur=false;
@@ -40,6 +42,7 @@ public abstract class Aventurier extends ObjetIdentifie {
         this.main = new ArrayList<>();
         this.pion = pion;
         this.nom = nom;
+        this.roleAventurier = null;
         
     }
 
@@ -100,6 +103,10 @@ public abstract class Aventurier extends ObjetIdentifie {
 
     public void setTresors(ArrayList<CarteTresor> tresors) {
         this.tresors = tresors;
+    }
+
+    public RoleAventurier getRoleAventurier() {
+        return roleAventurier;
     }
     
     

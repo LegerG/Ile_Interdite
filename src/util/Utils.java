@@ -58,12 +58,22 @@ public class Utils {
     }
     
     public static enum RoleAventurier {
-        Explorateur,
-        Ingenieur,
-        Pilote,
-        Messager,
-        Plongeur,
-        Navigateur;
+        Explorateur("explorateur"),
+        Ingenieur("ingenieur"),
+        Pilote("pilote"),
+        Messager("messager"),
+        Plongeur("plongeur"),
+        Navigateur("navigateur");
+        
+        String libelle ;
+        RoleAventurier(String libelle) {
+            this.libelle = libelle ;
+        }
+
+        @Override
+        public String toString() {
+            return this.libelle ;
+        }
     }
 
     public static enum EtatTuile {

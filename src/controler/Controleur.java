@@ -122,7 +122,6 @@ public class Controleur implements Observer {
             this.finTour(); // fin du tour
         }
         else if(arg instanceof Integer){
-            System.out.println("azerty");
             if(phaseDeDeplacement==true){
                 if (this.grille.getTuilesAccessibles(jCourant.getContraintes(), 
                         jCourant.getPosition().getId(), powerpilote).contains(arg))
