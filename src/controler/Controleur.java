@@ -173,7 +173,7 @@ public class Controleur implements Observer {
            
         }
        
-        if(phaseDeDeplacement==true && phaseJouerCarte==true){ //carte hélico
+        if(phaseDeDeplacement==true && phaseJouerCarte==true){ //carte hélico  | la case de départ est toujours la position de jCourant. Trop lourd sinon
                     this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
                     for(Aventurier j : this.jCourant.getPosition().getAventuriers()){
                        j.setPosition(this.grille.getTuileAvecID((int)arg));
