@@ -4,39 +4,61 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import model.aventuriers.Aventurier;
 import util.Parameters;
  
 public class VueAventurier extends JPanel{
     
-    private HashMap<Integer, JPanel> panelsAventuriers;
-    private VuePlateau vuePlateau;
-    private ArrayList<VueGrilleCarte> vuesGrilleCartes;
     
-    public VueAventurier(ArrayList<Aventurier> aventuriers, VuePlateau vuePlateau){
+    private VuePlateau vuePlateau;
+    private ArrayList<VueCarte> vuesCartes;
+    private JPanel grilleCarte;
+    private JLabel nom;
+    private final JEditorPane html ;
+    
+    public VueAventurier(VuePlateau vuePlateau, Aventurier aventurier){
+        this.setLayout(new BorderLayout());
+        
+        
+        html = new JEditorPane();
+        html.setContentType("text/html");
+        html.setText(aventurier.getNom());
+        
+        html.setMinimumSize(new Dimension(400, 30));
+        html.setPreferredSize(new Dimension(400, 30));
+        html.setEditable(false);
+        this.add(html, BorderLayout.NORTH);
+        
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        
+        
         this.vuePlateau = vuePlateau;
-        this.setLayout(new GridLayout(aventuriers.size(), 1));
         this.setSize(dim.width - 900, Parameters.HAUTEUR_AUTRES_VUES);
-        
-        for (Aventurier a : aventuriers) {
-            //itération pour fabriquer nos vues aventurier
-            JPanel panel = new JPanel(new BorderLayout());
-            panelsAventuriers.put(a.getId(), panel);
-            panel.add(new JLabel(a.getNom()), BorderLayout.CENTER);
-            panel.add(new VueGrilleCarte(vuePlateau), BorderLayout.SOUTH);
-            panel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 5));
-            this.add(panel);
-        }    
-        
-        
+        this.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
+        grilleCarte = new JPanel(new GridLayout(3, 3));
+        for (int i = 0; i < 9; i++) {
+            ImageIcon image = new ImageIcon(new ImageIcon("images/tuiles/Heliport.png").getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
+            grilleCarte.add(new JLabel(image));
+           
+        }
+         
     
     }
+
+    public void setNom(JLabel nom) {
+        this.nom = nom;
+    }
+    
+    
    
 }

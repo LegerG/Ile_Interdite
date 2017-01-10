@@ -2,7 +2,6 @@ package controler;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import model.aventuriers.Aventurier;
@@ -19,7 +18,6 @@ import model.cartes.CarteSacsDeSable;
 import model.cartes.CarteTirage;
 import model.cartes.CarteTresor;
 import view.VueAventurier;
-import view.VueNiveau;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
@@ -161,18 +159,18 @@ public class Controleur implements Observer {
         //Creation des cartes
         remplirPioches();
         
+        //Création des joueurs
+        attribuerRoleJoueurs();
         
         //Création du plateau
         
         remplirTuiles();
         this.vueInscription.fermerFenetre();
         this.vuePlateau = new VuePlateau(grille, joueurs, niveauEau, this);
-        //this.vueNiveau = new VueNiveau(nbCartesInnondationsPioches);
         //this.vuePlateau.addObserver(this);
         //piocher 6 cartes innondations
         
-        //Création des joueurs
-        attribuerRoleJoueurs();
+      
         
         //donner deux cartes aux joueurs
         
@@ -218,6 +216,8 @@ public class Controleur implements Observer {
     }
     
     public void remplirPioches() {
+        
+        
         //Carte inondation
         piocheInondation[0] = new CarteInondation(("LaCarverneDuBrasier"));
         piocheInondation[1] = new CarteInondation(("LesDunesDeLIllusion"));
@@ -305,6 +305,7 @@ public class Controleur implements Observer {
             }
             
             joueurs.add(a);
+            System.out.println(joueurs.size());
             i++;
         }
     }
@@ -384,6 +385,10 @@ public class Controleur implements Observer {
 
 //        this.deffausseTirage.add();
 //        this.deffausseTirage.add();
+    }
+    
+    public void piocherCarteInondation(int nbCarteInondation){
+        
     }
 
     public void recupererTresor(){
