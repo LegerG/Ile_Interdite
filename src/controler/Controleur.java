@@ -177,10 +177,10 @@ public class Controleur implements Observer {
                     this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
                     for(Aventurier j : this.jCourant.getPosition().getAventuriers()){
                        j.setPosition(this.grille.getTuileAvecID((int)arg));
+                       j.getPosition().getAventuriers().add(j);
                     }
 
                     this.jCourant.getPosition().getAventuriers().clear();
-                    this.jCourant.setPosition(this.grille.getTuileAvecID((int)arg));
                     this.phaseDeDeplacement=false;
                     if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
                     phaseJouerCarte=false;
