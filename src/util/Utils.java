@@ -141,7 +141,7 @@ public class Utils {
         ROUGE("Rouge", new Color(255, 0, 0), new Color(176, 79, 79), new Color(255, 145, 145), new Color(226,166,166), "pionRouge.png"),
         VERT("Vert", new Color(0, 195, 0), new Color(79, 153, 79), new Color(145, 255, 145), new Color(166,226,166), "pionVert.png"),
         BLEU("Bleu", new Color(55,194,198), new Color(100,153,154), new Color(175,221,221), new Color(202,219,219), "pionBleu.png"),
-        ORANGE("Orange", new Color(255, 148, 0), new Color(176, 135, 79), new Color(255, 199, 127), new Color(246,198,135), "pionBronze.png"),
+        BRONZE("Bronze", new Color(255, 148, 0), new Color(176, 135, 79), new Color(255, 199, 127), new Color(246,198,135), "pionBronze.png"),
         VIOLET("Violet", new Color(204, 94, 255), new Color(146, 115, 176), new Color(211, 164, 234), new Color(202,176,214), "pionViolet.png"),
         JAUNE("Jaune", new Color(255, 255, 0), new Color(176, 176, 79), new Color(255, 255, 140), new Color(245,245,148), "pionJaune.png") ;    
 
@@ -190,7 +190,7 @@ public class Utils {
             if (ROUGE.name().equals(name)) return ROUGE ;
             if (VERT.name().equals(name)) return VERT ;
             if (BLEU.name().equals(name)) return BLEU ;
-            if (ORANGE.name().equals(name)) return ORANGE ;
+            if (BRONZE.name().equals(name)) return BRONZE ;
             if (VIOLET.name().equals(name)) return VIOLET ;
             if (JAUNE.name().equals(name)) return JAUNE ;
             return null ;

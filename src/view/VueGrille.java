@@ -105,6 +105,13 @@ public class VueGrille extends JPanel{
         g.drawImage(imageFond.getImage(), 0, 0, null);
     }
     
+    public void inonderTuile(Tuile tuile) {
+        vuesTuiles.get(tuile.getId()).inonderTuile();
+    }
+    
+    public void coulerTuile(Tuile tuile) {
+        vuesTuiles.get(tuile.getId()).coulerTuile();
+    }
 }
     
     

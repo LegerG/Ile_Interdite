@@ -155,23 +155,30 @@ public class Controleur implements Observer {
         //Creation des cartes
         remplirPioches();
         
+        remplirTuiles();
         //Création des joueurs
         attribuerRoleJoueurs();
         
+        Tuile[] tuilesMelange = melangerPositions(tuiles);
+        this.grille = new Grille(tuilesMelange);
         //Création du plateau
         
-        remplirTuiles();
+    
         this.vueInscription.fermerFenetre();
         this.vuePlateau = new VuePlateau(grille, joueurs, niveauEau, this);
-        //this.vuePlateau.addObserver(this);
-        //piocher 6 cartes innondations
+        this.vuePlateau.addObserver(this);
         
+        //piocher 6 cartes innondations
+        piocherCarteInondation(6);
       
         
         //donner deux cartes aux joueurs
         
-        //init niveau d'eau
-        
+        //Poser les joueurs sur le plateau
+        for (Aventurier a : joueurs) {
+            placerPion(a, a.getPosition());
+            System.out.println(a.getPosition().getNom());
+        }
         
     }
     
@@ -187,7 +194,7 @@ public class Controleur implements Observer {
         tuiles[7] = new Tuile(null, "LeLagonPerdu");
         tuiles[8] = new Tuile(null, "LeMaraisBrumeux");
         tuiles[9] = new Tuile(Tresor.ZEPHYR, "LeJardinDesMurmures");
-        tuiles[10] = new Tuile(null, "LePontDesAbimes"); this.tuiles[10].setEtatTuile(EtatTuile.INONDEE);
+        tuiles[10] = new Tuile(null, "LePontDesAbimes");
         tuiles[11] = new Tuile(Tresor.CALICE, "LePalaisDesMarees");
         tuiles[12] = new Tuile(null, "LeRocherFantome");
         tuiles[13] = new Tuile(Tresor.PIERRE, "LeTempleDeLaLune");
@@ -204,8 +211,7 @@ public class Controleur implements Observer {
         
         
         
-        Tuile[] tuilesMelange = melangerPositions(tuiles);
-        this.grille = new Grille(tuilesMelange);
+        
 
       
         
@@ -282,26 +288,26 @@ public class Controleur implements Observer {
         Aventurier a = null;
         while (i < vueInscription.getNomJoueur().size()) {
             if (rolesAventurier[i] == RoleAventurier.Explorateur) {
-                a = new Explorateur(tuiles[16], Utils.Pion.VERT, vueInscription.getNomJoueur().get(i));
+                a = new Explorateur(tuiles[19], Utils.Pion.VERT, vueInscription.getNomJoueur().get(i)); 
             }
             else if (rolesAventurier[i] == RoleAventurier.Ingenieur){
-                a = new Ingenieur(tuiles[17], Utils.Pion.ROUGE, vueInscription.getNomJoueur().get(i));
+                a = new Ingenieur(tuiles[16], Utils.Pion.ROUGE, vueInscription.getNomJoueur().get(i)); 
             }
             else if (rolesAventurier[i] == RoleAventurier.Messager){
-                a = new Messager(tuiles[19], Utils.Pion.ORANGE, vueInscription.getNomJoueur().get(i));
+                a = new Messager(tuiles[20], Utils.Pion.BRONZE, vueInscription.getNomJoueur().get(i)); 
             }
             else if (rolesAventurier[i] == RoleAventurier.Navigateur){
-                a = new Navigateur(tuiles[20], Utils.Pion.JAUNE, vueInscription.getNomJoueur().get(i));
+                a = new Navigateur(tuiles[14], Utils.Pion.JAUNE, vueInscription.getNomJoueur().get(i)); 
             }
             else if (rolesAventurier[i] == RoleAventurier.Pilote){
-                a = new Pilote(tuiles[21], Utils.Pion.BLEU, vueInscription.getNomJoueur().get(i));
+                a = new Pilote(tuiles[21], Utils.Pion.BLEU, vueInscription.getNomJoueur().get(i)); 
             }
             else if (rolesAventurier[i] == RoleAventurier.Plongeur){
-                a = new Plongeur(tuiles[14], Utils.Pion.VIOLET, vueInscription.getNomJoueur().get(i));
+                a = new Plongeur(tuiles[17], Utils.Pion.VIOLET, vueInscription.getNomJoueur().get(i));
             }
             
             joueurs.add(a);
-            System.out.println(joueurs.size());
+            System.out.println(joueurs.size()+ a.getPosition().getNom());
             i++;
         }
     }
@@ -373,17 +379,40 @@ public class Controleur implements Observer {
     public void piocherCartesTirage(){
         
         for (int i=1;i<=2;i++){
-           if(this.piocheTirage.get(this.piocheTirage.size()-i) instanceof CarteMonteeDesEaux){
-              // on ajoute la défausse inondation mélangée à sa pioche, et on met la carte à la défausse.
-               melangerCartesInondations(deffausseInondation);
-              this.piocheInondation.addAll(deffausseInondation);
-              this.deffausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-i));
-           }else {
-              this.jCourant.addCarte(this.piocheTirage.get(this.piocheTirage.size()-i)); // ajout de la carte tirage à la main
-           }
-              this.piocheTirage.remove(this.piocheTirage.get(this.piocheTirage.size()-i)); // retrait de la carte piochée de la pioche
-           }
+            if(this.piocheTirage.get(this.piocheTirage.size()-i) instanceof CarteMonteeDesEaux){
+               // on ajoute la défausse inondation mélangée à sa pioche, et on met la carte à la défausse.
+                melangerCartesInondations(deffausseInondation);
+               this.piocheInondation.addAll(deffausseInondation);
+               this.deffausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-i));
+            }else {
+               this.jCourant.addCarte(this.piocheTirage.get(this.piocheTirage.size()-i)); // ajout de la carte tirage à la main
+            }
+               this.piocheTirage.remove(this.piocheTirage.get(this.piocheTirage.size()-i)); // retrait de la carte piochée de la pioche
+            }
         }
+    
+    public void piocherCarteInondation(int nbCarteInondation) {
+        for (int i = 0; i < nbCarteInondation; i++) {
+            
+            CarteInondation carteInondation = piocheInondation.get(piocheInondation.size() - 1);
+            Tuile tuileAInonder = trouverTuile(carteInondation);
+            
+            if (tuileAInonder.getEtatTuile() == EtatTuile.ASSECHEE) {
+                vuePlateau.inonderTuile(tuileAInonder);
+                tuileAInonder.setEtatTuile(EtatTuile.INONDEE);
+                piocheInondation.remove(piocheInondation.size() - 1);
+                deffausseInondation.add(carteInondation);
+            }
+            else if (tuileAInonder.getEtatTuile() == EtatTuile.INONDEE) {
+                vuePlateau.coulerTuile(tuileAInonder);
+                tuileAInonder.setEtatTuile(EtatTuile.COULEE);
+                piocheInondation.remove(piocheInondation.size() - 1);
+            }
+            
+            
+            
+        }
+    }
     
     public void recupererTresor(){
         if(this.jCourant.getPosition().getTresor()!=null){ //teste si la tuile sur laquelle se trouve le jCourant possède un trésor
@@ -425,8 +454,27 @@ public class Controleur implements Observer {
     */
     public void deplacerJCourant(Tuile nouvellePosition) {
         Tuile anciennePosition = jCourant.getPosition();
+        anciennePosition.removeAventurier(jCourant);
+        nouvellePosition.addAventurier(jCourant);
         jCourant.setPosition(nouvellePosition);
         vuePlateau.setPosition(jCourant, nouvellePosition, anciennePosition);
+    }
+    
+    public Tuile trouverTuile(CarteInondation carteInondation) {
+        Tuile tuile = null;
+        for (Tuile t : tuiles) {
+            if (t.getNom() == carteInondation.getNomFichier()) {
+                tuile = t;
+            }
+        }
+        
+        return tuile;
+    }
+    
+    public void placerPion(Aventurier aventurier, Tuile position) {
+//        jCourant.setPosition(position);
+        position.addAventurier(aventurier);
+        vuePlateau.setPosition(aventurier, position, position);
     }
 }
         

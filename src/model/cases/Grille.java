@@ -234,9 +234,11 @@ public class Grille {
          return this.tuiles.get(id);
       }
       
-
-
-
+//      public void setEtatTuile(Tuile tuile) {
+//          tuiles.get(tuile.getId()).setEtatTuile(EtatTuile.COULEE);
+//      }
+      
+      
 }
     
 
