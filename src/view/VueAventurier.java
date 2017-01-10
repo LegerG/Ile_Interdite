@@ -1,11 +1,13 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.aventuriers.Aventurier;
@@ -29,7 +31,7 @@ public class VueAventurier extends JPanel{
             panelsAventuriers.put(a.getId(), panel);
             panel.add(new JLabel(a.getNom()), BorderLayout.CENTER);
             panel.add(new VueGrilleCarte(vuePlateau), BorderLayout.SOUTH);
-            
+            panel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 5));
             this.add(panel);
         }    
         

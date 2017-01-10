@@ -35,7 +35,7 @@ public class VuePlateau extends Observable {
     private VueAventurier vueAventurier;
     
     
-    public VuePlateau(Grille grille, ArrayList<Aventurier> aventuriers, Observer o) {
+    public VuePlateau(Grille grille, ArrayList<Aventurier> aventuriers, int nvEau, Observer o) {
                
         window = new JFrame();
         window.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -64,7 +64,7 @@ public class VuePlateau extends Observable {
         
         
         // panel de gauche
-        vueNiveau = new VueNiveau(2);   
+        vueNiveau = new VueNiveau(nvEau);   
         mainPanel.add(vueNiveau.getMainPanel(), BorderLayout.WEST);
         
         // panel de droite 
@@ -89,7 +89,7 @@ public class VuePlateau extends Observable {
         panelMilieu.add(vueBouton, BorderLayout.SOUTH);
         
         vueAventurier = new VueAventurier(aventuriers, this);
-        mainPanel.add(vueAventurier);
+        mainPanel.add(vueAventurier, BorderLayout.EAST);
         
         
         window.setVisible(true);

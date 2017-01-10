@@ -6,8 +6,10 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,6 +42,7 @@ public class VueBouton extends JPanel{
         label1 = new JLabel("Se déplacer");
         label1.setHorizontalAlignment(JLabel.CENTER);
         panel1.add(label1, BorderLayout.SOUTH);
+        panel1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
         
         panel2 = new JPanel(new BorderLayout()); 
         this.add(panel2);
