@@ -474,7 +474,9 @@ public class Controleur implements Observer {
               this.piocheInondation.addAll(defausseInondation);
               this.niveauEau++;
               this.defausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-1));
-           }else {
+              this.setNbCartesInnondationsPioches(niveauEau);
+           }
+           else {
                if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteTresor()){
                    this.jCourant.addCarteTresor((CarteTresor)this.piocheTirage.get(this.piocheTirage.size()-1));
                }
