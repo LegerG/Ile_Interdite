@@ -14,10 +14,18 @@ import util.Utils.RoleAventurier;
  * @author legergw
  */
 public class Ingenieur extends Aventurier {
-    
+    private int pouvoirdisposi1=0;
     public Ingenieur(Tuile positionDepart, Pion pion, String nom) {
         super(positionDepart, pion, nom);
         this.roleAventurier=RoleAventurier.Ingenieur;
+    }
+
+    public int getPouvoirdisposi1() {
+        return pouvoirdisposi1;
+    }
+
+    public void setPouvoirdisposi1(int pouvoirdisposi1) {
+        this.pouvoirdisposi1 = pouvoirdisposi1;
     }
    
     

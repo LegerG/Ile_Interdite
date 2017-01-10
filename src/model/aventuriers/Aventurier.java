@@ -98,6 +98,25 @@ public abstract class Aventurier extends ObjetIdentifie {
         return pion;
     }
     
+    public Boolean isPilote() {
+        return false ;
+    }
+    public Boolean isNavigateur() {
+        return false ;
+    }
+    public Boolean isIngenieur() {
+        return false ;
+    }
+    public Boolean isExplorateur() {
+        return false ;
+    }
+    public Boolean isMessager() {
+        return false ;
+    }
+    public Boolean isPlongeur() {
+        return false ;
+    }
+    
     
     
 }

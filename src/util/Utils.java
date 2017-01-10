@@ -249,17 +249,17 @@ public class Utils {
         return tableau ;
     }
     
-    public static CarteInondation[] melangerCartesInondations(CarteInondation[] tableau) {
+    public static ArrayList<CarteInondation> melangerCartesInondations(ArrayList<CarteInondation> liste) {
         if (Parameters.ALEAS) {
-            Collections.shuffle(Arrays.asList(tableau));
+            Collections.shuffle(liste);
         }
-        return tableau ;
+        return liste ;
     }
     
-    public static CarteTirage[] melangerCartesTirages(CarteTirage[] tableau) {
+    public static ArrayList<CarteTirage> melangerCartesTirages(ArrayList<CarteTirage> liste) {
         if (Parameters.ALEAS) {
-            Collections.shuffle(Arrays.asList(tableau));
+            Collections.shuffle(liste);
         }
-        return tableau ;
+        return liste ;
     }
 }

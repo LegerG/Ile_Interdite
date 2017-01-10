@@ -3,8 +3,11 @@ package model.cases;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import model.aventuriers.Aventurier;
+import model.aventuriers.Pilote;
 import util.Utils.EtatTuile;
 import util.Utils.RoleAventurier;
+import static util.Utils.RoleAventurier.Pilote;
 import static util.Utils.getFORME_GRILLE;
 
 /**
@@ -66,21 +69,21 @@ public class Grille {
         this.tuiles = tuiles;
     }
 
-    public ArrayList<Integer> getTuilesAccessibles(RoleAventurier role,int idTuile, boolean powerpilote){
+    public ArrayList<Integer> getTuilesAccessibles(Aventurier aventurier){
         ArrayList<Integer> listefinale = new ArrayList<>();
         ArrayList<Integer> listeID = new ArrayList<>();
         int i,j;
         int[] coor = new int[2];
-        coor=this.getCoordonneesAvecId(idTuile);
+        coor=this.getCoordonneesAvecId(aventurier.getPosition().getId());
         i=coor[0];
         j=coor[1];
         
         // Déplacement du pilote avec son pouvoir
-        if(role==RoleAventurier.Pilote && powerpilote){
+        if(aventurier.isPilote() && ((Pilote)aventurier).isPouvoirdispo()){
             for (int x = 0; x<6; x++) {
                 for (int y = 0 ; y<6; y++) {
                     listeID.add(idTuiles[x][y]);
-                    powerpilote=false ; // on doit le mettre à true quand il se déplace sur une case adjacente
+                    ((Pilote)aventurier).setPouvoirdispo(false);
                 }
             }
         }
@@ -88,12 +91,12 @@ public class Grille {
             this.addCasesAdjacentes(i, j, listeID);
 
             // Déplacement explorateur
-            if(role==RoleAventurier.Explorateur) {
+            if(aventurier.isExplorateur()) {
                 this.addCasesDiagonales(i, j, listeID);
             }
             
             // Déplacement plongeur
-            if(role==RoleAventurier.Plongeur){                
+            if(aventurier.isPlongeur()){                
                 int x= 0; int y=0;
                 boolean connexion=true;
                 ArrayList<Integer> listeconnectee = new ArrayList<>(); 
@@ -147,16 +150,16 @@ public class Grille {
         
     }
 
-    public ArrayList<Integer> getTuilesAssechables(RoleAventurier role, int idTuile){
+    public ArrayList<Integer> getTuilesAssechables(Aventurier aventurier){
         ArrayList<Integer> listeID = new ArrayList<>();
         int i,j;
         int[] coor = new int[2];
-        coor=this.getCoordonneesAvecId(idTuile);
+        coor=this.getCoordonneesAvecId(aventurier.getPosition().getId());
         i=coor[0];
         j=coor[1];
         this.addCasesAdjacentes(i, j, listeID);
         listeID.add(idTuiles[i][j]);
-        if(role==RoleAventurier.Explorateur){
+        if(aventurier.isExplorateur()){
            this.addCasesDiagonales(i, j, listeID);
         }
 

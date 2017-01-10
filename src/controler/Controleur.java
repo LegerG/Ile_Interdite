@@ -58,20 +58,18 @@ public class Controleur implements Observer {
     //Partie
     private ArrayList<Aventurier> joueurs = new ArrayList<>();
     private Aventurier jCourant;
-    private Aventurier jExceptionnel; //a prevoir pour les inturuptions de parties lors des deffausses de cartes ou autre
+    private Aventurier jExceptionnel; //a prevoir pour les intéruptions de parties lors des deffausses de cartes ou autre
     private int nbJoueurs;
     private int nbCartesInnondationsPioches;
     private ArrayList<Tresor> tresorsGagnes;
-    private boolean powerpilote=true; // concerne les tuiles accessibles du pilote avec son pouvoir
-    private int poweringe=0; // concerne le fait qu'un ingénieur puisse assécher 2 tuiles pour 1 action.
     private boolean phaseDeDeplacement;
     private boolean phaseAssechement;
 
     //Cartes
-    private CarteInondation[] deffausseInondation = new CarteInondation[24];
-    private CarteInondation[] piocheInondation = new CarteInondation[24];
-    private CarteTirage[] deffausseTirage = new CarteTirage[27];
-    private CarteTirage[] piocheTirage = new CarteTirage[27];
+    private ArrayList<CarteInondation> deffausseInondation = new ArrayList<>();
+    private ArrayList<CarteInondation> piocheInondation = new ArrayList<>();
+    private ArrayList<CarteTirage> deffausseTirage = new ArrayList<>();
+    private ArrayList<CarteTirage> piocheTirage = new ArrayList<>();
     
     
     
@@ -107,13 +105,13 @@ public class Controleur implements Observer {
             this.recupererTresor();
         }
         else if (arg == Commandes.BOUGER){
-            for(int i : this.grille.getTuilesAccessibles(jCourant.getRoleAventurier(), jCourant.getPosition().getId(), powerpilote)){
+            for(int i : this.grille.getTuilesAccessibles(jCourant)){
                 this.vuePlateau.surbriller(i); //fonctionnel, créer une bordure jaune sur les tuiles sur lesquelles ont peut cliquer
             }
             this.phaseDeDeplacement=true;
         }
         else if(arg == Commandes.ASSECHER){
-            for(int i :  this.grille.getTuilesAssechables(jCourant.getRoleAventurier(), jCourant.getPosition().getId())){
+            for(int i :  this.grille.getTuilesAssechables(jCourant)){
               this.vuePlateau.surbriller(i);
           }  
             this.phaseAssechement=true;
@@ -123,32 +121,30 @@ public class Controleur implements Observer {
         }
         else if(arg instanceof Integer){
             if(phaseDeDeplacement==true){
-                if (this.grille.getTuilesAccessibles(jCourant.getRoleAventurier(), 
-                        jCourant.getPosition().getId(), powerpilote).contains(arg))
+                if (this.grille.getTuilesAccessibles(jCourant).contains(arg))
                 {
                     this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
                     this.jCourant.getPosition().getAventuriers().remove(jCourant);
                     this.jCourant.setPosition(this.grille.getTuileAvecID((int)arg));
                     this.phaseDeDeplacement=false;
                     jCourant.setNbAction(jCourant.getNbAction()-1);
-                    poweringe=0;
+                    if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0);
                 }
                 else{
                     //on ne peut pas se déplacer là
                 }
 
             }
-            if(phaseAssechement==true && this.grille.getTuilesAccessibles(jCourant.getRoleAventurier(), 
-                    jCourant.getPosition().getId(), powerpilote).contains(arg))
+            if(phaseAssechement==true && this.grille.getTuilesAccessibles(jCourant).contains(arg))
             {
                 this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
                 this.phaseAssechement=false;
                 if(jCourant.getRoleAventurier()==RoleAventurier.Ingenieur) {
-                    if (poweringe==1){
+                    if (((Ingenieur)jCourant).getPouvoirdisposi1()==1){
                         jCourant.setNbAction(jCourant.getNbAction()+1); 
                         // il faut que l'ingénieur vienne d'assécher une case, et qu'il n'ait pas bougé entre temps.
                     }
-                    poweringe++; }
+                    ((Ingenieur)jCourant).setPouvoirdisposi1(((Ingenieur)jCourant).getPouvoirdisposi1()); // +1
                 
                     jCourant.setNbAction(jCourant.getNbAction()-1);
                 
@@ -157,7 +153,7 @@ public class Controleur implements Observer {
         }  
         
     }
-    
+    }   
     public void initialiserPartie() {
         //Creation des cartes
         remplirPioches();
@@ -220,59 +216,59 @@ public class Controleur implements Observer {
     
     public void remplirPioches() {
         //Carte inondation
-        piocheInondation[0] = new CarteInondation(("LaCarverneDuBrasier"));
-        piocheInondation[1] = new CarteInondation(("LesDunesDeLIllusion"));
-        piocheInondation[2] = new CarteInondation(("LesFalaisesDeLOubli"));
-        piocheInondation[3] = new CarteInondation(("LeTempleDuSoleil"));
-        piocheInondation[4] = new CarteInondation(("LeValDuCrepuscule"));
-        piocheInondation[5] = new CarteInondation(("Observatoire"));
-        piocheInondation[6] = new CarteInondation(("LePalaisDeCorail"));
-        piocheInondation[7] = new CarteInondation(("LeLagonPerdu"));
-        piocheInondation[8] = new CarteInondation(("LeMaraisBrumeux"));
-        piocheInondation[9] = new CarteInondation(("LeJardinDesMurmures"));
-        piocheInondation[10] = new CarteInondation(("LePontDesAbimes"));
-        piocheInondation[11] = new CarteInondation(("LeRocherFantome"));
-        piocheInondation[12] = new CarteInondation(("LaPortedOr"));
-        piocheInondation[13] = new CarteInondation(("LeJardinDesHurlements"));
-        piocheInondation[14] = new CarteInondation(("LaPorteDeBronze"));
-        piocheInondation[15] = new CarteInondation(("LaPorteDeFer"));
-        piocheInondation[16] = new CarteInondation(("LaTourDuGuet"));
-        piocheInondation[17] = new CarteInondation(("LaPorteDeCuivre"));
-        piocheInondation[18] = new CarteInondation(("LaPortedArgent"));
-        piocheInondation[19] = new CarteInondation(("Heliport"));
-        piocheInondation[20] = new CarteInondation(("LaForetPourpre"));
-        piocheInondation[21] = new CarteInondation(("LaCarverneDesOmbres"));
-        piocheInondation[22] = new CarteInondation(("LePalaisDesMarees"));
-        piocheInondation[23] = new CarteInondation(("LeTempleDeLaLune"));
+        piocheInondation.add(new CarteInondation(("LaCarverneDuBrasier")));
+        piocheInondation.add(new CarteInondation(("LesDunesDeLIllusion")));
+        piocheInondation.add(new CarteInondation(("LesFalaisesDeLOubli")));
+        piocheInondation.add(new CarteInondation(("LeTempleDuSoleil")));
+        piocheInondation.add(new CarteInondation(("LeValDuCrepuscule")));
+        piocheInondation.add(new CarteInondation(("Observatoire")));
+        piocheInondation.add(new CarteInondation(("LePalaisDeCorail")));
+        piocheInondation.add(new CarteInondation(("LeLagonPerdu")));
+        piocheInondation.add(new CarteInondation(("LeMaraisBrumeux")));
+        piocheInondation.add(new CarteInondation(("LeJardinDesMurmures")));
+        piocheInondation.add(new CarteInondation(("LePontDesAbimes")));
+        piocheInondation.add(new CarteInondation(("LeRocherFantome")));
+        piocheInondation.add(new CarteInondation(("LaPortedOr")));
+        piocheInondation.add(new CarteInondation(("LeJardinDesHurlements")));
+        piocheInondation.add(new CarteInondation(("LaPorteDeBronze")));
+        piocheInondation.add(new CarteInondation(("LaPorteDeFer")));
+        piocheInondation.add(new CarteInondation(("LaTourDuGuet")));
+        piocheInondation.add(new CarteInondation(("LaPorteDeCuivre")));
+        piocheInondation.add(new CarteInondation(("LaPortedArgent")));
+        piocheInondation.add(new CarteInondation(("Heliport")));
+        piocheInondation.add(new CarteInondation(("LaForetPourpre")));
+        piocheInondation.add(new CarteInondation(("LaCarverneDesOmbres")));
+        piocheInondation.add(new CarteInondation(("LePalaisDesMarees")));
+        piocheInondation.add(new CarteInondation(("LeTempleDeLaLune")));
         
         //Carte Tirage
-        piocheTirage[0] = new CarteTresor("Calice", Tresor.CALICE);
-        piocheTirage[1] = new CarteTresor("Calice", Tresor.CALICE);
-        piocheTirage[2] = new CarteTresor("Calice", Tresor.CALICE);
-        piocheTirage[3] = new CarteTresor("Calice", Tresor.CALICE);
-        piocheTirage[4] = new CarteTresor("Calice", Tresor.CALICE);
-        piocheTirage[5] = new CarteTresor("Cristal", Tresor.CRISTAL);
-        piocheTirage[6] = new CarteTresor("Cristal", Tresor.CRISTAL);
-        piocheTirage[7] = new CarteTresor("Cristal", Tresor.CRISTAL);
-        piocheTirage[8] = new CarteTresor("Cristal", Tresor.CRISTAL);
-        piocheTirage[9] = new CarteTresor("Cristal", Tresor.CRISTAL);
-        piocheTirage[10] = new CarteTresor("Pierre", Tresor.PIERRE);
-        piocheTirage[11] = new CarteTresor("Pierre", Tresor.PIERRE);
-        piocheTirage[12] = new CarteTresor("Pierre", Tresor.PIERRE);
-        piocheTirage[13] = new CarteTresor("Pierre", Tresor.PIERRE);
-        piocheTirage[14] = new CarteTresor("Pierre", Tresor.PIERRE);
-        piocheTirage[15] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
-        piocheTirage[16] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
-        piocheTirage[17] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
-        piocheTirage[18] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
-        piocheTirage[19] = new CarteTresor("Zephyr", Tresor.ZEPHYR);
-        piocheTirage[20] = new CarteSacsDeSable("SacsDeSable");
-        piocheTirage[21] = new CarteSacsDeSable("SacsDeSable");
-        piocheTirage[22] = new CarteHelicoptere("Helicoptere");
-        piocheTirage[23] = new CarteHelicoptere("Helicoptere");
-        piocheTirage[24] = new CarteHelicoptere("Helicoptere");
-        piocheTirage[25] = new CarteMonteeDesEaux("MonteeDesEaux");
-        piocheTirage[26] = new CarteMonteeDesEaux("MonteeDesEaux");
+        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
+        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
+        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
+        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
+        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
+        piocheTirage.add(new CarteTresor("Cristal", Tresor.CRISTAL));
+        piocheTirage.add(new CarteTresor("Cristal", Tresor.CRISTAL));
+        piocheTirage.add(new CarteTresor("Cristal", Tresor.CRISTAL));
+        piocheTirage.add(new CarteTresor("Cristal", Tresor.CRISTAL));
+        piocheTirage.add(new CarteTresor("Cristal", Tresor.CRISTAL));
+        piocheTirage.add(new CarteTresor("Pierre", Tresor.PIERRE));
+        piocheTirage.add(new CarteTresor("Pierre", Tresor.PIERRE));
+        piocheTirage.add(new CarteTresor("Pierre", Tresor.PIERRE));
+        piocheTirage.add(new CarteTresor("Pierre", Tresor.PIERRE));
+        piocheTirage.add(new CarteTresor("Pierre", Tresor.PIERRE));
+        piocheTirage.add(new CarteTresor("Zephyr", Tresor.ZEPHYR));
+        piocheTirage.add(new CarteTresor("Zephyr", Tresor.ZEPHYR));
+        piocheTirage.add(new CarteTresor("Zephyr", Tresor.ZEPHYR));
+        piocheTirage.add(new CarteTresor("Zephyr", Tresor.ZEPHYR));
+        piocheTirage.add(new CarteTresor("Zephyr", Tresor.ZEPHYR));
+        piocheTirage.add(new CarteSacsDeSable("SacsDeSable"));
+        piocheTirage.add(new CarteSacsDeSable("SacsDeSable"));
+        piocheTirage.add(new CarteHelicoptere("Helicoptere"));
+        piocheTirage.add(new CarteHelicoptere("Helicoptere"));
+        piocheTirage.add(new CarteHelicoptere("Helicoptere"));
+        piocheTirage.add(new CarteMonteeDesEaux("MonteeDesEaux"));
+        piocheTirage.add(new CarteMonteeDesEaux("MonteeDesEaux"));
         
         //melange des pioches initiales
         piocheInondation = melangerCartesInondations(piocheInondation);
@@ -375,31 +371,33 @@ public class Controleur implements Observer {
     
     public void piocherCartesTirage(){
         
-        
-        this.jCourant.addCarte(this.piocheTirage[this.piocheTirage.length-1]);
-        this.jCourant.addCarte(this.piocheTirage[this.piocheTirage.length-2]);
-        //passer en arraylist
-        this.piocheTirage[this.piocheTirage.length-1]=null; //ça ne remove pas
-        this.piocheTirage[this.piocheTirage.length-1]=null;
-
-//        this.deffausseTirage.add();
-//        this.deffausseTirage.add();
-    }
-
+        for (int i=1;i<=2;i++){
+           if(this.piocheTirage.get(this.piocheTirage.size()-i) instanceof CarteMonteeDesEaux){
+              // on ajoute la défausse inondation mélangée à sa pioche, et on met la carte à la défausse.
+               melangerCartesInondations(deffausseInondation);
+              this.piocheInondation.addAll(deffausseInondation);
+              this.deffausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-i));
+           }else {
+              this.jCourant.addCarte(this.piocheTirage.get(this.piocheTirage.size()-i)); // ajout de la carte tirage à la main
+           }
+              this.piocheTirage.remove(this.piocheTirage.get(this.piocheTirage.size()-i)); // retrait de la carte piochée de la pioche
+           }
+        }
+    
     public void recupererTresor(){
-        if(this.jCourant.getPosition().getTresor()!=null){ //test si le suite sur la quelle se trouve le jCourant possède un trésor
-            int nbTresor=0;
+        if(this.jCourant.getPosition().getTresor()!=null){ //teste si la tuile sur laquelle se trouve le jCourant possède un trésor
+            int nbCarteTresor=0;
             for (CarteTresor t :this.jCourant.getTresors()){
                 if(t.getTypeTresor()==this.jCourant.getPosition().getTresor()){
-                    nbTresor++;
+                    nbCarteTresor++;
                 }
             }
-            if(nbTresor==4 && !this.tresorsGagnes.contains(this.jCourant.getPosition().getTresor())){ // si on a 4 cartes trésor et qu'on a pas déjà le trésor
-                poweringe=0; 
+            if(nbCarteTresor>=4 && !this.tresorsGagnes.contains(this.jCourant.getPosition().getTresor())){ // si on a 4 cartes trésor et qu'on a pas déjà le trésor
+                if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
                 this.tresorsGagnes.add(this.jCourant.getPosition().getTresor());
                 //mettre dans la défausse les 4 cartes trésor
             }
-            else if(nbTresor!=4){
+            else if(nbCarteTresor<4){
                 //nombre de carte trésor insuffisante
             }
             else {
@@ -414,8 +412,8 @@ public class Controleur implements Observer {
     }
 
     private void finTour() {
-        powerpilote=true;
-        poweringe=0;
+       if(jCourant.isPilote()) ((Pilote)jCourant).setPouvoirdispo(true);
+       if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0);
         //faire la distribution des cartes
         //passer au joueur suivant
       //  this.actionsRestantes=3; PROBLEME avec naviguateur : demander à lylian

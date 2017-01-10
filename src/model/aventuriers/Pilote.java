@@ -14,9 +14,21 @@ import util.Utils.Pion;
  * @author legergw
  */
 public class Pilote extends Aventurier {
+    private boolean pouvoirdispo=true;
+
+
     public Pilote(Tuile positionDepart, Pion pion, String nom) {
         super(positionDepart, pion, nom);
         this.roleAventurier=Utils.RoleAventurier.Pilote;
     }
-    
+    public Boolean isPilote() {
+        return true ;
+    }
+    public boolean isPouvoirdispo() {
+        return pouvoirdispo;
+    }
+
+    public void setPouvoirdispo(boolean pouvoirutilise) {
+        this.pouvoirdispo = pouvoirutilise;
+    }
 }
