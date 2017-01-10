@@ -16,44 +16,66 @@ import javax.swing.JPanel;
  *
  * @author dolidont
  */
-public class VueBouton {
-    private JPanel mainPanel;
-    
+public class VueBouton extends JPanel{  
+    private JLabel label1 ;
+    private JLabel label2 ;
+    private JLabel label3 ;
+    private JLabel label4 ;
+    private JLabel label5 ;
+    private JPanel panel1 ;
+    private JPanel panel2 ;
+    private JPanel panel3 ;
+    private JPanel panel4 ;
+    private JPanel panel5 ;
     
     public VueBouton(){
-        mainPanel = new JPanel(new GridLayout(1,4));
+        this.setLayout(new GridLayout(1,5));
+      
         
-        JPanel panel1 = new JPanel(new BorderLayout()); 
-        mainPanel.add(panel1);
-        ImageIcon deplacer = new ImageIcon(new ImageIcon("images/icones/iconMove.png").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT)); 
+        panel1 = new JPanel(new BorderLayout()); 
+        this.add(panel1);
+        ImageIcon deplacer = new ImageIcon(new ImageIcon("images/icones/iconMove.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT)); 
         JLabel dep = new JLabel(deplacer);
         panel1.add(dep, BorderLayout.CENTER);
-        JLabel label = new JLabel("Se déplacer");
-        panel1.add(label, BorderLayout.SOUTH);
+        label1 = new JLabel("Se déplacer");
+        label1.setHorizontalAlignment(JLabel.CENTER);
+        panel1.add(label1, BorderLayout.SOUTH);
         
-        JPanel panel2 = new JPanel(new BorderLayout()); 
-        mainPanel.add(panel2);
-        ImageIcon assecher = new ImageIcon(new ImageIcon("images/icones/iconDry.png").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT)); 
+        panel2 = new JPanel(new BorderLayout()); 
+        this.add(panel2);
+        ImageIcon assecher = new ImageIcon(new ImageIcon("images/icones/iconDry.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT)); 
         JLabel assech = new JLabel(assecher);
-        panel2.add(assech);
-        label = new JLabel("Assecher");
-        panel2.add(label, BorderLayout.SOUTH);
+        panel2.add(assech, BorderLayout.CENTER);
+        label2 = new JLabel("Assecher");
+        label2.setHorizontalAlignment(JLabel.CENTER);
+        panel2.add(label2, BorderLayout.SOUTH);
         
-        JPanel panel3 = new JPanel(new BorderLayout()); 
-        mainPanel.add(panel3);
-        ImageIcon donnerCarte = new ImageIcon(new ImageIcon("images/icones/iconGive.png").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT)); 
+        panel3 = new JPanel(new BorderLayout()); 
+        this.add(panel3);
+        ImageIcon useCarte = new ImageIcon(new ImageIcon("images/icones/iconShift.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT)); 
+        JLabel carte = new JLabel(useCarte);
+        panel3.add(carte, BorderLayout.CENTER);
+        label3 = new JLabel("Utiliser carte");
+        label3.setHorizontalAlignment(JLabel.CENTER);
+        panel3.add(label3, BorderLayout.SOUTH);
+        
+        panel4 = new JPanel(new BorderLayout()); 
+        this.add(panel4);
+        ImageIcon donnerCarte = new ImageIcon(new ImageIcon("images/icones/iconGive.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT)); 
         JLabel give = new JLabel(donnerCarte);
-        panel1.add(give);
-        label = new JLabel("Donner une carte");
-        panel1.add(label, BorderLayout.SOUTH);
+        panel4.add(give, BorderLayout.CENTER);
+        label4 = new JLabel("Donner une carte");
+        label4.setHorizontalAlignment(JLabel.CENTER);
+        panel4.add(label4, BorderLayout.SOUTH);
         
-        JPanel panel4 = new JPanel(new BorderLayout());
-        mainPanel.add(panel4);
-        ImageIcon tresor = new ImageIcon(new ImageIcon("images/icones/iconGet.png").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT)); 
+        panel5 = new JPanel(new BorderLayout());
+        this.add(panel5);
+        ImageIcon tresor = new ImageIcon(new ImageIcon("images/icones/iconGet.png").getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT)); 
         JLabel get = new JLabel(tresor);
-        panel1.add(get);
-        label = new JLabel("Recevoir trésor");
-        panel1.add(label, BorderLayout.SOUTH);
+        panel5.add(get, BorderLayout.CENTER);
+        label5 = new JLabel("Recevoir trésor");
+        label5.setHorizontalAlignment(JLabel.CENTER);
+        panel5.add(label5, BorderLayout.SOUTH);
         
     } 
     /**
@@ -62,11 +84,6 @@ public class VueBouton {
     public static void main(String[] args) {
         // TODO code application logic here
     }
-
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
-    
     
     
 }
