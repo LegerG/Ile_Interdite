@@ -9,4 +9,8 @@ public class CarteMonteeDesEaux extends CarteTirage {
     public CarteMonteeDesEaux(String nomFichier) {
         super(nomFichier);
     }
+    @Override
+    public boolean isCarteMonteeDesEaux(){
+        return true;
+    }
 }

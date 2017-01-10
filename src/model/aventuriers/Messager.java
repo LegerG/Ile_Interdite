@@ -19,5 +19,8 @@ public class Messager extends Aventurier {
         super(positionDepart, pion, nom);
         this.roleAventurier=Utils.RoleAventurier.Messager;
     }
-    
+    @Override
+        public Boolean isMessager() {
+        return true ;
+    }
 }

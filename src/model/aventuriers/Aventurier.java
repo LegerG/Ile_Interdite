@@ -51,7 +51,9 @@ public abstract class Aventurier extends ObjetIdentifie {
     public void addCarte(CarteTirage carte){
         main.add(carte);
     }
-    
+    public void addCarteTresor(CarteTresor carte){
+        tresors.add(carte);
+    }
     //GETTER AND SETTER
     
     public int getNbAction() {

@@ -19,5 +19,8 @@ public class Plongeur extends Aventurier {
         super(positionDepart, pion, nom);
         this.roleAventurier=Utils.RoleAventurier.Plongeur;
     }
-    
+    @Override
+    public Boolean isPlongeur() {
+        return true ;
+    }
 }

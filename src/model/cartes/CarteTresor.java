@@ -18,5 +18,8 @@ public class CarteTresor extends CarteTirage {
     public Tresor getTypeTresor() {
         return typeTresor;
     }
-    
+    @Override
+    public boolean isCarteTresor(){
+        return true;
+    }
 }

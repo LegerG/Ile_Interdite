@@ -9,4 +9,7 @@ public class CarteHelicoptere extends CarteTirage {
     public CarteHelicoptere(String nomFichier) {
         super(nomFichier);
     }
+    public boolean isCarteHelicoptere(){
+        return true;
+    }
 }
