@@ -89,6 +89,7 @@ public class VuePlateau extends Observable {
         panelMilieu.add(vueBouton, BorderLayout.SOUTH);
         
         vueAventurier = new VueAventurier(aventuriers, this);
+        mainPanel.add(vueAventurier);
         
         
         window.setVisible(true);
