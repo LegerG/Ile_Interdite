@@ -6,6 +6,7 @@
 package model.aventuriers;
 
 import model.cases.Tuile;
+import util.Utils;
 import util.Utils.Pion;
 
 /**
@@ -13,10 +14,9 @@ import util.Utils.Pion;
  * @author legergw
  */
 public class Pilote extends Aventurier {
-    
     public Pilote(Tuile positionDepart, Pion pion, String nom) {
         super(positionDepart, pion, nom);
-        this.isPilote=true;
+        this.roleAventurier=Utils.RoleAventurier.Pilote;
     }
     
 }

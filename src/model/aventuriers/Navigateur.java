@@ -6,6 +6,7 @@
 package model.aventuriers;
 
 import model.cases.Tuile;
+import util.Utils;
 import util.Utils.Pion;
 
 /**
@@ -17,6 +18,7 @@ public class Navigateur extends Aventurier {
     public Navigateur(Tuile positionDepart, Pion pion, String nom) {
         super(positionDepart, pion, nom);
         super.nbAction = 4;
+        this.roleAventurier=Utils.RoleAventurier.Navigateur;
     }
     
 }

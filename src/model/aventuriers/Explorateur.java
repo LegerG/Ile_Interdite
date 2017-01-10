@@ -7,7 +7,9 @@ package model.aventuriers;
 
 import java.util.HashMap;
 import model.cases.Tuile;
+import util.Utils;
 import util.Utils.Pion;
+import util.Utils.RoleAventurier;
 
 /**
  *
@@ -17,7 +19,7 @@ public class Explorateur extends Aventurier{
 
     public Explorateur(Tuile positionDepart, Pion pion, String nom) {
         super(positionDepart, pion, nom);
-        this.isExplorateur=true;
+        this.roleAventurier=RoleAventurier.Explorateur;
     }
 
    

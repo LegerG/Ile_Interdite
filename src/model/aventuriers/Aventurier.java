@@ -31,9 +31,6 @@ public abstract class Aventurier extends ObjetIdentifie {
     protected ArrayList<CarteTresor> tresors;
     protected String nom;
     protected RoleAventurier roleAventurier;
-    protected Boolean isExplorateur=false;
-    protected Boolean isPilote=false;
-    protected Boolean isPlongeur=false;
 
     public Aventurier(Tuile positionDepart, Pion pion, String nom) {
         super();
@@ -42,7 +39,6 @@ public abstract class Aventurier extends ObjetIdentifie {
         this.main = new ArrayList<>();
         this.pion = pion;
         this.nom = nom;
-        this.roleAventurier = null;
         
     }
 
@@ -80,17 +76,6 @@ public abstract class Aventurier extends ObjetIdentifie {
 
     public void setMain(ArrayList<CarteTirage> main) {
         this.main = main;
-    }
-    
-   
-
-    public HashMap<String,Boolean> getContraintes() {
-        HashMap<String,Boolean> listeContraintes = new HashMap<>();
-        listeContraintes.put("plongeur", isPlongeur);
-        listeContraintes.put("explorateur", isExplorateur);
-        listeContraintes.put("pilote", isPilote);
-    
-    return listeContraintes;
     }
 
     public String getNom() {
