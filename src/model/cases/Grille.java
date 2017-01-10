@@ -35,7 +35,7 @@ public class Grille {
     public Grille(Tuile[] tuiles) {
         //Remplissage de this.tuiles
         for (Tuile tuile : tuiles) {
-            this.tuiles.put(tuile.getId() - 1, tuile);
+            this.tuiles.put(tuile.getId(), tuile);
         }
         
         //Remplissage de idTuiles

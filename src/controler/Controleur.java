@@ -84,6 +84,7 @@ public class Controleur implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        ArrayList<Integer> listeIDDynamic = new ArrayList<>();
         if (arg == Commandes.VALIDER_INSCRIPTION) {
             initialiserPartie();    
         } 
@@ -103,6 +104,8 @@ public class Controleur implements Observer {
             this.recupererTresor();
         }
         else if (arg == Commandes.BOUGER){
+            listeIDDynamic.clear();
+            listeIDDynamic.addAll(this.grille.getTuilesAccessibles(jCourant));
             for(int i : this.grille.getTuilesAccessibles(jCourant)){
                 this.vuePlateau.surbriller(i); //fonctionnel, créer une bordure jaune sur les tuiles sur lesquelles ont peut cliquer
             }
@@ -223,6 +226,7 @@ public class Controleur implements Observer {
             placerPion(a, a.getPosition());
             System.out.println(a.getPosition().getNom());
         }
+        jCourant=joueurs.get(0);
         
     }
     
@@ -431,6 +435,7 @@ public class Controleur implements Observer {
               // on ajoute la défausse inondation mélangée à sa pioche, et on met la carte à la défausse.
                melangerCartesInondations(defausseInondation);
               this.piocheInondation.addAll(defausseInondation);
+              this.niveauEau++;
               this.defausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-1));
            }else {
                if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteTresor()){
@@ -444,7 +449,10 @@ public class Controleur implements Observer {
     
     public void piocherCarteInondation(int nbCarteInondation) {
         for (int i = 0; i < nbCarteInondation; i++) {
-            
+            if(piocheInondation.isEmpty()){
+                melangerCartesInondations(defausseInondation);
+                this.piocheInondation.addAll(defausseInondation);
+            }
             CarteInondation carteInondation = piocheInondation.get(piocheInondation.size() - 1);
             Tuile tuileAInonder = trouverTuile(carteInondation);
             
@@ -529,7 +537,7 @@ public class Controleur implements Observer {
     }
     
     public void placerPion(Aventurier aventurier, Tuile position) {
-//        jCourant.setPosition(position);
+        aventurier.setPosition(position);
         position.addAventurier(aventurier);
         vuePlateau.setPosition(aventurier, position, position);
     }
