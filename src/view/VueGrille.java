@@ -24,7 +24,7 @@ public class VueGrille extends JPanel{
     public VueGrille (Grille grille, VuePlateau vuePlateau) {
         this.setLayout(new GridLayout(6,6));
         this.vuePlateau = vuePlateau;
-        
+        this.setSize(900, 900);
         int t =0; //indice d'une tuile dans le tableau de tuile en parametre
        
         for (int i = 0; i <6; i++) {

@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -26,14 +27,16 @@ public class VuePlateau extends Observable {
     
     private JFrame window;
     private ArrayList<JButton> listeBouton = new ArrayList<>();
-    protected VueGrille vueGrille;
     private JPanel mainPanel;
     private JPanel panelMilieu;
     private ImageIcon imageFond;
     private VueNiveau vueNiveau;
     private VueBouton vueBouton;
+    private VueGrille vueGrille;
+    private ArrayList<VueAventurier> vuesAventuriers = new ArrayList<>();
     
-    public VuePlateau(Grille grille, Observer o) {
+    
+    public VuePlateau(Grille grille, ArrayList<Aventurier> aventuriers, int nvEau, Observer o) {
                
         window = new JFrame();
         window.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -45,24 +48,50 @@ public class VuePlateau extends Observable {
         window.setResizable(true);
         window.setLocationRelativeTo(null);
         
-//        window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
-//        
-//        vueGrille = new VueGrille(grille);
-//        vueGrille.addObserver(o);
-//        
-//        mainPanel = new JPanel(new BorderLayout()); 
-//        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-//        
-//        //On met le plateau dans le Center du BorderLayout
-//        mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
-//        //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
+        
+        window.setLayout(new BorderLayout());
+        
+        vueNiveau = new VueNiveau(nvEau);   
+        window.add(vueNiveau, BorderLayout.WEST);
+        
+        vueGrille = new VueGrille(grille, this);
+        window.add(vueGrille, BorderLayout.CENTER);
+        
+        vueBouton = new VueBouton(this);
+        window.add(vueBouton, BorderLayout.SOUTH);
+        
+        JPanel panelAventuriers = new JPanel(new GridLayout(aventuriers.size(), 1));
+        window.add(panelAventuriers, BorderLayout.EAST);
+        
+        for (Aventurier a : aventuriers) {
+            //itération pour fabriquer nos vues aventurier
+            System.out.println("blblbl");
+            VueAventurier vueAventurier = new VueAventurier(this, a);
+            vuesAventuriers.add(vueAventurier);
+            panelAventuriers.add(vueAventurier);
+            
+        }    
+        
+        /**
+        
+        window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
+        
+        vueGrille = new VueGrille(grille);
+        vueGrille.addObserver(o);
+        
+        mainPanel = new JPanel(new BorderLayout()); 
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+        
+        //On met le plateau dans le Center du BorderLayout
+        mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
+        //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
         
         mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
         
         
         // panel de gauche
-        vueNiveau = new VueNiveau(2);   
+        vueNiveau = new VueNiveau(nvEau);   
         mainPanel.add(vueNiveau.getMainPanel(), BorderLayout.WEST);
         
         // panel de droite 
@@ -86,7 +115,10 @@ public class VuePlateau extends Observable {
         vueBouton = new VueBouton();
         panelMilieu.add(vueBouton, BorderLayout.SOUTH);
         
+        vueAventurier = new VueAventurier(aventuriers, this);
+        mainPanel.add(vueAventurier, BorderLayout.EAST);
         
+        */
         
         window.setVisible(true);
         

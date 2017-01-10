@@ -71,4 +71,8 @@ public class VueTuile extends JPanel {
             labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(null);
         }
     }
+    
+    public void inondeTuile() {
+        this.imageTuile = new ImageIcon(new ImageIcon("images/tuiles/" + nomFichier.trim() + "_Inonde.png").getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
+    }
 }

@@ -2,7 +2,6 @@ package controler;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import model.aventuriers.Aventurier;
@@ -19,7 +18,6 @@ import model.cartes.CarteSacsDeSable;
 import model.cartes.CarteTirage;
 import model.cartes.CarteTresor;
 import view.VueAventurier;
-import view.VueNiveau;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
@@ -47,7 +45,6 @@ public class Controleur implements Observer {
     private VueConnexion vueConnexion;
     private ArrayList<VueAventurier> vueAventuriers;
     private VuePlateau vuePlateau;
-    private VueNiveau vueNiveau;
     private VueRegles vueRegles;
     
     //Plateau
@@ -158,18 +155,18 @@ public class Controleur implements Observer {
         //Creation des cartes
         remplirPioches();
         
+        //Création des joueurs
+        attribuerRoleJoueurs();
         
         //Création du plateau
         
         remplirTuiles();
         this.vueInscription.fermerFenetre();
-        this.vuePlateau = new VuePlateau(grille, this);
-        //this.vueNiveau = new VueNiveau(nbCartesInnondationsPioches);
+        this.vuePlateau = new VuePlateau(grille, joueurs, niveauEau, this);
         //this.vuePlateau.addObserver(this);
         //piocher 6 cartes innondations
         
-        //Création des joueurs
-        attribuerRoleJoueurs();
+      
         
         //donner deux cartes aux joueurs
         
@@ -215,6 +212,8 @@ public class Controleur implements Observer {
     }
     
     public void remplirPioches() {
+        
+        
         //Carte inondation
         piocheInondation.add(new CarteInondation(("LaCarverneDuBrasier")));
         piocheInondation.add(new CarteInondation(("LesDunesDeLIllusion")));
@@ -274,6 +273,7 @@ public class Controleur implements Observer {
         piocheInondation = melangerCartesInondations(piocheInondation);
         piocheTirage = melangerCartesTirages(piocheTirage);
         
+        
     }
     
     public void attribuerRoleJoueurs() {
@@ -301,6 +301,7 @@ public class Controleur implements Observer {
             }
             
             joueurs.add(a);
+            System.out.println(joueurs.size());
             i++;
         }
     }
