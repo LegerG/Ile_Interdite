@@ -234,6 +234,17 @@ public class Grille {
          return this.tuiles.get(id);
       }
       
+      public ArrayList<Integer> getAdjacentes(int idposition){ // sert uniquement pour le test du pouvoir du pilote
+        ArrayList<Integer> listeID = new ArrayList<>();
+        int i,j;
+        int[] coor = new int[2];
+        coor=this.getCoordonneesAvecId(idposition);
+        i=coor[0];
+        j=coor[1];
+        this.addCasesAdjacentes(i, j, listeID);
+        return listeID;
+      }
+      
 
 
 

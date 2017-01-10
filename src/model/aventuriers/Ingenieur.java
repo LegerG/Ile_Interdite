@@ -28,6 +28,9 @@ public class Ingenieur extends Aventurier {
         this.pouvoirdisposi1 = pouvoirdisposi1;
     }
    
-    
+    @Override
+        public Boolean isIngenieur() {
+        return true ;
+    }
     
 }

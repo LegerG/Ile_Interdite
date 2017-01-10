@@ -20,5 +20,8 @@ public class Navigateur extends Aventurier {
         super.nbAction = 4;
         this.roleAventurier=Utils.RoleAventurier.Navigateur;
     }
-    
+    @Override
+    public Boolean isNavigateur() {
+        return true ;
+    }
 }

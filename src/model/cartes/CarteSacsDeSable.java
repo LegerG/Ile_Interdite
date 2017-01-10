@@ -9,4 +9,7 @@ public class CarteSacsDeSable extends CarteTirage {
     public CarteSacsDeSable(String nomFichier) {
         super(nomFichier);
     }
+    
+    public boolean isCarteSac() {
+return false;    }
 }

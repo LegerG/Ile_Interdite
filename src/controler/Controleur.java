@@ -61,11 +61,13 @@ public class Controleur implements Observer {
     private ArrayList<Tresor> tresorsGagnes;
     private boolean phaseDeDeplacement;
     private boolean phaseAssechement;
+    private boolean phaseJouerCarte;
+
 
     //Cartes
-    private ArrayList<CarteInondation> deffausseInondation = new ArrayList<>();
+    private ArrayList<CarteInondation> defausseInondation = new ArrayList<>();
     private ArrayList<CarteInondation> piocheInondation = new ArrayList<>();
-    private ArrayList<CarteTirage> deffausseTirage = new ArrayList<>();
+    private ArrayList<CarteTirage> defausseTirage = new ArrayList<>();
     private ArrayList<CarteTirage> piocheTirage = new ArrayList<>();
     
     
@@ -82,7 +84,6 @@ public class Controleur implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        // si jouer une carte hélico, poweringé=0
         if (arg == Commandes.VALIDER_INSCRIPTION) {
             initialiserPartie();    
         } 
@@ -120,12 +121,20 @@ public class Controleur implements Observer {
             if(phaseDeDeplacement==true){
                 if (this.grille.getTuilesAccessibles(jCourant).contains(arg))
                 {
+                    if(jCourant.isPilote()){
+                        if(grille.getAdjacentes(this.jCourant.getPosition().getId()).contains((int)arg)){
+                            ((Pilote)jCourant).setPouvoirdispo(true);
+                        }
+                    }
                     this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
                     this.jCourant.getPosition().getAventuriers().remove(jCourant);
                     this.jCourant.setPosition(this.grille.getTuileAvecID((int)arg));
+                    this.jCourant.getPosition().getAventuriers().add(jCourant);
+                    
                     this.phaseDeDeplacement=false;
                     jCourant.setNbAction(jCourant.getNbAction()-1);
                     if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0);
+ 
                 }
                 else{
                     //on ne peut pas se déplacer là
@@ -141,14 +150,49 @@ public class Controleur implements Observer {
                         jCourant.setNbAction(jCourant.getNbAction()+1); 
                         // il faut que l'ingénieur vienne d'assécher une case, et qu'il n'ait pas bougé entre temps.
                     }
-                    ((Ingenieur)jCourant).setPouvoirdisposi1(((Ingenieur)jCourant).getPouvoirdisposi1()); // +1
-                
-                    jCourant.setNbAction(jCourant.getNbAction()-1);
-                
-                
+                    ((Ingenieur)jCourant).setPouvoirdisposi1(((Ingenieur)jCourant).getPouvoirdisposi1()); // +1                     
             }
+                jCourant.setNbAction(jCourant.getNbAction()-1); 
         }  
+        if(phaseJouerCarte==true){
+           if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
+               for (int i =0;i<24;i++){
+                   this.vuePlateau.surbriller(i);
+               }
+               this.phaseDeDeplacement=true;
+           }
+           else if(jCourant.getMain().get((int)arg).isCarteSac()){
+               for (int i =0;i<24;i++){
+                   this.vuePlateau.surbriller(i);
+               }
+               this.phaseAssechement=true;
+           }
+           else{
+               //On ne peut pas jouer cette carte
+           }
+           
+        }
+       
+        if(phaseDeDeplacement==true && phaseJouerCarte==true){ //carte hélico
+                    this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
+                    for(Aventurier j : this.jCourant.getPosition().getAventuriers()){
+                       j.setPosition(this.grille.getTuileAvecID((int)arg));
+                    }
+
+                    this.jCourant.getPosition().getAventuriers().clear();
+                    this.jCourant.setPosition(this.grille.getTuileAvecID((int)arg));
+                    this.phaseDeDeplacement=false;
+                    if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
+                    phaseJouerCarte=false;
+        }
         
+         if(phaseAssechement==true && phaseJouerCarte==true){ //carte bac à sable
+                   this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
+                   this.phaseAssechement=false;
+                   //assecherlacarte
+                   phaseJouerCarte=false;
+        }
+            
     }
     }   
     public void initialiserPartie() {
@@ -187,7 +231,7 @@ public class Controleur implements Observer {
         tuiles[7] = new Tuile(null, "LeLagonPerdu");
         tuiles[8] = new Tuile(null, "LeMaraisBrumeux");
         tuiles[9] = new Tuile(Tresor.ZEPHYR, "LeJardinDesMurmures");
-        tuiles[10] = new Tuile(null, "LePontDesAbimes"); this.tuiles[10].setEtatTuile(EtatTuile.INONDEE);
+        tuiles[10] = new Tuile(null, "LePontDesAbimes"); 
         tuiles[11] = new Tuile(Tresor.CALICE, "LePalaisDesMarees");
         tuiles[12] = new Tuile(null, "LeRocherFantome");
         tuiles[13] = new Tuile(Tresor.PIERRE, "LeTempleDeLaLune");
@@ -373,15 +417,22 @@ public class Controleur implements Observer {
     public void piocherCartesTirage(){
         
         for (int i=1;i<=2;i++){
-           if(this.piocheTirage.get(this.piocheTirage.size()-i) instanceof CarteMonteeDesEaux){
-              // on ajoute la défausse inondation mélangée à sa pioche, et on met la carte à la défausse.
-               melangerCartesInondations(deffausseInondation);
-              this.piocheInondation.addAll(deffausseInondation);
-              this.deffausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-i));
-           }else {
-              this.jCourant.addCarte(this.piocheTirage.get(this.piocheTirage.size()-i)); // ajout de la carte tirage à la main
+           if(this.piocheTirage.isEmpty()){
+               melangerCartesTirages(defausseTirage);
+               this.piocheTirage.addAll(defausseTirage);
            }
-              this.piocheTirage.remove(this.piocheTirage.get(this.piocheTirage.size()-i)); // retrait de la carte piochée de la pioche
+           if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteMonteeDesEaux()){
+              // on ajoute la défausse inondation mélangée à sa pioche, et on met la carte à la défausse.
+               melangerCartesInondations(defausseInondation);
+              this.piocheInondation.addAll(defausseInondation);
+              this.defausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-1));
+           }else {
+               if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteTresor()){
+                   this.jCourant.addCarteTresor((CarteTresor)this.piocheTirage.get(this.piocheTirage.size()-1));
+               }
+              this.jCourant.addCarte(this.piocheTirage.get(this.piocheTirage.size()-1)); // ajout de la carte tirage à la main
+           }
+              this.piocheTirage.remove(this.piocheTirage.get(this.piocheTirage.size()-1)); // retrait de la carte piochée de la pioche
            }
         }
     
@@ -396,7 +447,13 @@ public class Controleur implements Observer {
             if(nbCarteTresor>=4 && !this.tresorsGagnes.contains(this.jCourant.getPosition().getTresor())){ // si on a 4 cartes trésor et qu'on a pas déjà le trésor
                 if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
                 this.tresorsGagnes.add(this.jCourant.getPosition().getTresor());
-                //mettre dans la défausse les 4 cartes trésor
+                int compteur=0;
+                ArrayList<CarteTresor> listeARemove= new ArrayList<>();
+               for (CarteTresor t :this.jCourant.getTresors()){
+                    
+                    compteur++;
+                
+            }
             }
             else if(nbCarteTresor<4){
                 //nombre de carte trésor insuffisante

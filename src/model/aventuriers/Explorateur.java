@@ -21,7 +21,10 @@ public class Explorateur extends Aventurier{
         super(positionDepart, pion, nom);
         this.roleAventurier=RoleAventurier.Explorateur;
     }
-
+    @Override
+    public Boolean isExplorateur() {
+        return true ;
+    }
    
   
   
