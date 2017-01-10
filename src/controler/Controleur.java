@@ -229,8 +229,11 @@ public class Controleur implements Observer {
     }
     }   
     
-    else{
+    else if(this.nbActions==jCourant.getNbAction()){
             System.out.println("PLUS ACTION");
+    }
+    else{
+        
     }
 }
     public void initialiserPartie() {
