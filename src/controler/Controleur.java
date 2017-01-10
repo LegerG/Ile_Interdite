@@ -61,16 +61,17 @@ public class Controleur implements Observer {
     private int nbJoueurs;
     private int nbCartesInnondationsPioches;
     private ArrayList<Tresor> tresorsGagnes;
-    private boolean powerpilote;
+    private boolean powerpilote=true; // concerne les tuiles accessibles du pilote avec son pouvoir
+    private int poweringe=0; // concerne le fait qu'un ingénieur puisse assécher 2 tuiles pour 1 action.
     private boolean phaseDeDeplacement;
-    private int actionsRestantes;
+    private boolean phaseAssechement;
 
     //Cartes
     private CarteInondation[] deffausseInondation = new CarteInondation[24];
     private CarteInondation[] piocheInondation = new CarteInondation[24];
     private CarteTirage[] deffausseTirage = new CarteTirage[27];
     private CarteTirage[] piocheTirage = new CarteTirage[27];
-    private boolean phaseAssechement;
+    
     
     
     public Controleur() {
@@ -85,6 +86,7 @@ public class Controleur implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        // si jouer une carte hélico, poweringé=0
         if (arg == Commandes.VALIDER_INSCRIPTION) {
             initialiserPartie();    
         } 
@@ -104,15 +106,15 @@ public class Controleur implements Observer {
             this.recupererTresor();
         }
         else if (arg == Commandes.BOUGER){
-            for(int i : this.grille.getTuilesAccessibles(jCourant.getContraintes(), jCourant.getPosition().getId(), powerpilote)){
+            for(int i : this.grille.getTuilesAccessibles(jCourant.getRoleAventurier(), jCourant.getPosition().getId(), powerpilote)){
                 this.vuePlateau.surbriller(i); //fonctionnel, créer une bordure jaune sur les tuiles sur lesquelles ont peut cliquer
             }
             this.phaseDeDeplacement=true;
         }
         else if(arg == Commandes.ASSECHER){
-            for(int i :  this.grille.getTuilesAssechables(jCourant.getContraintes(), jCourant.getPosition().getId())){
-                this.vuePlateau.surbriller(i);
-            }  
+            for(int i :  this.grille.getTuilesAssechables(jCourant.getRoleAventurier(), jCourant.getPosition().getId())){
+              this.vuePlateau.surbriller(i);
+          }  
             this.phaseAssechement=true;
         }
         else if(arg == Commandes.TERMINER){
@@ -120,25 +122,36 @@ public class Controleur implements Observer {
         }
         else if(arg instanceof Integer){
             if(phaseDeDeplacement==true){
-                if (this.grille.getTuilesAccessibles(jCourant.getContraintes(), 
+                if (this.grille.getTuilesAccessibles(jCourant.getRoleAventurier(), 
                         jCourant.getPosition().getId(), powerpilote).contains(arg))
                 {
+                    this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
                     this.jCourant.getPosition().getAventuriers().remove(jCourant);
                     this.jCourant.setPosition(this.grille.getTuileAvecID((int)arg));
                     this.phaseDeDeplacement=false;
-                    actionsRestantes--;
+                    jCourant.setNbAction(jCourant.getNbAction()-1);
+                    poweringe=0;
                 }
                 else{
                     //on ne peut pas se déplacer là
                 }
 
             }
-            if(phaseAssechement==true && this.grille.getTuilesAccessibles(jCourant.getContraintes(), 
+            if(phaseAssechement==true && this.grille.getTuilesAccessibles(jCourant.getRoleAventurier(), 
                     jCourant.getPosition().getId(), powerpilote).contains(arg))
             {
                 this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
                 this.phaseAssechement=false;
-                actionsRestantes--;
+                if(jCourant.getRoleAventurier()==RoleAventurier.Ingenieur) {
+                    if (poweringe==1){
+                        jCourant.setNbAction(jCourant.getNbAction()+1); 
+                        // il faut que l'ingénieur vienne d'assécher une case, et qu'il n'ait pas bougé entre temps.
+                    }
+                    poweringe++; }
+                
+                    jCourant.setNbAction(jCourant.getNbAction()-1);
+                
+                
             }
         }  
         
@@ -199,15 +212,7 @@ public class Controleur implements Observer {
         
         Tuile[] tuilesMelange = melangerPositions(tuiles);
         this.grille = new Grille(tuilesMelange);
-        
-        HashMap<String,Boolean> listeContraintes = new HashMap<>();
-            listeContraintes.put("plongeur", true);
-            listeContraintes.put("explorateur", false);
-            listeContraintes.put("pilote", false);
-            
-        for (Integer i : this.grille.getTuilesAccessibles(listeContraintes, 2,true)){
-            System.out.println("    "+i);
-        }
+
       
         
     }
@@ -390,6 +395,7 @@ public class Controleur implements Observer {
                 }
             }
             if(nbTresor==4 && !this.tresorsGagnes.contains(this.jCourant.getPosition().getTresor())){ // si on a 4 cartes trésor et qu'on a pas déjà le trésor
+                poweringe=0; 
                 this.tresorsGagnes.add(this.jCourant.getPosition().getTresor());
                 //mettre dans la défausse les 4 cartes trésor
             }
@@ -408,9 +414,11 @@ public class Controleur implements Observer {
     }
 
     private void finTour() {
+        powerpilote=true;
+        poweringe=0;
         //faire la distribution des cartes
         //passer au joueur suivant
-        this.actionsRestantes=3;
+      //  this.actionsRestantes=3; PROBLEME avec naviguateur : demander à lylian
     }
     
     /**

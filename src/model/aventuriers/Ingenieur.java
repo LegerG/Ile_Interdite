@@ -7,6 +7,7 @@ package model.aventuriers;
 
 import model.cases.Tuile;
 import util.Utils.Pion;
+import util.Utils.RoleAventurier;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Ingenieur extends Aventurier {
     
     public Ingenieur(Tuile positionDepart, Pion pion, String nom) {
         super(positionDepart, pion, nom);
+        this.roleAventurier=RoleAventurier.Ingenieur;
     }
    
     

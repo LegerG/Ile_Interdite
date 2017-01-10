@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import util.Utils.EtatTuile;
+import util.Utils.RoleAventurier;
 import static util.Utils.getFORME_GRILLE;
 
 /**
@@ -65,7 +66,7 @@ public class Grille {
         this.tuiles = tuiles;
     }
 
-    public ArrayList<Integer> getTuilesAccessibles(HashMap<String, Boolean> listeContrainte,int idTuile, boolean powerpilote){
+    public ArrayList<Integer> getTuilesAccessibles(RoleAventurier role,int idTuile, boolean powerpilote){
         ArrayList<Integer> listefinale = new ArrayList<>();
         ArrayList<Integer> listeID = new ArrayList<>();
         int i,j;
@@ -75,10 +76,11 @@ public class Grille {
         j=coor[1];
         
         // Déplacement du pilote avec son pouvoir
-        if(listeContrainte.get("pilote") && powerpilote){
+        if(role==RoleAventurier.Pilote && powerpilote){
             for (int x = 0; x<6; x++) {
                 for (int y = 0 ; y<6; y++) {
                     listeID.add(idTuiles[x][y]);
+                    powerpilote=false ; // on doit le mettre à true quand il se déplace sur une case adjacente
                 }
             }
         }
@@ -86,21 +88,19 @@ public class Grille {
             this.addCasesAdjacentes(i, j, listeID);
 
             // Déplacement explorateur
-            if(listeContrainte.get("explorateur")) {
+            if(role==RoleAventurier.Explorateur) {
                 this.addCasesDiagonales(i, j, listeID);
             }
             
             // Déplacement plongeur
-            if(listeContrainte.get("plongeur")){                
+            if(role==RoleAventurier.Plongeur){                
                 int x= 0; int y=0;
                 boolean connexion=true;
                 ArrayList<Integer> listeconnectee = new ArrayList<>(); 
                 do {
                     this.ajoutListeSansDoublon(listefinale, listeID); 
                     // on ajoute les cases de listeID dans la liste finale de tuiles accessibles
-                    for (Integer n : listefinale){
-                        System.out.println("liste finale : "+n);
-                    }
+
                     connexion=true;
 
 
@@ -122,9 +122,7 @@ public class Grille {
                         if (listeID.contains(n)) listeID.remove(n);  
                         // On retire a la liste ID ce qui a été déjà pris en compte = ce qui est dans la liste finale
                     } 
-                    for (Integer n : listeconnectee){
-                        System.out.println("liste connectée : "+n);
-                    }
+
                     listeconnectee.clear(); 
                     // on veut maintenant avoir dans la liste connectée les tuiles inondées adjacentes des tuiles inondées
                 } while (!connexion);
@@ -149,7 +147,7 @@ public class Grille {
         
     }
 
-    public ArrayList<Integer> getTuilesAssechables(HashMap<String, Boolean> listeContrainte, int idTuile){
+    public ArrayList<Integer> getTuilesAssechables(RoleAventurier role, int idTuile){
         ArrayList<Integer> listeID = new ArrayList<>();
         int i,j;
         int[] coor = new int[2];
@@ -158,7 +156,7 @@ public class Grille {
         j=coor[1];
         this.addCasesAdjacentes(i, j, listeID);
         listeID.add(idTuiles[i][j]);
-        if(listeContrainte.get("explorateur")){
+        if(role==RoleAventurier.Explorateur){
            this.addCasesDiagonales(i, j, listeID);
         }
 
