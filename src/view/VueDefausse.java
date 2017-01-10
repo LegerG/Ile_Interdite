@@ -24,7 +24,7 @@ import util.Utils;
  *
  * @author Julie
  */
-public class VueDefausse extends Observable{
+public class VueDefausse {
     private JFrame window;
     
     public VueDefausse(ArrayList<Utils.Tresor> tresorsGagnes, ArrayList<CarteInondation> defausseInondation, ArrayList<CarteTirage> defausseTirage){

@@ -31,7 +31,7 @@ import static util.Utils.melangerCartesTirages;
 import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
 import view.VueConnexion;
-import view.VueDefausse;
+//import view.VueDefausse;
 import view.VueInscription;
 import view.VueRegles;
 
@@ -47,7 +47,7 @@ public class Controleur implements Observer {
     private ArrayList<VueAventurier> vueAventuriers;
     private VuePlateau vuePlateau;
     private VueRegles vueRegles;
-    private VueDefausse vueDefausse;
+//    private VueDefausse vueDefausse;
     
     //Plateau
     private Grille grille;
@@ -125,7 +125,7 @@ public class Controleur implements Observer {
         }
         
         else if(arg == Commandes.VOIR_DEFAUSSE) {
-            vueDefausse = new VueDefausse(tresorsGagnes, defausseInondation, defausseTirage);
+//            vueDefausse = new VueDefausse(tresorsGagnes, defausseInondation, defausseTirage);
 //            vueDefausse.addObserver(this);
         }
         else if(arg instanceof Integer){
