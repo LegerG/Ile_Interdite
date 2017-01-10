@@ -31,9 +31,9 @@ public class VueGrille extends JPanel{
             for (int j = 0 ; j < 6; j++) {
                 if (getFORME_GRILLE()[i][j] != 0) {
                     
-                    String nomTuile = grille.getTuiles().get(grille.getIdTuiles()[i][j] - 1).getNom();
+                    String nomTuile = grille.getTuiles().get(grille.getIdTuiles()[i][j]).getNom();
                     VueTuile v;
-                    v = new VueTuile(nomTuile, grille.getTuiles().get(grille.getIdTuiles()[i][j] - 1).getId());
+                    v = new VueTuile(nomTuile, grille.getTuiles().get(grille.getIdTuiles()[i][j]).getId());
                     vuesTuiles.put(v.getId(), v);
                     this.add(v);
                     
@@ -88,6 +88,13 @@ public class VueGrille extends JPanel{
    
     public void surbriller(Integer i) {
         vuesTuiles.get(i).setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
+    }
+    
+    public void desurbriller() {
+        for (VueTuile v : vuesTuiles.values()){
+            v.setBorder(null);
+        }
+        
     }
     
     public void setPosition(Aventurier jCourant, Tuile nouvellePosition, Tuile anciennePosition) {

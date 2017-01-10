@@ -27,15 +27,17 @@ public class VueBouton extends JPanel{
     private JLabel label3 ;
     private JLabel label4 ;
     private JLabel label5 ;
+    private JLabel label6 ;
     private JPanel panel1 ;
     private JPanel panel2 ;
     private JPanel panel3 ;
     private JPanel panel4 ;
     private JPanel panel5 ;
+    private JPanel panel6 ;
     private VuePlateau vuePlateau;
     
     public VueBouton(VuePlateau vuePlateau){
-        this.setLayout(new GridLayout(1,5));
+        this.setLayout(new GridLayout(1,6));
         this.vuePlateau = vuePlateau;
         
         panel1 = new JPanel(new BorderLayout()); 
@@ -207,6 +209,42 @@ public class VueBouton extends JPanel{
             public void mouseExited(MouseEvent e) {
             }
         });
+        
+        panel6 = new JPanel(new BorderLayout()); 
+        this.add(panel6);
+        ImageIcon finTour = new ImageIcon(new ImageIcon("images/icones/iconMove.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)); 
+        JLabel fin = new JLabel(finTour);
+        panel6.add(dep, BorderLayout.CENTER);
+        label6 = new JLabel("Finir Tour");
+        label6.setHorizontalAlignment(JLabel.CENTER);
+        panel6.add(label6, BorderLayout.SOUTH);
+        panel6.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel6.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                notifierObservateur(Utils.Commandes.TERMINER);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        
+        
         
     } 
     /**

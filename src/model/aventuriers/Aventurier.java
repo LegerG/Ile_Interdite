@@ -1,18 +1,7 @@
 package model.aventuriers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import model.ObjetIdentifie;
-
-import model.cases.Grille;
-
-/**
- *
- * @author IUT2-Dept Info
- */
-
- 
-
 import model.cartes.CarteTirage;
 import model.cartes.CarteTresor;
 import model.cases.Tuile;

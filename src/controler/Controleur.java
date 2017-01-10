@@ -116,9 +116,11 @@ public class Controleur implements Observer {
         }
         else if(arg == Commandes.TERMINER){
             this.finTour(); // fin du tour
+            System.out.println("blbllblblbll");
         }
         else if(arg instanceof Integer){
             if(phaseDeDeplacement==true){
+                this.vuePlateau.desurbriller();
                 if (this.grille.getTuilesAccessibles(jCourant).contains(arg))
                 {
                     if(jCourant.isPilote()){
@@ -134,12 +136,14 @@ public class Controleur implements Observer {
                     this.phaseDeDeplacement=false;
                     jCourant.setNbAction(jCourant.getNbAction()-1);
                     if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0);
- 
+                    System.out.println(jCourant.getPosition().getNom());
+                    
                 }
                 else{
                     //on ne peut pas se déplacer là
+                    
                 }
-
+                
             }
             if(phaseAssechement==true && this.grille.getTuilesAccessibles(jCourant).contains(arg))
             {
@@ -223,6 +227,7 @@ public class Controleur implements Observer {
             placerPion(a, a.getPosition());
         }
         
+        jCourant = joueurs.get(0);
     }
     
     public void remplirTuiles() {
@@ -497,10 +502,16 @@ public class Controleur implements Observer {
     }
 
     private void finTour() {
-       if(jCourant.isPilote()) ((Pilote)jCourant).setPouvoirdispo(true);
-       if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0);
+        if(jCourant.isPilote()) ((Pilote)jCourant).setPouvoirdispo(true);
+        if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0);
+       
+        
         //faire la distribution des cartes
+//        piocherCartesTirage();
+        piocherCarteInondation(nbCartesInnondationsPioches);
+        vuePlateau.getWindow().setVisible(true);
         //passer au joueur suivant
+        changerJCourant();
       //  this.actionsRestantes=3; PROBLEME avec naviguateur : demander à lylian
     }
     
@@ -527,10 +538,15 @@ public class Controleur implements Observer {
     }
     
     public void placerPion(Aventurier aventurier, Tuile position) {
-//        jCourant.setPosition(position);
+//        .setPosition(position);
         position.addAventurier(aventurier);
         vuePlateau.setPosition(aventurier, position, position);
     }
+    
+    public void changerJCourant() {
+        jCourant = joueurs.get((joueurs.indexOf(jCourant) + 1) % nbJoueurs);
+    }
+    
 }
         
         

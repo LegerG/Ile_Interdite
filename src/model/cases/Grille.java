@@ -35,7 +35,7 @@ public class Grille {
     public Grille(Tuile[] tuiles) {
         //Remplissage de this.tuiles
         for (Tuile tuile : tuiles) {
-            this.tuiles.put(tuile.getId() - 1, tuile);
+            this.tuiles.put(tuile.getId(), tuile);
         }
         
         //Remplissage de idTuiles
@@ -83,7 +83,7 @@ public class Grille {
             for (int x = 0; x<6; x++) {
                 for (int y = 0 ; y<6; y++) {
                     listeID.add(idTuiles[x][y]);
-                    ((Pilote)aventurier).setPouvoirdispo(false);
+               //     ((Pilote)aventurier).setPouvoirdispo(false);
                 }
             }
         }
@@ -168,7 +168,7 @@ public class Grille {
         while(it.hasNext()){
             Integer id = (Integer) it.next();
             if (tuiles.get(id)==null || tuiles.get(id).getEtatTuile()!=EtatTuile.INONDEE){
-                System.out.println(id);
+//                System.out.println(id);
                 it.remove();
             }
         }
@@ -205,19 +205,19 @@ public class Grille {
           int i=0,j=0;
           boolean trouve=false;
           while (i<6 && !trouve) {
-              System.out.println(i);
+//              System.out.println(i);
               j=0;
               while(j<6 && !trouve){                 
                  if (idTuiles[i][j]!=null && idTuiles[i][j]==idTuile) trouve=true;
-                   System.out.println("j :" +j);
+//                   System.out.println("j :" +j);
                     j++;
                 }
               i++;
               }
           i--;
           j--;
-          System.out.println(i); System.out.println(j);
-          System.out.println("TROUVE");
+//          System.out.println(i); System.out.println(j);
+//          System.out.println("TROUVE");
           coor[0]=i;
           coor[1]=j;
           return coor;

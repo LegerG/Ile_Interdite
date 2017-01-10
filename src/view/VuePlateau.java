@@ -65,7 +65,6 @@ public class VuePlateau extends Observable {
         
         for (Aventurier a : aventuriers) {
             //itération pour fabriquer nos vues aventurier
-            System.out.println("blblbl");
             VueAventurier vueAventurier = new VueAventurier(this, a);
             vuesAventuriers.add(vueAventurier);
             panelAventuriers.add(vueAventurier);
@@ -131,6 +130,10 @@ public class VuePlateau extends Observable {
         vueGrille.surbriller(i);
     }
     
+     public void desurbriller() {
+        vueGrille.desurbriller();
+    }
+    
     public static void main(String[] args) {
       //  VuePlateau vuePlateau = new VuePlateau(tuiles[]);
     }
@@ -152,4 +155,10 @@ public class VuePlateau extends Observable {
     public void coulerTuile(Tuile tuile) {
         vueGrille.coulerTuile(tuile);
     }
+
+    public JFrame getWindow() {
+        return window;
+    }
+    
+    
 }
