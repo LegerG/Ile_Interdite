@@ -248,6 +248,11 @@ public class Grille {
 
 
 
+//      public void setEtatTuile(Tuile tuile) {
+//          tuiles.get(tuile.getId()).setEtatTuile(EtatTuile.COULEE);
+//      }
+      
+      
 }
     
 

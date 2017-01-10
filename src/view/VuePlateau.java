@@ -145,4 +145,11 @@ public class VuePlateau extends Observable {
         clearChanged();
     }
     
+    public void inonderTuile(Tuile tuile) {
+        vueGrille.inonderTuile(tuile);
+    }
+    
+    public void coulerTuile(Tuile tuile) {
+        vueGrille.coulerTuile(tuile);
+    }
 }

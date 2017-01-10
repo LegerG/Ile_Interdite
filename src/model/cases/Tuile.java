@@ -56,6 +56,12 @@ public class Tuile extends ObjetIdentifie {
         this.aventuriers = aventuriers;
     }
     
+    public void addAventurier(Aventurier a) {
+        aventuriers.add(a);
+    }
     
+    public void removeAventurier(Aventurier a) {
+        aventuriers.remove(a);
+    }
     
 }
