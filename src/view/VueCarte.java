@@ -31,7 +31,6 @@ public class VueCarte extends JPanel{
         return id;
     }
     
-    
     @Override
     public void paintComponent(Graphics g) {
         g.drawImage(imageCarte.getImage(), 0, 0, null);

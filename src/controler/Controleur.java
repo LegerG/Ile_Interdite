@@ -456,6 +456,7 @@ public class Controleur implements Observer {
                 melangerCartesInondations(defausseInondation);
                 this.piocheInondation.addAll(defausseInondation);
             }
+            
             CarteInondation carteInondation = piocheInondation.get(piocheInondation.size() - 1);
             Tuile tuileAInonder = trouverTuile(carteInondation);
             
