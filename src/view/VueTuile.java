@@ -61,7 +61,7 @@ public class VueTuile extends JPanel {
     }
     
     public void afficherPion(Pion pion) {
-        ImageIcon iconPion = new ImageIcon(new ImageIcon("images/pions/pion" + pion.toString() + ".png").getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT));
+        ImageIcon iconPion = new ImageIcon(new ImageIcon("images/pions/" + pion.getPath()).getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT));
         labelsJoueurs.add(new JLabel(iconPion));
         labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(iconPion);
     }

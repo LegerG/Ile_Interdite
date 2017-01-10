@@ -177,7 +177,6 @@ public class Controleur implements Observer {
         //Poser les joueurs sur le plateau
         for (Aventurier a : joueurs) {
             placerPion(a, a.getPosition());
-            System.out.println(a.getPosition().getNom());
         }
         
     }
@@ -307,7 +306,6 @@ public class Controleur implements Observer {
             }
             
             joueurs.add(a);
-            System.out.println(joueurs.size()+ a.getPosition().getNom());
             i++;
         }
     }
