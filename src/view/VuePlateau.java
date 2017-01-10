@@ -26,14 +26,16 @@ public class VuePlateau extends Observable {
     
     private JFrame window;
     private ArrayList<JButton> listeBouton = new ArrayList<>();
-    protected VueGrille vueGrille;
     private JPanel mainPanel;
     private JPanel panelMilieu;
     private ImageIcon imageFond;
     private VueNiveau vueNiveau;
     private VueBouton vueBouton;
+    private VueGrille vueGrille;
+    private VueAventurier vueAventurier;
     
-    public VuePlateau(Grille grille, Observer o) {
+    
+    public VuePlateau(Grille grille, ArrayList<Aventurier> aventuriers, Observer o) {
                
         window = new JFrame();
         window.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -86,6 +88,7 @@ public class VuePlateau extends Observable {
         vueBouton = new VueBouton();
         panelMilieu.add(vueBouton, BorderLayout.SOUTH);
         
+        vueAventurier = new VueAventurier(aventuriers, this);
         
         
         window.setVisible(true);

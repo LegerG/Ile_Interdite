@@ -13,6 +13,10 @@ public abstract class Carte extends ObjetIdentifie {
         super();
         this.nomFichier = nomFichier;
     }
+
+    public String getNomFichier() {
+        return nomFichier;
+    }
     
     
 }

@@ -47,7 +47,6 @@ public class Controleur implements Observer {
     private VueConnexion vueConnexion;
     private ArrayList<VueAventurier> vueAventuriers;
     private VuePlateau vuePlateau;
-    private VueNiveau vueNiveau;
     private VueRegles vueRegles;
     
     //Plateau
@@ -112,8 +111,8 @@ public class Controleur implements Observer {
         }
         else if(arg == Commandes.ASSECHER){
             for(int i :  this.grille.getTuilesAssechables(jCourant.getContraintes(), jCourant.getPosition().getId())){
-              //this.vuePlateau.surbriller(i);
-          }  
+                this.vuePlateau.surbriller(i);
+            }  
             this.phaseAssechement=true;
         }
         else if(arg == Commandes.TERMINER){
@@ -154,7 +153,7 @@ public class Controleur implements Observer {
         
         remplirTuiles();
         this.vueInscription.fermerFenetre();
-        this.vuePlateau = new VuePlateau(grille, this);
+        this.vuePlateau = new VuePlateau(grille, joueurs, this);
         //this.vueNiveau = new VueNiveau(nbCartesInnondationsPioches);
         //this.vuePlateau.addObserver(this);
         //piocher 6 cartes innondations
@@ -272,6 +271,7 @@ public class Controleur implements Observer {
         //melange des pioches initiales
         piocheInondation = melangerCartesInondations(piocheInondation);
         piocheTirage = melangerCartesTirages(piocheTirage);
+        
         
     }
     
