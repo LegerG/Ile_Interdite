@@ -26,8 +26,10 @@ public abstract class Aventurier extends ObjetIdentifie {
         this.nbAction = 3;
         this.position = positionDepart;
         this.main = new ArrayList<>();
+        this.tresors = new ArrayList<>();
         this.pion = pion;
         this.nom = nom;
+        
         
     }
 
