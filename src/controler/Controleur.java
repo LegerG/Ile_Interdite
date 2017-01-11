@@ -1,13 +1,15 @@
 package controler;
 
 
-import model.aventuriers.Explorateur;
+
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 import model.aventuriers.Aventurier;
+import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
 import model.aventuriers.Messager;
 import model.aventuriers.Navigateur;
@@ -26,6 +28,7 @@ import util.Utils;
 import util.Utils.Commandes;
 import util.Utils.EtatTuile;
 import util.Utils.RoleAventurier;
+import static util.Utils.RoleAventurier.Explorateur;
 import util.Utils.Tresor;
 import static util.Utils.melangerCartesInondations;
 import static util.Utils.melangerCartesTirages;
@@ -176,10 +179,9 @@ public class Controleur implements Observer {
             // déplacement
             if(phaseDeDeplacement){
                 System.out.println("deplac");
-                this.vuePlateau.desurbriller();
-                if (this.grille.getTuilesAccessibles(jCourant).contains(arg))
-                {
+                if (this.grille.getTuilesAccessibles(jCourant).contains(arg)) {
                     
+                    this.vuePlateau.desurbriller();
                     if(jCourant.isPilote()){
                         if(!grille.getAdjacentes(this.jCourant.getPosition().getId()).contains((int)arg)){
                             ((Pilote)jCourant).setPouvoirdispo(false);
@@ -556,7 +558,9 @@ public class Controleur implements Observer {
               this.setNbCartesInnondationsPioches(niveauEau); 
               this.vuePlateau.getVueNiveau().setNiveau(niveauEau);
               this.defausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-1));
-           }else {
+              this.piocheTirage.remove(this.piocheTirage.size() - 1);
+           }
+           else {
                if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteTresor()){
                    this.jCourant.addCarteTresor((CarteTresor)this.piocheTirage.get(this.piocheTirage.size()-1));
                }
