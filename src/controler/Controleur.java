@@ -179,8 +179,8 @@ public class Controleur implements Observer {
 //                this.vuePlateau.getMessageBox().displayAlerte("Vous avez défaussé une carte");
 //            }
             
-            // déplacement
-            else if(phaseDeDeplacement){
+        // déplacement
+         if(phaseDeDeplacement){
                 System.out.println("deplac");
                 if (this.grille.getTuilesAccessibles(jCourant).contains(arg)) {
                     
