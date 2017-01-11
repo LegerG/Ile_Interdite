@@ -18,7 +18,6 @@ import model.cartes.CarteMonteeDesEaux;
 import model.cartes.CarteSacsDeSable;
 import model.cartes.CarteTirage;
 import model.cartes.CarteTresor;
-import view.VueAventurier;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
@@ -44,7 +43,6 @@ public class Controleur implements Observer {
     //IHMs
     private VueInscription vueInscription;
     private VueConnexion vueConnexion;
-    private ArrayList<VueAventurier> vueAventuriers;
     private VuePlateau vuePlateau;
     private VueRegles vueRegles;
     
@@ -55,25 +53,23 @@ public class Controleur implements Observer {
     
     //Partie
     private ArrayList<Aventurier> joueurs = new ArrayList<>();
+    private ArrayList<Integer> listeIDDynamic = new ArrayList<>();
+    private ArrayList<Tresor> tresorsGagnes= new ArrayList<>();
     private Aventurier jCourant;
-    private Aventurier jExceptionnel; //a prevoir pour les intéruptions de parties lors des deffausses de cartes ou autre
+    private Aventurier jExceptionnel;
     private int nbJoueurs;
     private int nbCartesInnondationsPioches;
-    private ArrayList<Tresor> tresorsGagnes= new ArrayList<>();
+    private int nbActions;
     private boolean phaseDeDeplacement;
     private boolean phaseAssechement;
     private boolean phaseJouerCarte;
-    private ArrayList<Integer> listeIDDynamic = new ArrayList<>();
-    private int nbActions;
+    private boolean phaseDonnerCarte;
 
     //Cartes
     private ArrayList<CarteInondation> defausseInondation = new ArrayList<>();
     private ArrayList<CarteInondation> piocheInondation = new ArrayList<>();
     private ArrayList<CarteTirage> defausseTirage = new ArrayList<>();
     private ArrayList<CarteTirage> piocheTirage = new ArrayList<>();
-    private boolean phaseDonnerCarte;
-    
-    
     
     
     public Controleur() {
@@ -241,6 +237,7 @@ public class Controleur implements Observer {
         System.out.println("jCourant est null ce petit batard");
     }
 }
+    
     public void initialiserPartie() {
         //Creation des cartes
         remplirPioches();
@@ -575,6 +572,7 @@ public class Controleur implements Observer {
     
     /**
         Cette méthode déplace le joueur a une nouvelle position
+     * @param nouvellePosition
     */
     public void deplacerJCourant(Tuile nouvellePosition) {
         Tuile anciennePosition = jCourant.getPosition();
