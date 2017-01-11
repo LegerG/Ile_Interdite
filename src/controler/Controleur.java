@@ -74,12 +74,15 @@ public class Controleur implements Observer {
     private boolean phaseJouerCarte=false;
     private boolean phaseDonnerCarte=false;
     private boolean phaseDefausse=false;
+    private boolean phaseHelico=false;
+    private boolean phaseSacSable=false;
 
     //Cartes
     private ArrayList<CarteInondation> defausseInondation = new ArrayList<>();
     private ArrayList<CarteInondation> piocheInondation = new ArrayList<>();
     private ArrayList<CarteTirage> defausseTirage = new ArrayList<>();
     private ArrayList<CarteTirage> piocheTirage = new ArrayList<>();
+    
     
     
     
@@ -162,8 +165,8 @@ public class Controleur implements Observer {
         
         
         else if(arg instanceof Integer){
-            System.out.println((int)arg);
-//            grille.aff((int)arg);
+            System.out.println("val arg " +(int)arg);
+           // grille.aff((int)arg);
             
             // défausse
 //            if(phaseDefausse && !phaseDeDeplacement){
@@ -177,7 +180,7 @@ public class Controleur implements Observer {
 //            }
             
             // déplacement
-            if(phaseDeDeplacement && !phaseJouerCarte){
+            else if(phaseDeDeplacement){
                 System.out.println("deplac");
                 if (this.grille.getTuilesAccessibles(jCourant).contains(arg)) {
                     
@@ -203,7 +206,7 @@ public class Controleur implements Observer {
                      vuePlateau.enableBouton(true);
             }
             //asséchement
-            if(phaseAssechement && this.grille.getTuilesAssechables(jCourant).contains(arg) && !phaseJouerCarte)
+            else if(phaseAssechement && this.grille.getTuilesAssechables(jCourant).contains(arg))
                     {
                         this.vuePlateau.desurbriller();
                         this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
@@ -223,56 +226,56 @@ public class Controleur implements Observer {
                 }
              
                     //jouer carte hélico
-            if(phaseJouerCarte && !phaseDeDeplacement){
+            else if(phaseJouerCarte){
                         System.out.println("phaseJouerCarte");
                         if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
                             System.out.println("hélico");
                             for (Integer i : grille.getTuiles().keySet()){
                             this.vuePlateau.surbriller(i);
                             }
-                        this.phaseDeDeplacement=true;
+                        this.phaseHelico=true;
                     }
                     // jouer une carte bac à sable
                     else if(jCourant.getMain().get((int)arg).isCarteSac()){
                             System.out.println("sac sable");
-                        for (int i =0;i<24;i++){
+                        for (Integer i : grille.getTuiles().keySet()){
                             if(grille.getTuileAvecID(i).getEtatTuile()==EtatTuile.INONDEE){
                             this.vuePlateau.surbriller(i);
                             }
                         }
-                        this.phaseAssechement=true;
+                        this.phaseSacSable=true;
                     }
                     else{
                         this.vuePlateau.getMessageBox().displayMessage("Vous ne pouvez pas jouer une carte trésor.", jCourant.getPion().getCouleur(), true, true);
                     }
-
+                    phaseJouerCarte=false;
                 }
 
-                if(phaseDeDeplacement && phaseJouerCarte){ //carte hélico  | la case de départ est toujours la position de jCourant. Trop lourd sinon
+            else if(phaseHelico){ //carte hélico  | la case de départ est toujours la position de jCourant. Trop lourd sinon
                     // pour déplacer sur l'ihm
                     System.out.println("nb aventurier sur la case : "+ this.jCourant.getPosition().getAventuriers().size());
 //                    for(Aventurier j : this.jCourant.getPosition().getAventuriers()) {
 //
 //                        this.deplacerJoueur(this.grille.getTuileAvecID((int)arg),j);
 //                    }
+                        System.out.println("c'est censé etre l'id de la tuile qu'on vient de cliquer "+(int)arg);
                      if(this.grille.getTuileAvecID((int)arg)==null) System.out.println("PUUUTE");
                     this.deplacerJoueur(this.grille.getTuileAvecID((int)arg));
                     this.vuePlateau.desurbriller();
                     this.phaseDeDeplacement=false;
                     if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
-                    phaseJouerCarte=false;
-                }
+                    phaseHelico=false;
+            }
 
-                if(phaseAssechement && phaseJouerCarte){ //carte bac à sable
+            else if(phaseSacSable){ //carte bac à sable
                     this.vuePlateau.desurbriller();
                     this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE); // mise à jour du controleur
                     this.vuePlateau.assecherTuile(this.grille.getTuileAvecID((int) arg)); // mise à jour de l'ihm
-                    this.phaseJouerCarte=false;
-                    this.phaseAssechement=false;
+                    phaseSacSable=false;
                     
                 }
 
-                 if(phaseDonnerCarte){
+            else if(phaseDonnerCarte){
 
                     if(!jCourant.equals(jCourant.getPosition().getAventuriers().get(0))){
                         this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
@@ -280,19 +283,22 @@ public class Controleur implements Observer {
                         //mettre a jour l'ihm
                     }
                  }
-              
+            else {
+                System.out.println("GEM fère des elss qui sairv");
+            }
             
             }
         else{
             System.out.println("argument x");
         }
-            }    
-            else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
-                this.vuePlateau.getMessageBox().displayMessage("Vous n'avez plus d'actions", Color.black, true, true);
-            }
-            else{
-                System.out.println("jCourant est null ce petit batard");
-            }
+        
+    }    
+    else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
+        this.vuePlateau.getMessageBox().displayMessage("Vous n'avez plus d'actions", Color.black, true, true);
+    }
+    else{
+        System.out.println("jCourant est null ce petit batard");
+    }
             
             
        
