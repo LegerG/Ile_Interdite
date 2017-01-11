@@ -196,7 +196,7 @@ public class Controleur implements Observer {
                     this.deplacerJoueur(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
 
                     
-                    this.phaseDeDeplacement=false;
+                    
                     this.nbActions++;
                     if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0);
                     System.out.println(jCourant.getPosition().getNom());
@@ -206,6 +206,7 @@ public class Controleur implements Observer {
                     this.vuePlateau.getMessageBox().displayMessage("Vous ne pouvez pas vous déplacer ici.", jCourant.getPion().getCouleur(), true, true);
                     
                 }
+                     this.phaseDeDeplacement=false;
                      vuePlateau.enableBouton(true);
             }
             //asséchement
@@ -233,14 +234,20 @@ public class Controleur implements Observer {
                 for(Aventurier a : jCourant.getPosition().getAventuriers() ) {
                     if(!a.equals(jCourant)) jExceptionnel=a;
                 }
+                    if(jExceptionnel.getMain().size()!=10){ // pas de donnation si la main du receveur est pleine
                 this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
                 jCourant.removeCarte(jCourant.getMain().get((int)arg));
                 //truc ihm
                 this.nbActions++;
+                    }
+                    else{
+                        this.vuePlateau.getMessageBox().displayAlerte("La main du receveur est pleine!");
+                    }
                  }
                 else{
                     this.vuePlateau.getMessageBox().displayAlerte("Vous êtes seul sur votre tuile");
                 }
+                phaseDonnerCarte=false;
             }
             else {
                 System.out.println("GEM fère des elss qui sairv");
@@ -306,10 +313,11 @@ public class Controleur implements Observer {
 
             else if(phaseSacSable){ //carte bac à sable
                     this.vuePlateau.desurbriller();
+                    if(grille.getTuileAvecID((int) arg).getEtatTuile()==EtatTuile.INONDEE){
                     this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE); // mise à jour du controleur
                     this.vuePlateau.assecherTuile(this.grille.getTuileAvecID((int) arg)); // mise à jour de l'ihm
                     phaseSacSable=false;
-                    
+                    }
             }
             else {
                 System.out.println("GEM fère des elss qui sairv");
@@ -577,6 +585,7 @@ public class Controleur implements Observer {
                this.vuePlateau.getMessageBox().displayMessage("La pioche de cartes est vide. On mélange la défausse et elle devient la pioche", Color.BLACK, phaseDonnerCarte, phaseDefausse);
                melangerCartesTirages(defausseTirage);
                this.piocheTirage.addAll(defausseTirage);
+               this.defausseTirage.clear();
            }
            if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteMonteeDesEaux()){
               // on ajoute la défausse inondation mélangée à sa pioche, et on met la carte à la défausse.
@@ -606,6 +615,7 @@ public class Controleur implements Observer {
             if(piocheInondation.isEmpty()){
                 melangerCartesInondations(defausseInondation);
                 this.piocheInondation.addAll(defausseInondation);
+                this.defausseInondation.clear();
             }
             
             CarteInondation carteInondation = piocheInondation.get(piocheInondation.size() - 1);

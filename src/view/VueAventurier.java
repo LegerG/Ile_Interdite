@@ -108,7 +108,7 @@ public class VueAventurier extends JPanel {
     }
     
     public void afficherCartesAventurier(Aventurier a) {
-        
+        effacerCartesAventurier(a);
         for (int i =0; i< a.getMain().size(); i++) {
             ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/"+a.getMain().get(i).getNomFichier()+".png").getImage().getScaledInstance(120, 180, Image.SCALE_DEFAULT));
             this.listeLabel.get(i).setIcon(carteVerso);
@@ -116,6 +116,14 @@ public class VueAventurier extends JPanel {
             
         }
         this.setListener(a);
+    }
+    
+    public void effacerCartesAventurier(Aventurier a){
+        for (int i =0; i< listeLabel.size(); i++) {
+            ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/ca.png").getImage().getScaledInstance(120, 180, Image.SCALE_DEFAULT));
+            this.listeLabel.get(i).setIcon(carteVerso); 
+        }
+        
     }
     
     public void setListener(Aventurier a){
