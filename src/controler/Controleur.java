@@ -148,8 +148,8 @@ public class Controleur implements Observer {
                 if (this.listeIDDynamic.contains(arg))
                 {
                     if(jCourant.isPilote()){
-                        if(grille.getAdjacentes(this.jCourant.getPosition().getId()).contains((int)arg)){
-                            ((Pilote)jCourant).setPouvoirdispo(true);
+                        if(!grille.getAdjacentes(this.jCourant.getPosition().getId()).contains((int)arg)){
+                            ((Pilote)jCourant).setPouvoirdispo(false);
                         }
                     }
                     this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
@@ -171,8 +171,11 @@ public class Controleur implements Observer {
             }
             if(phaseAssechement && listeIDDynamic.contains(arg))
             {
+                this.vuePlateau.desurbriller();
                 this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
+//                this.vuePlateau.assecher;
                 this.phaseAssechement=false;
+                
                 if(jCourant.getRoleAventurier()==RoleAventurier.Ingenieur) {
                     if (((Ingenieur)jCourant).getPouvoirdisposi1()==1){
                         jCourant.setNbAction(jCourant.getNbAction()+1); 
@@ -182,11 +185,11 @@ public class Controleur implements Observer {
             }
                 this.nbActions++;
         }  
-        if(phaseJouerCarte){
-            if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
-                for (int i =0;i<24;i++){
+            if(phaseJouerCarte){
+                if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
+                    for (int i =0;i<24;i++){
                     this.vuePlateau.surbriller(i);
-                }
+                    }
                 this.phaseDeDeplacement=true;
             }
             else if(jCourant.getMain().get((int)arg).isCarteSac()){
@@ -571,6 +574,8 @@ public class Controleur implements Observer {
         //passer au joueur suivant
         changerJCourant();
         this.nbActions=0;
+        
+      //  this.defausserCartes();
     }
     
     /**
