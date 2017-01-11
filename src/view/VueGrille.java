@@ -76,7 +76,7 @@ public class VueGrille extends JPanel{
               
             }
         }
-        imageFond = new ImageIcon(new ImageIcon("images/ile2.jpg").getImage().getScaledInstance(900, 900, Image.SCALE_DEFAULT)); 
+        imageFond = new ImageIcon(new ImageIcon("images/ile3.jpg").getImage().getScaledInstance(900, 900, Image.SCALE_DEFAULT)); 
         this.setOpaque(false);
         
     }
