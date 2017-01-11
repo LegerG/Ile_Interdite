@@ -1,9 +1,11 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -76,13 +78,16 @@ public class VueTuile extends JPanel {
     
     public void inonderTuile() {
         this.imageTuile = new ImageIcon(new ImageIcon("images/tuiles/" + nomFichier.trim() + "_Inonde.png").getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
+        this.setBorder(BorderFactory.createLineBorder(Color.yellow, 0));
     }
     
     public void coulerTuile() {
-        this.imageTuile = new ImageIcon(new ImageIcon("images/TuileCoulee.png").getImage().getScaledInstance(140,140, Image.SCALE_DEFAULT));
+        this.imageTuile = new ImageIcon(new ImageIcon("images/TuileCoulee").getImage().getScaledInstance(140,140, Image.SCALE_DEFAULT));
+        this.setBorder(BorderFactory.createLineBorder(Color.yellow, 0));
     }
     
     public void assecherTuile() {
         this.imageTuile = new ImageIcon(new ImageIcon("images/tuiles/" + nomFichier.trim() + ".png").getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
+        this.setBorder(BorderFactory.createLineBorder(Color.yellow, 0));
     }
 }

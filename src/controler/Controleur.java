@@ -169,18 +169,20 @@ public class Controleur implements Observer {
            // grille.aff((int)arg);
             
             // défausse
-//            if(phaseDefausse && !phaseDeDeplacement){
-//
-//                defausseTirage.add(this.jCourant.getMain().get((int)arg));
-//                jCourant.getMain().remove(jCourant.getMain().get((int)arg));
-//                if(jCourant.getMain().size()==5){
-//                    phaseDefausse=false;
-//                }
-//                this.vuePlateau.getMessageBox().displayAlerte("Vous avez défaussé une carte");
-//            }
+            if(phaseDefausse && !phaseDeDeplacement){
+
+                defausseTirage.add(this.jCourant.getMain().get((int)arg));
+                jCourant.getMain().remove(jCourant.getMain().get((int)arg));
+                this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
+                
+                if(jCourant.getMain().size()==5){
+                    phaseDefausse=false;
+                }
+                this.vuePlateau.getMessageBox().displayAlerte("Vous avez défaussé une carte");
+            }
             
-            // déplacement
-            else if(phaseDeDeplacement){
+        // déplacement
+         if(phaseDeDeplacement){
                 System.out.println("deplac");
                 if (this.grille.getTuilesAccessibles(jCourant).contains(arg)) {
                     
@@ -224,16 +226,41 @@ public class Controleur implements Observer {
                     }
                         this.nbActions++;
                 }
-             
-                    //jouer carte hélico
-            else if(phaseJouerCarte){
+
+            else if(phaseDonnerCarte){
+
+                    if(!jCourant.equals(jCourant.getPosition().getAventuriers().get(0))){
+                        this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
+                        jCourant.removeCarte(jCourant.getMain().get((int)arg));
+                        //mettre a jour l'ihm
+                    }
+                 }
+            else {
+                System.out.println("GEM fère des elss qui sairv");
+            }
+            
+            }
+        else{
+            System.out.println("argument x");
+        }
+        
+    }
+  //jouer carte hélico
+        if(arg instanceof Integer){
+            if(phaseJouerCarte){
                         System.out.println("phaseJouerCarte");
                         if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
                             System.out.println("hélico");
                             for (Integer i : grille.getTuiles().keySet()){
+                                if(grille.getTuileAvecID(i).getEtatTuile()!=EtatTuile.COULEE){
                             this.vuePlateau.surbriller(i);
                             }
+                            }
                         this.phaseHelico=true;
+                        
+                        defausseTirage.add(this.jCourant.getMain().get((int)arg));
+                jCourant.getMain().remove(jCourant.getMain().get((int)arg));
+                this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
                     }
                     // jouer une carte bac à sable
                     else if(jCourant.getMain().get((int)arg).isCarteSac()){
@@ -244,6 +271,9 @@ public class Controleur implements Observer {
                             }
                         }
                         this.phaseSacSable=true;
+                        defausseTirage.add(this.jCourant.getMain().get((int)arg));
+                jCourant.getMain().remove(jCourant.getMain().get((int)arg));
+                this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
                     }
                     else{
                         this.vuePlateau.getMessageBox().displayMessage("Vous ne pouvez pas jouer une carte trésor.", jCourant.getPion().getCouleur(), true, true);
@@ -273,26 +303,8 @@ public class Controleur implements Observer {
                     this.vuePlateau.assecherTuile(this.grille.getTuileAvecID((int) arg)); // mise à jour de l'ihm
                     phaseSacSable=false;
                     
-                }
-
-            else if(phaseDonnerCarte){
-
-                    if(!jCourant.equals(jCourant.getPosition().getAventuriers().get(0))){
-                        this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
-                        jCourant.removeCarte(jCourant.getMain().get((int)arg));
-                        //mettre a jour l'ihm
-                    }
-                 }
-            else {
-                System.out.println("GEM fère des elss qui sairv");
-            }
-            
-            }
-        else{
-            System.out.println("argument x");
+            }    
         }
-        
-    }    
     else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
         this.vuePlateau.getMessageBox().displayMessage("Vous n'avez plus d'actions", Color.black, true, true);
     }
@@ -327,19 +339,19 @@ public class Controleur implements Observer {
         piocherCarteInondation(6);
       
         //donner deux cartes aux joueurs
-        
+        for (Aventurier a : joueurs) {
+            piocherCartesTirage(a);
+            this.vuePlateau.afficherCartesAventurier(a, joueurs.indexOf(a));
+        }
         //Poser les joueurs sur le plateau
         for (Aventurier a : joueurs) {
             placerPion(a, a.getPosition());
         }
         jCourant=joueurs.get(0);
-        
-        jCourant = joueurs.get(0);
-        this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), phaseDeDeplacement, phaseJouerCarte);
-//        this.piocherCartesTirage();
-        this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
 
-//        joueurs.get(1).getPosition().setEtatTuile(EtatTuile.COULEE);
+        this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), phaseDeDeplacement, phaseJouerCarte);
+
+
     }
     
     public void remplirTuiles() {
@@ -548,9 +560,9 @@ public class Controleur implements Observer {
         
     }
     
-    public void piocherCartesTirage(){
-        if (jCourant.getMain().size() < 10) {
-            for (int i=1;i<=2;i++){
+    public void piocherCartesTirage(Aventurier jCourant){
+        
+        for (int i=1;i<=2;i++){
            if(this.piocheTirage.isEmpty()){
                this.vuePlateau.getMessageBox().displayMessage("La pioche de cartes est vide. On mélange la défausse et elle devient la pioche", Color.BLACK, phaseDonnerCarte, phaseDefausse);
                melangerCartesTirages(defausseTirage);
@@ -569,19 +581,15 @@ public class Controleur implements Observer {
            }
            else {
                if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteTresor()){
-                   this.jCourant.addCarteTresor((CarteTresor)this.piocheTirage.get(this.piocheTirage.size()-1));
+                   jCourant.addCarteTresor((CarteTresor)this.piocheTirage.get(this.piocheTirage.size()-1));
                }
-              this.jCourant.addCarte(this.piocheTirage.get(this.piocheTirage.size()-1)); // ajout de la carte tirage à la main
+              jCourant.addCarte(this.piocheTirage.get(this.piocheTirage.size()-1)); // ajout de la carte tirage à la main
            }
               this.piocheTirage.remove(this.piocheTirage.get(this.piocheTirage.size()-1)); // retrait de la carte piochée de la pioche
            }
-        }
-        else {
-            vuePlateau.getMessageBox().displayMessage("Vous ne pouvez plus piocher.", Color.red, true, true);
-        }
-        
-        
     }
+        
+    
     
     public void piocherCarteInondation(int nbCarteInondation) {
         for (int i = 0; i < nbCarteInondation; i++) {
@@ -603,6 +611,7 @@ public class Controleur implements Observer {
                 vuePlateau.coulerTuile(tuileAInonder);
                 tuileAInonder.setEtatTuile(EtatTuile.COULEE);
                 piocheInondation.remove(piocheInondation.size() - 1);
+                System.out.println(tuileAInonder.getNom());
             }
             
             
@@ -659,7 +668,7 @@ public class Controleur implements Observer {
        
         
         //faire la distribution des cartes
-        piocherCartesTirage();
+        piocherCartesTirage(jCourant);
         piocherCarteInondation(nbCartesInnondationsPioches);
         this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
         //passer au joueur suivant
@@ -677,12 +686,12 @@ public class Controleur implements Observer {
             
         }
         
-        if(jCourant.getMain().size()>5){
-            this.vuePlateau.getMessageBox().displayMessage("Vous devez défausser des cartes", jCourant.getPion().getCouleur(), true, true);
-            phaseDefausse=true;
-        }
+        //if(jCourant.getMain().size()>5){
+        //    this.vuePlateau.getMessageBox().displayMessage("Vous devez défausser des cartes", jCourant.getPion().getCouleur(), true, true);
+        //    phaseDefausse=true;
+        //}
         
-        verifierDefaite();
+        //verifierDefaite();
     }
     
     /**
@@ -730,8 +739,10 @@ public class Controleur implements Observer {
             (tuiles[0].getEtatTuile() == EtatTuile.COULEE && tuiles[23].getEtatTuile() == EtatTuile.COULEE) ||
             (tuiles[3].getEtatTuile() == EtatTuile.COULEE && tuiles[13].getEtatTuile() == EtatTuile.COULEE) ||
             (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) ||
-            (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[9].getEtatTuile() == EtatTuile.COULEE)) 
+            (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[15].getEtatTuile() == EtatTuile.COULEE)) 
         {   
+            
+            //fenetre spéciale défaite
             vuePlateau.getWindow().setEnabled(false);
             JFrame fenetrePerdu = new JFrame("Défaite !");
             fenetrePerdu.setSize(400, 100);
