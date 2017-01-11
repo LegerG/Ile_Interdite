@@ -82,8 +82,8 @@ public class VueTuile extends JPanel {
     }
     
     public void coulerTuile() {
-        this.imageTuile = new ImageIcon(new ImageIcon("images/TuileCoulee").getImage().getScaledInstance(140,140, Image.SCALE_DEFAULT));
-        this.setBorder(BorderFactory.createLineBorder(Color.yellow, 0));
+        this.imageTuile = new ImageIcon(new ImageIcon("images/tui" + nomFichier.trim() + "_Inonde.png").getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
+        this.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
     }
     
     public void assecherTuile() {

@@ -109,7 +109,8 @@ public class VueAventurier extends JPanel {
     
     public void afficherCartesAventurier(Aventurier a) {
         
-        for (int i =0; i< a.getMain().size(); i++) {
+        for (int i =0; i< a.getMain().size() && i < listeLabel.size(); i++) {
+            
             ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/"+a.getMain().get(i).getNomFichier()+".png").getImage().getScaledInstance(120, 180, Image.SCALE_DEFAULT));
             this.listeLabel.get(i).setIcon(carteVerso);
             
