@@ -77,7 +77,7 @@ public class VueDefausse extends Observable{
         }
         borderTresor.add(panelTresor, BorderLayout.CENTER); 
         
-        // panel des cartes tirage
+        // panel des cartes inondations
         JPanel panelTirage = new JPanel(new BorderLayout());
         panelCentre.add(panelTirage);
         html = new JEditorPane();
@@ -91,11 +91,11 @@ public class VueDefausse extends Observable{
         panelTirage.add(scrollPane, BorderLayout.CENTER) ;
         for (CarteInondation carteInondation : defausseInondation){
                 texteTirage += "<br>- "+carteInondation.getNomFichier() ;
-                html.setText(texteTirage);
+                html.setText(this.texteInondation);
         }
         
         
-//         panel des cartes inondation
+//         panel des cartes tirages
         JPanel panelInondation = new JPanel(new BorderLayout());
         panelCentre.add(panelInondation);
         html2 = new JEditorPane();
@@ -109,7 +109,7 @@ public class VueDefausse extends Observable{
         panelInondation.add(scrollPane2, BorderLayout.CENTER) ;
         for (CarteTirage carteTirage : defausseTirage){
                 texteTirage += "<br>- "+carteTirage.getNomFichier() ;
-                html.setText(texteTirage);
+                html2.setText(texteTirage);
         }
         
         JButton bouton = new JButton("OK !");
