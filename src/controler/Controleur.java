@@ -171,9 +171,12 @@ public class Controleur implements Observer {
             
             // défausse
             if(phaseDefausse && !phaseDeDeplacement){
-
-                defausseTirage.add(this.jCourant.getMain().get((int)arg));
-                jCourant.getMain().remove(jCourant.getMain().get((int)arg));
+                if (this.jCourant.getMain().indexOf((int)arg) != -1) {
+                    defausseTirage.add(this.jCourant.getMain().get((int)arg));
+                    jCourant.getMain().remove(jCourant.getMain().get((int)arg));
+                }
+                
+                
                 this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
                 
                 if(jCourant.getMain().size()==5){
@@ -585,7 +588,9 @@ public class Controleur implements Observer {
               this.piocheInondation.addAll(defausseInondation);
               this.niveauEau++;
               this.setNbCartesInnondationsPioches(niveauEau); 
-              this.vuePlateau.getVueNiveau().setNiveau(niveauEau);
+              if (niveauEau < 10) {
+                  this.vuePlateau.getVueNiveau().setNiveau(niveauEau);
+              }
               this.defausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-1));
               this.piocheTirage.remove(this.piocheTirage.size() - 1);
            }
@@ -594,8 +599,10 @@ public class Controleur implements Observer {
                    jCourant.addCarteTresor((CarteTresor)this.piocheTirage.get(this.piocheTirage.size()-1));
                }
               jCourant.addCarte(this.piocheTirage.get(this.piocheTirage.size()-1)); // ajout de la carte tirage à la main
-           }
-              this.piocheTirage.remove(this.piocheTirage.get(this.piocheTirage.size()-1)); // retrait de la carte piochée de la pioche
+           }    
+                if (!piocheTirage.isEmpty()) {
+                    this.piocheTirage.remove(this.piocheTirage.get(this.piocheTirage.size()-1)); // retrait de la carte piochée de la pioche
+                }
            }
     }
         
