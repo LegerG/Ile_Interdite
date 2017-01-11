@@ -1,7 +1,6 @@
 package main;
 
 import controler.Controleur;
-import view.VueInscription;
 
 public class Main {
   

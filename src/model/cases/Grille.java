@@ -246,14 +246,14 @@ public class Grille {
 
 
 
-//      public void setEtatTuile(Tuile tuile) {
-//          tuiles.get(tuile.getId()).setEtatTuile(EtatTuile.COULEE);
-//      }
-
-    public void aff(int i) {
-        System.out.println(tuiles.get(i).getEtatTuile().toString());
-    }
-      
+////      public void setEtatTuile(Tuile tuile) {
+////          tuiles.get(tuile.getId()).setEtatTuile(EtatTuile.COULEE);
+////      }
+//
+//    public void aff(int i) {
+//        System.out.println(tuiles.get(i).getEtatTuile().toString());
+//    }
+//      
       
 }
     
