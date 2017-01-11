@@ -185,5 +185,10 @@ public class VuePlateau extends Observable {
     public void enableBouton(boolean b){
         this.vueBouton.enableBouton(b);
     }
+
+    public VueNiveau getVueNiveau() {
+        return vueNiveau;
+    }
+    
     
 }

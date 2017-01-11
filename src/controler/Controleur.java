@@ -7,6 +7,7 @@ package controler;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -40,6 +41,7 @@ import static util.Utils.melangerCartesInondations;
 import static util.Utils.melangerCartesTirages;
 import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
+import view.VueAventurier;
 import view.VueConnexion;
 //import view.VueDefausse;
 import view.VueInscription;
@@ -113,6 +115,10 @@ public class Controleur implements Observer {
         else if(arg == Commandes.TERMINER){
             this.finTour(); // fin du tour
         }
+        else if(arg == Commandes.CHOISIR_CARTE){
+            this.phaseJouerCarte=true;
+            this.vuePlateau.getMessageBox().displayMessage("Cliquer sur la carte que vous voulez jouer.", jCourant.getPion().getCouleur(), true, true);
+        }
         
         else if(arg == Commandes.VOIR_DEFAUSSE) {
 //            vueDefausse = new VueDefausse(tresorsGagnes, defausseInondation, defausseTirage);
@@ -151,12 +157,22 @@ public class Controleur implements Observer {
             phaseDonnerCarte=true;
         }
        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         else if(arg instanceof Integer){
-            
             System.out.println((int)arg);
             grille.aff((int)arg);
             
-            
+            // défausse
             if(phaseDefausse && !phaseDeDeplacement){
 
                 defausseTirage.add(this.jCourant.getMain().get((int)arg));
@@ -167,7 +183,7 @@ public class Controleur implements Observer {
                 this.vuePlateau.getMessageBox().displayAlerte("Vous avez défaussé une carte");
             }
             
-            
+            // déplacement
             if(phaseDeDeplacement){
                 System.out.println("deplac");
                 if (this.grille.getTuilesAccessibles(jCourant).contains(arg)) {
@@ -189,12 +205,13 @@ public class Controleur implements Observer {
                     
                 }
                 else{
-                    //on ne peut pas se déplacer là
+                    this.vuePlateau.getMessageBox().displayMessage("Vous ne pouvez pas vous déplacer ici.", jCourant.getPion().getCouleur(), true, true);
                     
                 }
                      vuePlateau.enableBouton(true);
             }
-                    if(phaseAssechement && listeIDDynamic.contains(arg))
+            //asséchement
+            if(phaseAssechement && listeIDDynamic.contains(arg))
                     {
                         this.vuePlateau.desurbriller();
                         this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
@@ -211,22 +228,30 @@ public class Controleur implements Observer {
                             ((Ingenieur)jCourant).setPouvoirdisposi1(((Ingenieur)jCourant).getPouvoirdisposi1()+1); // +1                     
                     }
                         this.nbActions++;
-                }  
-                    if(phaseJouerCarte){
-                        if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
+                }
+             
+                    //jouer carte hélico
+            if(phaseJouerCarte){
+                        System.out.println("phaseJouerCarte");
+                        if (jCourant.getMain().get((int)arg-1).isCarteHelicoptere()){
+                            System.out.println("hélico");
                             for (int i =0;i<24;i++){
                             this.vuePlateau.surbriller(i);
                             }
                         this.phaseDeDeplacement=true;
                     }
-                    else if(jCourant.getMain().get((int)arg).isCarteSac()){
+                    // jouer une carte bac à sable
+                    else if(jCourant.getMain().get((int)arg -1).isCarteSac()){
+                            System.out.println("sac sable");
                         for (int i =0;i<24;i++){
+                            if(grille.getTuileAvecID(i).getEtatTuile()==EtatTuile.INONDEE){
                             this.vuePlateau.surbriller(i);
+                            }
                         }
                         this.phaseAssechement=true;
                     }
                     else{
-                        //On ne peut pas jouer cette carte
+                        this.vuePlateau.getMessageBox().displayMessage("Vous ne pouvez pas jouer une carte trésor.", jCourant.getPion().getCouleur(), true, true);
                     }
 
                 }
@@ -240,17 +265,19 @@ public class Controleur implements Observer {
                     }
 
                     this.jCourant.getPosition().getAventuriers().clear();
+                    this.vuePlateau.desurbriller();
                     this.phaseDeDeplacement=false;
                     if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
                     phaseJouerCarte=false;
                 }
 
                 if(phaseAssechement && phaseJouerCarte){ //carte bac à sable
-
-                    this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
+                    this.vuePlateau.desurbriller();
+                    this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE); // mise à jour du controleur
+                    this.vuePlateau.assecherTuile(this.grille.getTuileAvecID((int) arg)); // mise à jour de l'ihm
+                    this.phaseJouerCarte=false;
                     this.phaseAssechement=false;
-                    //assecherlacarte
-                    phaseJouerCarte=false;
+                    
                 }
 
                  if(phaseDonnerCarte){
@@ -261,10 +288,14 @@ public class Controleur implements Observer {
                         //mettre a jour l'ihm
                     }
                  }
-                 
+                 else{
+                     System.out.println("Pas de phase");
+                 }
             
-
             }
+        else{
+            System.out.println("argument x");
+        }
             }    
             else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
                 System.out.println("PLUS D'ACTION");
@@ -443,6 +474,11 @@ public class Controleur implements Observer {
             a.addCarte(piocheTirage.get(2));
             a.addCarte(piocheTirage.get(3));
             a.addCarte(piocheTirage.get(10));
+            a.addCarte(piocheTirage.get(4));
+            a.addCarte(piocheTirage.get(5));
+            a.addCarte(piocheTirage.get(6));
+            a.addCarte(piocheTirage.get(7));
+            a.addCarte(piocheTirage.get(8));
             i++;
         }
     }
@@ -520,6 +556,7 @@ public class Controleur implements Observer {
         
         for (int i=1;i<=2;i++){
            if(this.piocheTirage.isEmpty()){
+               this.vuePlateau.getMessageBox().displayMessage("La pioche de cartes est vide. On mélange la défausse et elle devient la pioche", Color.BLACK, phaseDonnerCarte, phaseDefausse);
                melangerCartesTirages(defausseTirage);
                this.piocheTirage.addAll(defausseTirage);
            }
@@ -529,6 +566,8 @@ public class Controleur implements Observer {
                melangerCartesInondations(defausseInondation);
               this.piocheInondation.addAll(defausseInondation);
               this.niveauEau++;
+              this.setNbCartesInnondationsPioches(niveauEau); 
+              this.vuePlateau.getVueNiveau().setNiveau(niveauEau);
               this.defausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-1));
               this.piocheTirage.remove(this.piocheTirage.size() - 1);
            }
@@ -620,7 +659,7 @@ public class Controleur implements Observer {
         //faire la distribution des cartes
         piocherCartesTirage();
         piocherCarteInondation(nbCartesInnondationsPioches);
-//        vuePlateau.getWindow().setVisible(true);
+        this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
         //passer au joueur suivant
         changerJCourant();
         this.nbActions=0;
@@ -636,7 +675,7 @@ public class Controleur implements Observer {
             
         }
         
-        if(jCourant.getMain().size()>2){
+        if(jCourant.getMain().size()>5){
             this.vuePlateau.getMessageBox().displayMessage("Vous devez défausser des cartes", jCourant.getPion().getCouleur(), true, true);
             phaseDefausse=true;
         }
