@@ -97,10 +97,10 @@ public class VuePlateau extends Observable {
         
         JPanel panelDefausse = new JPanel(new BorderLayout());
         panelDefausse.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-        ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/Fond Bleu.png").getImage().getScaledInstance(200, 300, Image.SCALE_DEFAULT)); 
+        ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/Fond bleu.png").getImage().getScaledInstance(200, 300, Image.SCALE_DEFAULT)); 
         JLabel defausse = new JLabel(carteVerso);
         panelDefausse.add(defausse, BorderLayout.CENTER);
-        panelDefausse.add(new JLabel("Voir les cartes de la défausse et les trésors obtenus"), BorderLayout.NORTH);
+        panelDefausse.add(new JLabel("Voir les cartes de la défausse"), BorderLayout.NORTH);
         panelBasDroite.add(panelDefausse);
         panelDefausse.addMouseListener(new MouseListener() {
             @Override

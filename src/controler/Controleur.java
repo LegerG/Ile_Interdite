@@ -257,7 +257,7 @@ public class Controleur implements Observer {
        
        
     
-}
+    }
     
     public void initialiserPartie() {
         //Creation des cartes

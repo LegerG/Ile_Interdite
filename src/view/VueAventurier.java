@@ -38,15 +38,15 @@ public class VueAventurier extends JPanel{
     
     public VueAventurier(VuePlateau vuePlateau, Aventurier aventurier){
         this.setLayout(new BorderLayout());
-        
+        int taille = 700;
         
         html = new JEditorPane();
         html.setContentType("text/html");
         html.setText(aventurier.getRoleAventurier().name());
         html.setBackground(aventurier.getPion().getCouleur());
-        html.setMinimumSize(new Dimension(100, 30));
-        html.setPreferredSize(new Dimension(100, 30));
-        html.setMaximumSize(new Dimension(100, 30));
+        html.setMinimumSize(new Dimension(taille, 20));
+        html.setPreferredSize(new Dimension(taille, 20));
+        html.setMaximumSize(new Dimension(taille, 20));
         html.setEditable(false);
         
         this.add(html, BorderLayout.NORTH);
@@ -85,7 +85,7 @@ public class VueAventurier extends JPanel{
         } else if (aventurier instanceof Ingenieur) {
             labelCapacite.setText("Asséchez deux tuiles pour une action ");
         } else if (aventurier instanceof Plongeur) {
-            labelCapacite.setText("Passez par une ou plusieurs tuiles innondées et/ou"); // coulées pour une action \n(Vous devez terminer votre tour sur une tuile) ");
+            labelCapacite.setText("Passez par une ou plusieurs tuiles innondées"); // coulées pour une action \n(Vous devez terminer votre tour sur une tuile) ");
         } else if (aventurier instanceof Messager) {
             labelCapacite.setText("Donnez des cartes trésors à un joueur n'importe où sur l'île pour une action par carte ");
         } else if (aventurier instanceof Navigateur) {
