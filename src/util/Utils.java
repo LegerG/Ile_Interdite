@@ -44,7 +44,8 @@ public class Utils {
         REGLES("Règles du jeu"),
         RETOUR("Revenir en arrière"),
         QUITTER("Fin du jeu"),
-        VALIDER_CONNEXION("Les joueurs ont choisi la difficulté et le nombre de joueurs");
+        VALIDER_CONNEXION("Les joueurs ont choisi la difficulté et le nombre de joueurs"),
+        DEFAUSSE("ouverture de la defausse et des trésors obtenus");
     
         private final String libelle ;
 
@@ -137,6 +138,17 @@ public class Utils {
         }
     }
 
+    public enum Phase{
+        DEPLACEMENT,
+        ASSECHEMENT,
+        JOUERCARTE,
+        DONNERCARTE,
+        HELICO,
+        SACSABLE,
+        MESSAGER,
+        DEFAUSSE;
+        
+    }
     public static enum Pion {
         ROUGE("Rouge", new Color(255, 0, 0), new Color(176, 79, 79), new Color(255, 145, 145), new Color(226,166,166), "pionRouge.png"),
         VERT("Vert", new Color(0, 195, 0), new Color(79, 153, 79), new Color(145, 255, 145), new Color(166,226,166), "pionVert.png"),

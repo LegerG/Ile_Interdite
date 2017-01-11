@@ -83,7 +83,7 @@ public class Grille {
             for (int x = 0; x<6; x++) {
                 for (int y = 0 ; y<6; y++) {
                     listeID.add(idTuiles[x][y]);
-                   ((Pilote)aventurier).setPouvoirdispo(false);
+                  
                 }
             }
         }
@@ -246,14 +246,14 @@ public class Grille {
 
 
 
-//      public void setEtatTuile(Tuile tuile) {
-//          tuiles.get(tuile.getId()).setEtatTuile(EtatTuile.COULEE);
-//      }
-
-    public void aff(int i) {
-        System.out.println(tuiles.get(i).getEtatTuile().toString());
-    }
-      
+////      public void setEtatTuile(Tuile tuile) {
+////          tuiles.get(tuile.getId()).setEtatTuile(EtatTuile.COULEE);
+////      }
+//
+//    public void aff(int i) {
+//        System.out.println(tuiles.get(i).getEtatTuile().toString());
+//    }
+//      
       
 }
     

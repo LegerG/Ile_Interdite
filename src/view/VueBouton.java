@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import util.Utils;
+import view.VuePlateau;
 
 /**
  *
@@ -39,16 +40,18 @@ public class VueBouton extends JPanel{
     public VueBouton(VuePlateau vuePlateau){
         this.setLayout(new GridLayout(1,6));
         this.vuePlateau = vuePlateau;
+        this.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+        int taille = 60;
         
         panel1 = new JPanel(new BorderLayout()); 
         this.add(panel1);
-        ImageIcon deplacer = new ImageIcon(new ImageIcon("images/icones/iconMove.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)); 
+        ImageIcon deplacer = new ImageIcon(new ImageIcon("images/icones/iconMove.png").getImage().getScaledInstance(taille, taille, Image.SCALE_DEFAULT)); 
         JLabel dep = new JLabel(deplacer);
         panel1.add(dep, BorderLayout.CENTER);
         label1 = new JLabel("Se déplacer");
         label1.setHorizontalAlignment(JLabel.CENTER);
         panel1.add(label1, BorderLayout.SOUTH);
-        panel1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel1.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -67,22 +70,24 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel1.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
             }
         });
         
         panel2 = new JPanel(new BorderLayout()); 
         this.add(panel2);
-        ImageIcon assecher = new ImageIcon(new ImageIcon("images/icones/iconDry.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)); 
+        ImageIcon assecher = new ImageIcon(new ImageIcon("images/icones/iconDry.png").getImage().getScaledInstance(taille, taille, Image.SCALE_DEFAULT)); 
         JLabel assech = new JLabel(assecher);
         panel2.add(assech, BorderLayout.CENTER);
         label2 = new JLabel("Assecher");
         label2.setHorizontalAlignment(JLabel.CENTER);
         panel2.add(label2, BorderLayout.SOUTH);
-        panel2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel2.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -101,22 +106,24 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel2.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
             }
         });
         
         panel3 = new JPanel(new BorderLayout()); 
         this.add(panel3);
-        ImageIcon useCarte = new ImageIcon(new ImageIcon("images/icones/iconShift.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)); 
+        ImageIcon useCarte = new ImageIcon(new ImageIcon("images/icones/iconShift.png").getImage().getScaledInstance(taille, taille, Image.SCALE_DEFAULT)); 
         JLabel carte = new JLabel(useCarte);
         panel3.add(carte, BorderLayout.CENTER);
         label3 = new JLabel("Utiliser carte");
         label3.setHorizontalAlignment(JLabel.CENTER);
         panel3.add(label3, BorderLayout.SOUTH);
-        panel3.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel3.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel3.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -135,22 +142,24 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel3.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel3.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
             }
         });
         
         panel4 = new JPanel(new BorderLayout()); 
         this.add(panel4);
-        ImageIcon donnerCarte = new ImageIcon(new ImageIcon("images/icones/iconGive.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)); 
+        ImageIcon donnerCarte = new ImageIcon(new ImageIcon("images/icones/iconGive.png").getImage().getScaledInstance(taille, taille, Image.SCALE_DEFAULT)); 
         JLabel give = new JLabel(donnerCarte);
         panel4.add(give, BorderLayout.CENTER);
         label4 = new JLabel("Donner une carte");
         label4.setHorizontalAlignment(JLabel.CENTER);
         panel4.add(label4, BorderLayout.SOUTH);
-        panel4.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel4.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -169,22 +178,24 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel4.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel4.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
             }
         });
         
         panel5 = new JPanel(new BorderLayout());
         this.add(panel5);
-        ImageIcon tresor = new ImageIcon(new ImageIcon("images/icones/iconGet.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)); 
+        ImageIcon tresor = new ImageIcon(new ImageIcon("images/icones/iconGet.png").getImage().getScaledInstance(taille, taille, Image.SCALE_DEFAULT)); 
         JLabel get = new JLabel(tresor);
         panel5.add(get, BorderLayout.CENTER);
         label5 = new JLabel("Récupérer trésor");
         label5.setHorizontalAlignment(JLabel.CENTER);
         panel5.add(label5, BorderLayout.SOUTH);
-        panel5.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel5.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel5.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -203,22 +214,24 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel5.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel5.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
             }
         });
         
         panel6 = new JPanel(new BorderLayout()); 
         this.add(panel6);
-        ImageIcon finTour = new ImageIcon(new ImageIcon("images/icones/iconMove.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)); 
+        ImageIcon finTour = new ImageIcon(new ImageIcon("images/icones/iconDone.png").getImage().getScaledInstance(taille, taille, Image.SCALE_DEFAULT)); 
         JLabel fin = new JLabel(finTour);
-        panel6.add(dep, BorderLayout.CENTER);
+        panel6.add(fin, BorderLayout.CENTER);
         label6 = new JLabel("Finir Tour");
         label6.setHorizontalAlignment(JLabel.CENTER);
         panel6.add(label6, BorderLayout.SOUTH);
-        panel6.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel6.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel6.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -237,10 +250,12 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel6.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel6.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
             }
         });
         
@@ -256,5 +271,16 @@ public class VueBouton extends JPanel{
     
     public void notifierObservateur(Object arg) {
         vuePlateau.notifierObservateur(arg);
+    }
+    
+    public void enableBouton(boolean b){
+        this.label1.setEnabled(b);
+        this.label2.setEnabled(b);
+        this.label3.setEnabled(b);
+        this.label4.setEnabled(b);
+        this.label5.setEnabled(b);
+        this.label6.setEnabled(b);
+        
+        
     }
 }

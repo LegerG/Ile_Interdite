@@ -11,5 +11,5 @@ public class CarteSacsDeSable extends CarteTirage {
     }
     
     public boolean isCarteSac() {
-return false;    }
+return true;    }
 }

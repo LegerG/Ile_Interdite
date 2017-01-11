@@ -25,6 +25,7 @@ public class VueGrille extends JPanel{
         this.setLayout(new GridLayout(6,6));
         this.vuePlateau = vuePlateau;
         this.setSize(900, 900);
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         int t =0; //indice d'une tuile dans le tableau de tuile en parametre
        
         for (int i = 0; i <6; i++) {
@@ -75,7 +76,7 @@ public class VueGrille extends JPanel{
               
             }
         }
-        imageFond = new ImageIcon(new ImageIcon("images/oceanFond.jpg").getImage().getScaledInstance(900, 900, Image.SCALE_DEFAULT)); 
+        imageFond = new ImageIcon(new ImageIcon("images/ile3.jpg").getImage().getScaledInstance(900, 900, Image.SCALE_DEFAULT)); 
         this.setOpaque(false);
         
     }
@@ -118,6 +119,10 @@ public class VueGrille extends JPanel{
     
     public void coulerTuile(Tuile tuile) {
         vuesTuiles.get(tuile.getId()).coulerTuile();
+    }
+    
+    public void assecherTuile(Tuile tuile) {
+        vuesTuiles.get(tuile.getId()).assecherTuile();
     }
 }
     

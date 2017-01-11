@@ -17,7 +17,7 @@ public abstract class Aventurier extends ObjetIdentifie {
     protected Pion pion;
     protected Tuile position;
     protected ArrayList<CarteTirage> main;
-    protected ArrayList<CarteTresor> tresors;
+    protected ArrayList<CarteTresor> tresors = new ArrayList<>();
     protected String nom;
     protected RoleAventurier roleAventurier;
 
@@ -37,10 +37,16 @@ public abstract class Aventurier extends ObjetIdentifie {
     
     public void removeCarte(CarteTirage carte){
         main.remove(carte);
+        if(carte.isCarteTresor()){
+            this.tresors.remove((CarteTresor)carte);
+        }
     }
     
     public void addCarte(CarteTirage carte){
         main.add(carte);
+        if(carte.isCarteTresor()){
+            this.addCarteTresor((CarteTresor) carte);
+        }
     }
     public void addCarteTresor(CarteTresor carte){
         tresors.add(carte);
