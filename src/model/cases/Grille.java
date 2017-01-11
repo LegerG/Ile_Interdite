@@ -83,7 +83,7 @@ public class Grille {
             for (int x = 0; x<6; x++) {
                 for (int y = 0 ; y<6; y++) {
                     listeID.add(idTuiles[x][y]);
-               //     ((Pilote)aventurier).setPouvoirdispo(false);
+                   ((Pilote)aventurier).setPouvoirdispo(false);
                 }
             }
         }
@@ -135,8 +135,6 @@ public class Grille {
             }
 
         }
-
-
 
         Iterator it = listeID.iterator();
         while(it.hasNext()){
@@ -234,7 +232,7 @@ public class Grille {
          return this.tuiles.get(id);
       }
       
-      public ArrayList<Integer> getAdjacentes(int idposition){ // sert uniquement pour le test du pouvoir du pilote
+      public ArrayList<Integer> getAdjacentes(int idposition){ // sert uniquement pour le test du pouvoir du pilote/ pourrait être remplacé pour les autrees méthodes...
         ArrayList<Integer> listeID = new ArrayList<>();
         int i,j;
         int[] coor = new int[2];
@@ -251,6 +249,10 @@ public class Grille {
 //      public void setEtatTuile(Tuile tuile) {
 //          tuiles.get(tuile.getId()).setEtatTuile(EtatTuile.COULEE);
 //      }
+
+    public void aff(int i) {
+        System.out.println(tuiles.get(i).getEtatTuile().toString());
+    }
       
       
 }
