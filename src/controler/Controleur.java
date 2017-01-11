@@ -64,7 +64,7 @@ public class Controleur implements Observer {
     private boolean phaseAssechement;
     private boolean phaseJouerCarte;
     private ArrayList<Integer> listeIDDynamic = new ArrayList<>();
-    private int nbActions=0;
+    private int nbActions;
 
     //Cartes
     private ArrayList<CarteInondation> defausseInondation = new ArrayList<>();
@@ -81,7 +81,7 @@ public class Controleur implements Observer {
         this.vueConnexion.addObserver(this);
         vueRegles = new VueRegles();        
         this.vueRegles.addObserver(this);
-        
+        this.nbActions = 0;
     }
     
 
@@ -103,7 +103,7 @@ public class Controleur implements Observer {
         else if (arg == Commandes.REGLES) {
             this.afficherRegles();
         }
-         else if(arg == Commandes.TERMINER){
+        else if(arg == Commandes.TERMINER){
             this.finTour(); // fin du tour
             System.out.println("blbllblblbll");
         }
@@ -117,15 +117,18 @@ public class Controleur implements Observer {
             for(int i : listeIDDynamic){
                 this.vuePlateau.surbriller(i); //fonctionnel, créer une bordure jaune sur les tuiles sur lesquelles ont peut cliquer
             }
+            
             this.phaseDeDeplacement=true;
         }
         else if(arg == Commandes.ASSECHER){
             phaseDeDeplacement=false;
             listeIDDynamic.clear();
             listeIDDynamic.addAll(this.grille.getTuilesAssechables(jCourant));
+            
             for(int i :  listeIDDynamic){
-              this.vuePlateau.surbriller(i);
-          }  
+                this.vuePlateau.surbriller(i);
+            }
+            
             this.phaseAssechement=true;
         }
                 
@@ -180,60 +183,62 @@ public class Controleur implements Observer {
                 this.nbActions++;
         }  
         if(phaseJouerCarte){
-           if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
-               for (int i =0;i<24;i++){
-                   this.vuePlateau.surbriller(i);
-               }
-               this.phaseDeDeplacement=true;
-           }
-           else if(jCourant.getMain().get((int)arg).isCarteSac()){
-               for (int i =0;i<24;i++){
-                   this.vuePlateau.surbriller(i);
-               }
-               this.phaseAssechement=true;
-           }
-           else{
-               //On ne peut pas jouer cette carte
-           }
+            if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
+                for (int i =0;i<24;i++){
+                    this.vuePlateau.surbriller(i);
+                }
+                this.phaseDeDeplacement=true;
+            }
+            else if(jCourant.getMain().get((int)arg).isCarteSac()){
+                for (int i =0;i<24;i++){
+                    this.vuePlateau.surbriller(i);
+                }
+                this.phaseAssechement=true;
+            }
+            else{
+                //On ne peut pas jouer cette carte
+            }
            
         }
        
         if(phaseDeDeplacement && phaseJouerCarte){ //carte hélico  | la case de départ est toujours la position de jCourant. Trop lourd sinon
-                    this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
-                    for(Aventurier j : this.jCourant.getPosition().getAventuriers()){
-                       j.setPosition(this.grille.getTuileAvecID((int)arg));
-                       j.getPosition().getAventuriers().add(j);
-                    }
+            this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
+            for(Aventurier j : this.jCourant.getPosition().getAventuriers()) {
+                
+                j.setPosition(this.grille.getTuileAvecID((int)arg));
+                j.getPosition().getAventuriers().add(j);
+            }
 
-                    this.jCourant.getPosition().getAventuriers().clear();
-                    this.phaseDeDeplacement=false;
-                    if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
-                    phaseJouerCarte=false;
+            this.jCourant.getPosition().getAventuriers().clear();
+            this.phaseDeDeplacement=false;
+            if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
+            phaseJouerCarte=false;
         }
         
-         if(phaseAssechement && phaseJouerCarte){ //carte bac à sable
-                   this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
-                   this.phaseAssechement=false;
-                   //assecherlacarte
-                   phaseJouerCarte=false;
+        if(phaseAssechement && phaseJouerCarte){ //carte bac à sable
+            
+            this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
+            this.phaseAssechement=false;
+            //assecherlacarte
+            phaseJouerCarte=false;
         }
          
          if(phaseDonnerCarte){
-                   if(!jCourant.equals(jCourant.getPosition().getAventuriers().get(0))){
-                   this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
-                   jCourant.removeCarte(jCourant.getMain().get((int)arg));
-                   //mettre a jour l'ihm
-                   }
+             
+            if(!jCourant.equals(jCourant.getPosition().getAventuriers().get(0))){
+                this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
+                jCourant.removeCarte(jCourant.getMain().get((int)arg));
+                //mettre a jour l'ihm
+            }
          }
             
     }
-    }   
-    
-    else if(this.nbActions==jCourant.getNbAction()){
-            System.out.println("PLUS ACTION");
+    }    
+    else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
+        System.out.println("PLUS D'ACTION");
     }
     else{
-        
+        System.out.println("jCourant est null ce petit batard");
     }
 }
     public void initialiserPartie() {
