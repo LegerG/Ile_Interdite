@@ -72,6 +72,7 @@ public class VueTuile extends JPanel {
         if (pionsJoueurs.contains(pion)) {
             labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(null);
             pionsJoueurs.remove(pion);
+            this.setBorder(BorderFactory.createLineBorder(Color.yellow, 0));
         }
        
     }
