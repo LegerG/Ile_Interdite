@@ -5,7 +5,6 @@ package controler;
 
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
@@ -13,11 +12,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
@@ -34,18 +31,15 @@ import model.cartes.CarteTresor;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
-import util.Parameters;
 import util.Utils;
 import util.Utils.Commandes;
 import util.Utils.EtatTuile;
 import util.Utils.RoleAventurier;
-import static util.Utils.RoleAventurier.Explorateur;
 import util.Utils.Tresor;
 import static util.Utils.melangerCartesInondations;
 import static util.Utils.melangerCartesTirages;
 import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
-import view.VueAventurier;
 import view.VueConnexion;
 //import view.VueDefausse;
 import view.VueInscription;
@@ -551,8 +545,8 @@ public class Controleur implements Observer {
     }
     
     public void piocherCartesTirage(){
-        
-        for (int i=1;i<=2;i++){
+        if (jCourant.getMain().size() < 10) {
+            for (int i=1;i<=2;i++){
            if(this.piocheTirage.isEmpty()){
                this.vuePlateau.getMessageBox().displayMessage("La pioche de cartes est vide. On mélange la défausse et elle devient la pioche", Color.BLACK, phaseDonnerCarte, phaseDefausse);
                melangerCartesTirages(defausseTirage);
@@ -578,6 +572,12 @@ public class Controleur implements Observer {
               this.piocheTirage.remove(this.piocheTirage.get(this.piocheTirage.size()-1)); // retrait de la carte piochée de la pioche
            }
         }
+        else {
+            vuePlateau.getMessageBox().displayMessage("Vous ne pouvez plus piocher.", Color.red, true, true);
+        }
+        
+        
+    }
     
     public void piocherCarteInondation(int nbCarteInondation) {
         for (int i = 0; i < nbCarteInondation; i++) {

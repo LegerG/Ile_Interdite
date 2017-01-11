@@ -9,14 +9,11 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
@@ -24,9 +21,6 @@ import model.aventuriers.Messager;
 import model.aventuriers.Navigateur;
 import model.aventuriers.Pilote;
 import model.aventuriers.Plongeur;
-import util.Parameters;
-import util.Utils;
-import static util.Utils.RoleAventurier.Pilote;
  
 public class VueAventurier extends JPanel {
     
@@ -110,6 +104,7 @@ public class VueAventurier extends JPanel {
     }
     
     public void afficherCartesAventurier(Aventurier a) {
+        
         for (int i =0; i< a.getMain().size(); i++) {
             ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/"+a.getMain().get(i).getNomFichier()+".png").getImage().getScaledInstance(120, 180, Image.SCALE_DEFAULT));
             this.listeLabel.get(i).setIcon(carteVerso);
