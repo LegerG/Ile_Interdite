@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -42,7 +43,10 @@ public class VueAventurier extends JPanel {
         html = new JEditorPane();
         html.setContentType("text/html");
         html.setText(aventurier.getRoleAventurier().name());
+        Font font = new Font("Arial",Font.BOLD,20);
+        html.setFont(font);
         html.setBackground(aventurier.getPion().getCouleur());
+        html.setEditable(false);
         html.setMinimumSize(new Dimension(taille, 20));
         html.setPreferredSize(new Dimension(taille, 20));
         html.setMaximumSize(new Dimension(taille, 20));

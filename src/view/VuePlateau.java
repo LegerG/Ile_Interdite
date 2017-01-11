@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -97,10 +98,21 @@ public class VuePlateau extends Observable {
         
         JPanel panelDefausse = new JPanel(new BorderLayout());
         panelDefausse.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-        ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/Fond bleu.png").getImage().getScaledInstance(200, 300, Image.SCALE_DEFAULT)); 
+        ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/Fond bleu.png").getImage().getScaledInstance(400, 600, Image.SCALE_DEFAULT)); 
         JLabel defausse = new JLabel(carteVerso);
         panelDefausse.add(defausse, BorderLayout.CENTER);
-        panelDefausse.add(new JLabel("Voir les cartes de la défausse"), BorderLayout.NORTH);
+        JLabel label = new JLabel("Voir les cartes de la défausse");
+        panelDefausse.add(label, BorderLayout.NORTH);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        Font font = new Font("Arial",Font.BOLD,20);
+        label.setFont(font);
+        
+        JLabel label2 = new JLabel("Et les trésors obtenus");
+        panelDefausse.add(label2, BorderLayout.SOUTH);
+        label2.setHorizontalAlignment(JLabel.CENTER);
+        label2.setFont(font);
+        
+        
         panelBasDroite.add(panelDefausse);
         panelDefausse.addMouseListener(new MouseListener() {
             @Override
