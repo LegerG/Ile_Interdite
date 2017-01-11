@@ -603,6 +603,7 @@ public class Controleur implements Observer {
                 vuePlateau.coulerTuile(tuileAInonder);
                 tuileAInonder.setEtatTuile(EtatTuile.COULEE);
                 piocheInondation.remove(piocheInondation.size() - 1);
+                System.out.println(tuileAInonder.getNom());
             }
             
             
@@ -730,8 +731,10 @@ public class Controleur implements Observer {
             (tuiles[0].getEtatTuile() == EtatTuile.COULEE && tuiles[23].getEtatTuile() == EtatTuile.COULEE) ||
             (tuiles[3].getEtatTuile() == EtatTuile.COULEE && tuiles[13].getEtatTuile() == EtatTuile.COULEE) ||
             (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) ||
-            (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[9].getEtatTuile() == EtatTuile.COULEE)) 
+            (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[15].getEtatTuile() == EtatTuile.COULEE)) 
         {   
+            
+            //fenetre spéciale défaite
             vuePlateau.getWindow().setEnabled(false);
             JFrame fenetrePerdu = new JFrame("Défaite !");
             fenetrePerdu.setSize(400, 100);
