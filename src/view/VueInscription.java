@@ -118,7 +118,13 @@ public class VueInscription extends Observable  {
     public ArrayList<String> getNomJoueur() {
         ArrayList<String> nomJoueurs = new ArrayList<>();
         for (JTextField t : jTextFieldsJoueurs) {
-            nomJoueurs.add(t.getText());
+            if (t.getText() != null) {
+                nomJoueurs.add(t.getText());
+            }
+            else {
+                nomJoueurs.add("T'es un flemmard !");
+            }
+            
         }
         
         return nomJoueurs;
