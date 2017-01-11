@@ -182,5 +182,8 @@ public class VuePlateau extends Observable {
         return messageBox;
     }
     
+    public void enableBouton(boolean b){
+        this.vueBouton.enableBouton(b);
+    }
     
 }

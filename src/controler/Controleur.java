@@ -63,16 +63,18 @@ public class Controleur implements Observer {
     private int nbJoueurs;
     private int nbCartesInnondationsPioches;
     private int nbActions;
-    private boolean phaseDeDeplacement;
-    private boolean phaseAssechement;
-    private boolean phaseJouerCarte;
-    private boolean phaseDonnerCarte;
+    private boolean phaseDeDeplacement=false;
+    private boolean phaseAssechement=false;
+    private boolean phaseJouerCarte=false;
+    private boolean phaseDonnerCarte=false;
+    private boolean phaseDefausse=false;
 
     //Cartes
     private ArrayList<CarteInondation> defausseInondation = new ArrayList<>();
     private ArrayList<CarteInondation> piocheInondation = new ArrayList<>();
     private ArrayList<CarteTirage> defausseTirage = new ArrayList<>();
     private ArrayList<CarteTirage> piocheTirage = new ArrayList<>();
+    
     
     
     public Controleur() {
@@ -149,14 +151,17 @@ public class Controleur implements Observer {
             System.out.println((int)arg);
             grille.aff((int)arg);
             if(phaseDeDeplacement){
+                System.out.println("deplac");
                 this.vuePlateau.desurbriller();
-                if (this.listeIDDynamic.contains(arg))
+                if (this.grille.getTuilesAccessibles(jCourant).contains(arg))
                 {
+                    
                     if(jCourant.isPilote()){
                         if(!grille.getAdjacentes(this.jCourant.getPosition().getId()).contains((int)arg)){
                             ((Pilote)jCourant).setPouvoirdispo(false);
                         }
                     }
+                    System.out.println("Nouclikam");
                     this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
 
                     
@@ -170,7 +175,7 @@ public class Controleur implements Observer {
                     //on ne peut pas se déplacer là
                     
                 }
-                
+                     vuePlateau.enableBouton(true);
                     }
                     if(phaseAssechement && listeIDDynamic.contains(arg))
                     {
@@ -287,7 +292,7 @@ public class Controleur implements Observer {
 //        this.piocherCartesTirage();
         this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
 
-       
+        joueurs.get(1).getPosition().setEtatTuile(EtatTuile.COULEE);
     }
     
     public void remplirTuiles() {
@@ -594,7 +599,20 @@ public class Controleur implements Observer {
         changerJCourant();
         this.nbActions=0;
         
-      //  this.defausserCartes();
+        if(jCourant.getPosition().getEtatTuile()==EtatTuile.COULEE){
+            
+            this.vuePlateau.getMessageBox().displayMessage("Vous devez quitter la tuile coulée", jCourant.getPion().getCouleur(), true, true);
+            vuePlateau.enableBouton(false);
+            for(Integer i :this.grille.getTuilesAccessibles(jCourant)){
+                this.vuePlateau.surbriller(i);
+            }
+            this.phaseDeDeplacement=true; nbActions--;
+        }
+        
+        if(jCourant.getMain().size()>5){
+            this.vuePlateau.getMessageBox().displayMessage("Vous devez défausser des cartes", jCourant.getPion().getCouleur(), true, true);
+            phaseDefausse=true;
+        }
     }
     
     /**
@@ -628,7 +646,7 @@ public class Controleur implements Observer {
     
     public void changerJCourant() {
         jCourant = joueurs.get((joueurs.indexOf(jCourant) + 1) % nbJoueurs);
-        this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), phaseDeDeplacement, phaseJouerCarte);
+        this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
     }
 
     private void donnerCarte() {

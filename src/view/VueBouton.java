@@ -269,4 +269,14 @@ public class VueBouton extends JPanel{
     public void notifierObservateur(Object arg) {
         vuePlateau.notifierObservateur(arg);
     }
+    
+    public void enableBouton(boolean b){
+        label1.setEnabled(b);
+        label2.setEnabled(b);
+        label3.setEnabled(b);
+        label4.setEnabled(b);
+        label5.setEnabled(b);
+        label6.setEnabled(b);
+        
+    }
 }
