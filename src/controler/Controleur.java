@@ -159,7 +159,8 @@ public class Controleur implements Observer {
         }
         
         else if (arg == Commandes.DONNER) {
-            phaseDonnerCarte=true;
+           if(!jCourant.getTresors().isEmpty()) phaseDonnerCarte=true;
+           else this.vuePlateau.getMessageBox().displayAlerte("Vous n'avez pas de cartes trésor à donner");
         }
         
         
@@ -228,13 +229,19 @@ public class Controleur implements Observer {
                 }
 
             else if(phaseDonnerCarte){
-
-                    if(!jCourant.equals(jCourant.getPosition().getAventuriers().get(0))){
-                        this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
-                        jCourant.removeCarte(jCourant.getMain().get((int)arg));
-                        //mettre a jour l'ihm
-                    }
+                if(jCourant.getPosition().getAventuriers().size()>1){
+                for(Aventurier a : jCourant.getPosition().getAventuriers() ) {
+                    if(!a.equals(jCourant)) jExceptionnel=a;
+                }
+                this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
+                jCourant.removeCarte(jCourant.getMain().get((int)arg));
+                //truc ihm
+                this.nbActions++;
                  }
+                else{
+                    this.vuePlateau.getMessageBox().displayAlerte("Vous êtes seul sur votre tuile");
+                }
+            }
             else {
                 System.out.println("GEM fère des elss qui sairv");
             }
@@ -303,7 +310,10 @@ public class Controleur implements Observer {
                     this.vuePlateau.assecherTuile(this.grille.getTuileAvecID((int) arg)); // mise à jour de l'ihm
                     phaseSacSable=false;
                     
-            }    
+            }
+            else {
+                System.out.println("GEM fère des elss qui sairv");
+            }
         }
     else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
         this.vuePlateau.getMessageBox().displayMessage("Vous n'avez plus d'actions", Color.black, true, true);
@@ -686,10 +696,10 @@ public class Controleur implements Observer {
             
         }
         
-        //if(jCourant.getMain().size()>5){
-        //    this.vuePlateau.getMessageBox().displayMessage("Vous devez défausser des cartes", jCourant.getPion().getCouleur(), true, true);
-        //    phaseDefausse=true;
-        //}
+        if(jCourant.getMain().size()>5){
+            this.vuePlateau.getMessageBox().displayMessage("Vous devez avoir 5 cartes et donc vous défausser", jCourant.getPion().getCouleur(), true, true);
+            phaseDefausse=true;
+        }
         
         //verifierDefaite();
     }
