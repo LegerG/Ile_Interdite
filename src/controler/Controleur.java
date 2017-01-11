@@ -1,13 +1,13 @@
 package controler;
 
 
+import model.aventuriers.Explorateur;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 import model.aventuriers.Aventurier;
-import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
 import model.aventuriers.Messager;
 import model.aventuriers.Navigateur;
@@ -37,10 +37,7 @@ import view.VueInscription;
 import view.VueRegles;
 
 
-/**
- *
- * @author IUT2-Dept Info
- */
+
 public class Controleur implements Observer {
     //IHMs
     private VueInscription vueInscription;
@@ -150,6 +147,19 @@ public class Controleur implements Observer {
             
             System.out.println((int)arg);
             grille.aff((int)arg);
+            
+            
+            if(phaseDefausse && !phaseDeDeplacement){
+
+                defausseTirage.add(this.jCourant.getMain().get((int)arg));
+                jCourant.getMain().remove(jCourant.getMain().get((int)arg));
+                if(jCourant.getMain().size()==5){
+                    phaseDefausse=false;
+                }
+                this.vuePlateau.getMessageBox().displayAlerte("Vous avez défaussé une carte");
+            }
+            
+            
             if(phaseDeDeplacement){
                 System.out.println("deplac");
                 this.vuePlateau.desurbriller();
@@ -176,7 +186,7 @@ public class Controleur implements Observer {
                     
                 }
                      vuePlateau.enableBouton(true);
-                    }
+            }
                     if(phaseAssechement && listeIDDynamic.contains(arg))
                     {
                         this.vuePlateau.desurbriller();
@@ -244,6 +254,8 @@ public class Controleur implements Observer {
                         //mettre a jour l'ihm
                     }
                  }
+                 
+            
 
             }
             }    
@@ -502,6 +514,7 @@ public class Controleur implements Observer {
            }
            if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteMonteeDesEaux()){
               // on ajoute la défausse inondation mélangée à sa pioche, et on met la carte à la défausse.
+              this.vuePlateau.getMessageBox().displayAlerte("Vous venez de piocher une carte Montée des Eaux !");
                melangerCartesInondations(defausseInondation);
               this.piocheInondation.addAll(defausseInondation);
               this.niveauEau++;
@@ -598,7 +611,7 @@ public class Controleur implements Observer {
         //passer au joueur suivant
         changerJCourant();
         this.nbActions=0;
-        
+        System.out.println(this.jCourant.getRoleAventurier().toString()+jCourant.getMain().size());
         if(jCourant.getPosition().getEtatTuile()==EtatTuile.COULEE){
             
             this.vuePlateau.getMessageBox().displayMessage("Vous devez quitter la tuile coulée", jCourant.getPion().getCouleur(), true, true);
@@ -607,9 +620,10 @@ public class Controleur implements Observer {
                 this.vuePlateau.surbriller(i);
             }
             this.phaseDeDeplacement=true; nbActions--;
+            
         }
         
-        if(jCourant.getMain().size()>5){
+        if(jCourant.getMain().size()>2){
             this.vuePlateau.getMessageBox().displayMessage("Vous devez défausser des cartes", jCourant.getPion().getCouleur(), true, true);
             phaseDefausse=true;
         }
