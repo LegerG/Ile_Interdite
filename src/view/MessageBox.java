@@ -75,12 +75,12 @@ public class MessageBox {
         html.setEditable(false);
         this.scrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
         
-        html.setMinimumSize(new Dimension(350, dim.height/2));
-        html.setPreferredSize(new Dimension(350, dim.height/2));
-        scrollPane.setPreferredSize(new Dimension(350, dim.height/2));
+        html.setMinimumSize(new Dimension(300, dim.height/2));
+        html.setPreferredSize(new Dimension(300, dim.height/2));
+        scrollPane.setPreferredSize(new Dimension(300, dim.height/2));
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setMinimumSize(new Dimension(350, dim.height/2));
+        scrollPane.setMinimumSize(new Dimension(300, dim.height/2));
         
         html.setText("<html><h1 style=\"text-align:center; color:blue;\">Bienvenue dans<br>l'Île Interdite</h1></html>");
         mainPanel.add(scrollPane) ;

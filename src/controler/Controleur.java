@@ -3,11 +3,18 @@ package controler;
 
 
 
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
@@ -58,7 +65,6 @@ public class Controleur implements Observer {
     
     //Partie
     private ArrayList<Aventurier> joueurs = new ArrayList<>();
-    private ArrayList<Integer> listeIDDynamic = new ArrayList<>();
     private ArrayList<Tresor> tresorsGagnes= new ArrayList<>();
     private Aventurier jCourant;
     private Aventurier jExceptionnel;
@@ -128,10 +134,9 @@ public class Controleur implements Observer {
         
         if (arg == Commandes.BOUGER){
             phaseAssechement=false;
-            listeIDDynamic.clear();
-            listeIDDynamic.addAll(this.grille.getTuilesAccessibles(jCourant));
+            
              
-            for(int i : listeIDDynamic){
+            for(int i : (this.grille.getTuilesAccessibles(jCourant))){
                 this.vuePlateau.surbriller(i); //fonctionnel, créer une bordure jaune sur les tuiles sur lesquelles ont peut cliquer
             }
             
@@ -139,10 +144,9 @@ public class Controleur implements Observer {
         }
         else if(arg == Commandes.ASSECHER){
             phaseDeDeplacement=false;
-            listeIDDynamic.clear();
-            listeIDDynamic.addAll(this.grille.getTuilesAssechables(jCourant));
             
-            for(int i :  listeIDDynamic){
+            
+            for(int i :  this.grille.getTuilesAssechables(jCourant)){
                 this.vuePlateau.surbriller(i);
             }
             
@@ -161,7 +165,7 @@ public class Controleur implements Observer {
         
         else if(arg instanceof Integer){
             System.out.println((int)arg);
-            grille.aff((int)arg);
+           // grille.aff((int)arg);
             
             // défausse
             if(phaseDefausse && !phaseDeDeplacement){
@@ -175,7 +179,7 @@ public class Controleur implements Observer {
             }
             
             // déplacement
-            if(phaseDeDeplacement){
+            if(phaseDeDeplacement && !phaseJouerCarte){
                 System.out.println("deplac");
                 if (this.grille.getTuilesAccessibles(jCourant).contains(arg)) {
                     
@@ -185,8 +189,7 @@ public class Controleur implements Observer {
                             ((Pilote)jCourant).setPouvoirdispo(false);
                         }
                     }
-                    System.out.println("Nouclikam");
-                    this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
+                    this.deplacerJoueur(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
 
                     
                     this.phaseDeDeplacement=false;
@@ -202,7 +205,7 @@ public class Controleur implements Observer {
                      vuePlateau.enableBouton(true);
             }
             //asséchement
-            if(phaseAssechement && listeIDDynamic.contains(arg))
+            if(phaseAssechement && this.grille.getTuilesAssechables(jCourant).contains(arg) && !phaseJouerCarte)
                     {
                         this.vuePlateau.desurbriller();
                         this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
@@ -222,17 +225,17 @@ public class Controleur implements Observer {
                 }
              
                     //jouer carte hélico
-            if(phaseJouerCarte){
+            if(phaseJouerCarte && !phaseDeDeplacement){
                         System.out.println("phaseJouerCarte");
-                        if (jCourant.getMain().get((int)arg-1).isCarteHelicoptere()){
+                        if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
                             System.out.println("hélico");
-                            for (int i =0;i<24;i++){
+                            for (Integer i : grille.getTuiles().keySet()){
                             this.vuePlateau.surbriller(i);
                             }
                         this.phaseDeDeplacement=true;
                     }
                     // jouer une carte bac à sable
-                    else if(jCourant.getMain().get((int)arg -1).isCarteSac()){
+                    else if(jCourant.getMain().get((int)arg).isCarteSac()){
                             System.out.println("sac sable");
                         for (int i =0;i<24;i++){
                             if(grille.getTuileAvecID(i).getEtatTuile()==EtatTuile.INONDEE){
@@ -248,14 +251,14 @@ public class Controleur implements Observer {
                 }
 
                 if(phaseDeDeplacement && phaseJouerCarte){ //carte hélico  | la case de départ est toujours la position de jCourant. Trop lourd sinon
-                    this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
-                    for(Aventurier j : this.jCourant.getPosition().getAventuriers()) {
-
-                        j.setPosition(this.grille.getTuileAvecID((int)arg));
-                        j.getPosition().getAventuriers().add(j);
-                    }
-
-                    this.jCourant.getPosition().getAventuriers().clear();
+                    // pour déplacer sur l'ihm
+                    System.out.println("nb aventurier sur la case : "+ this.jCourant.getPosition().getAventuriers().size());
+//                    for(Aventurier j : this.jCourant.getPosition().getAventuriers()) {
+//
+//                        this.deplacerJoueur(this.grille.getTuileAvecID((int)arg),j);
+//                    }
+                     if(this.grille.getTuileAvecID((int)arg)==null) System.out.println("PUUUTE");
+                    this.deplacerJoueur(this.grille.getTuileAvecID((int)arg));
                     this.vuePlateau.desurbriller();
                     this.phaseDeDeplacement=false;
                     if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
@@ -279,9 +282,7 @@ public class Controleur implements Observer {
                         //mettre a jour l'ihm
                     }
                  }
-                 else{
-                     System.out.println("Pas de phase");
-                 }
+              
             
             }
         else{
@@ -289,12 +290,13 @@ public class Controleur implements Observer {
         }
             }    
             else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
-                System.out.println("PLUS D'ACTION");
+                this.vuePlateau.getMessageBox().displayMessage("Vous n'avez plus d'actions", Color.black, true, true);
             }
             else{
                 System.out.println("jCourant est null ce petit batard");
             }
-        
+            
+            
        
        
     
@@ -507,6 +509,9 @@ public class Controleur implements Observer {
         } else if (o instanceof VueDefausse) {
             this.vueDefausse.fermerFenetre();
         }
+        else if (o instanceof JFrame) {
+            vuePlateau.getWindow().dispose();
+        }
     } 
     
     public void retour(){
@@ -666,15 +671,18 @@ public class Controleur implements Observer {
             this.vuePlateau.getMessageBox().displayMessage("Vous devez défausser des cartes", jCourant.getPion().getCouleur(), true, true);
             phaseDefausse=true;
         }
+        
+        verifierDefaite();
     }
     
     /**
         Cette méthode déplace le joueur a une nouvelle position
      * @param nouvellePosition
     */
-    public void deplacerJCourant(Tuile nouvellePosition) {
+    public void deplacerJoueur(Tuile nouvellePosition) {
         Tuile anciennePosition = jCourant.getPosition();
         anciennePosition.removeAventurier(jCourant);
+       
         nouvellePosition.addAventurier(jCourant);
         jCourant.setPosition(nouvellePosition);
         vuePlateau.setPosition(jCourant, nouvellePosition, anciennePosition);
@@ -704,6 +712,35 @@ public class Controleur implements Observer {
 
     private void donnerCarte() {
         
+    }
+    
+    public void verifierDefaite() {
+//        if(tuiles[21].getEtatTuile() == EtatTuile.COULEE || 
+//            nbCartesInnondationsPioches == 6 || 
+//                (tuiles[0].getEtatTuile() == EtatTuile.COULEE && tuiles[23].getEtatTuile() == EtatTuile.COULEE) ||
+//                (tuiles[3].getEtatTuile() == EtatTuile.COULEE && tuiles[13].getEtatTuile() == EtatTuile.COULEE) ||
+//                (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) ||
+//                (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[9].getEtatTuile() == EtatTuile.COULEE)
+//                ) 
+if(true)
+        {
+            JFrame fenetrePerdu = new JFrame("Défaite !");
+            vuePlateau.getWindow().setEnabled(false);
+            fenetrePerdu.setLayout(new GridLayout(2, 1));
+            JLabel msg = new JLabel("Vous êtes mort.");
+            fenetrePerdu.add(msg);
+            JButton quitter = new JButton("J'ai compris");
+            quitter.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    quitter(fenetrePerdu);
+                    fenetrePerdu.dispose();
+                }
+            });
+            fenetrePerdu.add(quitter);
+            fenetrePerdu.setLocationRelativeTo(null);
+            fenetrePerdu.setVisible(true);
+        }
     }
     
 }
