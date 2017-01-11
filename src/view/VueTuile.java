@@ -79,7 +79,7 @@ public class VueTuile extends JPanel {
     }
     
     public void coulerTuile() {
-        this.imageTuile = new ImageIcon(new ImageIcon("images/tuiles/" + nomFichier.trim() + "_Inonde.png").getImage().getScaledInstance(0, 0, Image.SCALE_DEFAULT));
+        this.imageTuile = new ImageIcon(new ImageIcon("images/tuiles/" + nomFichier.trim() + "_Inonde.png").getImage().getScaledInstance(1,1, Image.SCALE_DEFAULT));
     }
     
     public void assecherTuile() {
