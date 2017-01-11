@@ -6,11 +6,14 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,11 +25,13 @@ import model.aventuriers.Navigateur;
 import model.aventuriers.Pilote;
 import model.aventuriers.Plongeur;
 import util.Parameters;
+import util.Utils;
 import static util.Utils.RoleAventurier.Pilote;
  
-public class VueAventurier extends JPanel{
+public class VueAventurier extends JPanel {
     
     
+    private JPanel mainPanel;
     private VuePlateau vuePlateau;
     private ArrayList<VueCarte> vuesCartes;
     private ArrayList<JLabel> listeLabel = new ArrayList<>();
@@ -38,6 +43,8 @@ public class VueAventurier extends JPanel{
     
     public VueAventurier(VuePlateau vuePlateau, Aventurier aventurier){
         this.setLayout(new BorderLayout());
+        
+  
         int taille = 700;
         
         html = new JEditorPane();
@@ -89,7 +96,7 @@ public class VueAventurier extends JPanel{
         } else if (aventurier instanceof Messager) {
             labelCapacite.setText("Donnez des cartes trésors à un joueur n'importe où sur l'île pour une action par carte ");
         } else if (aventurier instanceof Navigateur) {
-            labelCapacite.setText("Déplacez un joueur d'une ou deux tuiles adjacentes pour une action");
+            labelCapacite.setText("Vous avez 4 actions au lieu de 3");
         } else if (aventurier instanceof Explorateur) {
             labelCapacite.setText("Peut se déplacer et assécher en diagonale");
         }
@@ -108,6 +115,40 @@ public class VueAventurier extends JPanel{
         for (int i =0; i< a.getMain().size(); i++) {
             ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/"+a.getMain().get(i).getNomFichier()+".png").getImage().getScaledInstance(120, 180, Image.SCALE_DEFAULT));
             this.listeLabel.get(i).setIcon(carteVerso);
+            this.setListener(a);
+            
+        }
+    }
+    
+    public void setListener(Aventurier a){
+        for (int i = 0; i < a.getMain().size(); i++){
+            int j = i;
+            listeLabel.get(i).addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                vuePlateau.notifierObservateur((Integer) j);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+               
+            }
+        });
             
         }
     }
