@@ -93,7 +93,7 @@ public class VueDefausse extends Observable{
         panelTirage.add(label2, BorderLayout.NORTH);
         panelTirage.add(scrollPane, BorderLayout.CENTER) ;
         for (CarteInondation carteInondation : defausseInondation){
-                texteTirage += "<br>- "+carteInondation.getNomFichier() ;
+                texteInondation += "<br>- "+carteInondation.getNomFichier() ;
                 html.setText(this.texteInondation);
         }
         
