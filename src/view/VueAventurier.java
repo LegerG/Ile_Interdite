@@ -119,34 +119,38 @@ public class VueAventurier extends JPanel {
     }
     
     public void setListener(Aventurier a){
+        if (!listeLabel.isEmpty()) {
         for (int i = 0; i < a.getMain().size(); i++){
             int j = i;
-            listeLabel.get(i).addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                vuePlateau.notifierObservateur((Integer) j);
-            }
+            
+                listeLabel.get(i).addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    vuePlateau.notifierObservateur((Integer) j);
+                }
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-               
-            }
+                @Override
+                public void mousePressed(MouseEvent e) {
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
-               
-            }
+                }
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                
-            }
+                @Override
+                public void mouseReleased(MouseEvent e) {
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-               
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
             }
-        });
+            
             
         }
     }

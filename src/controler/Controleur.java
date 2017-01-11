@@ -4,6 +4,7 @@ package controler;
 
 
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
@@ -31,6 +34,7 @@ import model.cartes.CarteTresor;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
+import util.Parameters;
 import util.Utils;
 import util.Utils.Commandes;
 import util.Utils.EtatTuile;
@@ -170,18 +174,18 @@ public class Controleur implements Observer {
         
         else if(arg instanceof Integer){
             System.out.println((int)arg);
-            grille.aff((int)arg);
+//            grille.aff((int)arg);
             
             // défausse
-            if(phaseDefausse && !phaseDeDeplacement){
-
-                defausseTirage.add(this.jCourant.getMain().get((int)arg));
-                jCourant.getMain().remove(jCourant.getMain().get((int)arg));
-                if(jCourant.getMain().size()==5){
-                    phaseDefausse=false;
-                }
-                this.vuePlateau.getMessageBox().displayAlerte("Vous avez défaussé une carte");
-            }
+//            if(phaseDefausse && !phaseDeDeplacement){
+//
+//                defausseTirage.add(this.jCourant.getMain().get((int)arg));
+//                jCourant.getMain().remove(jCourant.getMain().get((int)arg));
+//                if(jCourant.getMain().size()==5){
+//                    phaseDefausse=false;
+//                }
+//                this.vuePlateau.getMessageBox().displayAlerte("Vous avez défaussé une carte");
+//            }
             
             // déplacement
             if(phaseDeDeplacement){
@@ -722,20 +726,24 @@ public class Controleur implements Observer {
     }
     
     public void verifierDefaite() {
-//        if(tuiles[21].getEtatTuile() == EtatTuile.COULEE || 
-//            nbCartesInnondationsPioches == 6 || 
-//                (tuiles[0].getEtatTuile() == EtatTuile.COULEE && tuiles[23].getEtatTuile() == EtatTuile.COULEE) ||
-//                (tuiles[3].getEtatTuile() == EtatTuile.COULEE && tuiles[13].getEtatTuile() == EtatTuile.COULEE) ||
-//                (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) ||
-//                (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[9].getEtatTuile() == EtatTuile.COULEE)
-//                ) 
-if(true)
-        {
-            JFrame fenetrePerdu = new JFrame("Défaite !");
+        if  (tuiles[21].getEtatTuile() == EtatTuile.COULEE || 
+            (nbCartesInnondationsPioches == 6) || 
+            (tuiles[0].getEtatTuile() == EtatTuile.COULEE && tuiles[23].getEtatTuile() == EtatTuile.COULEE) ||
+            (tuiles[3].getEtatTuile() == EtatTuile.COULEE && tuiles[13].getEtatTuile() == EtatTuile.COULEE) ||
+            (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) ||
+            (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[9].getEtatTuile() == EtatTuile.COULEE)) 
+        {   
             vuePlateau.getWindow().setEnabled(false);
-            fenetrePerdu.setLayout(new GridLayout(2, 1));
+            JFrame fenetrePerdu = new JFrame("Défaite !");
+            fenetrePerdu.setSize(400, 100);
+            fenetrePerdu.setAlwaysOnTop(true);
+            fenetrePerdu.setLayout(new BorderLayout());
+            fenetrePerdu.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             JLabel msg = new JLabel("Vous êtes mort.");
-            fenetrePerdu.add(msg);
+            msg.setForeground(Color.red);
+            msg.setHorizontalAlignment(JLabel.CENTER);
+            fenetrePerdu.add(msg, BorderLayout.CENTER);
+            
             JButton quitter = new JButton("J'ai compris");
             quitter.addActionListener(new ActionListener() {
                 @Override
@@ -744,7 +752,9 @@ if(true)
                     fenetrePerdu.dispose();
                 }
             });
-            fenetrePerdu.add(quitter);
+            
+            fenetrePerdu.add(quitter, BorderLayout.SOUTH);
+            
             fenetrePerdu.setLocationRelativeTo(null);
             fenetrePerdu.setVisible(true);
         }
