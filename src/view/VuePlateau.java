@@ -98,13 +98,13 @@ public class VuePlateau extends Observable {
         
         JPanel panelDefausse = new JPanel(new BorderLayout());
         panelDefausse.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-        ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/Fond bleu.png").getImage().getScaledInstance(400, 600, Image.SCALE_DEFAULT)); 
+        ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/Fond bleu.png").getImage().getScaledInstance(300, 470, Image.SCALE_DEFAULT)); 
         JLabel defausse = new JLabel(carteVerso);
         panelDefausse.add(defausse, BorderLayout.CENTER);
         JLabel label = new JLabel("Voir les cartes de la défausse");
         panelDefausse.add(label, BorderLayout.NORTH);
         label.setHorizontalAlignment(JLabel.CENTER);
-        Font font = new Font("Arial",Font.BOLD,20);
+        Font font = new Font("Arial",Font.BOLD,16);
         label.setFont(font);
         
         JLabel label2 = new JLabel("Et les trésors obtenus");
