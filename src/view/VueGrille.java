@@ -119,6 +119,10 @@ public class VueGrille extends JPanel{
     public void coulerTuile(Tuile tuile) {
         vuesTuiles.get(tuile.getId()).coulerTuile();
     }
+    
+    public void assecherTuile(Tuile tuile) {
+        vuesTuiles.get(tuile.getId()).assecherTuile();
+    }
 }
     
     
