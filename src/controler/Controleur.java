@@ -751,7 +751,25 @@ public class Controleur implements Observer {
             (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) ||
             (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[15].getEtatTuile() == EtatTuile.COULEE)) 
         {   
-            
+            if (tuiles[21].getEtatTuile() == EtatTuile.COULEE) {
+                System.out.println("Heliport+");
+                if (nbCartesInnondationsPioches == 6) {
+                    System.out.println("nbCarteInondation+");
+                   if (tuiles[0].getEtatTuile() == EtatTuile.COULEE && tuiles[23].getEtatTuile() == EtatTuile.COULEE) {
+                       System.out.println("coule cristal");
+                 if (tuiles[3].getEtatTuile() == EtatTuile.COULEE && tuiles[13].getEtatTuile() == EtatTuile.COULEE) {
+                     System.out.println("coule pierre");
+                 if (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) {
+                     System.out.println("coule calice");
+                 if (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[15].getEtatTuile() == EtatTuile.COULEE) {
+                     System.out.println("coule zephyr");
+                    
+                }   
+                }   
+                }   
+                } 
+                }
+            }
             //fenetre spéciale défaite
             vuePlateau.getWindow().setEnabled(false);
             JFrame fenetrePerdu = new JFrame("Défaite !");

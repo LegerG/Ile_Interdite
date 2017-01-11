@@ -120,8 +120,7 @@ public class VueAventurier extends JPanel {
     }
     
     public void setListener(Aventurier a){
-        if (!listeLabel.isEmpty()) {
-        for (int i = 0; i < a.getMain().size(); i++){
+        for (int i = 0; i < a.getMain().size() && i < listeLabel.size(); i++){
             int j = i;
             
             listeLabel.get(i).addMouseListener(new MouseListener() {
@@ -151,7 +150,7 @@ public class VueAventurier extends JPanel {
 
                 }
             });
-            }
+            
             
             
         }
