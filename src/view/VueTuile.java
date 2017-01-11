@@ -72,6 +72,7 @@ public class VueTuile extends JPanel {
         if (pionsJoueurs.contains(pion)) {
             labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(null);
             pionsJoueurs.remove(pion);
+            this.setBorder(BorderFactory.createLineBorder(Color.yellow, 0));
         }
        
     }
@@ -82,7 +83,7 @@ public class VueTuile extends JPanel {
     }
     
     public void coulerTuile() {
-        this.imageTuile = new ImageIcon(new ImageIcon("images/TuileCoulee").getImage().getScaledInstance(140,140, Image.SCALE_DEFAULT));
+        this.imageTuile = new ImageIcon(new ImageIcon("images/tuiles" + nomFichier.trim() + "_Inonde.png").getImage().getScaledInstance(140, 140, Image.SCALE_DEFAULT));
         this.setBorder(BorderFactory.createLineBorder(Color.yellow, 0));
     }
     
