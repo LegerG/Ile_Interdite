@@ -72,6 +72,7 @@ public class MessageBox {
         html = new JEditorPane();
         html.setContentType("text/html");
         scrollPane = new JScrollPane(html);
+        html.setEditable(false);
         this.scrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
         
         html.setMinimumSize(new Dimension(350, dim.height/2));

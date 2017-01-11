@@ -36,6 +36,7 @@ import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
 import view.VueAventurier;
 import view.VueConnexion;
+import view.VueDefausse;
 //import view.VueDefausse;
 import view.VueInscription;
 import view.VueRegles;
@@ -48,7 +49,7 @@ public class Controleur implements Observer {
     private VueConnexion vueConnexion;
     private VuePlateau vuePlateau;
     private VueRegles vueRegles;
-//    private VueDefausse vueDefausse;
+    private VueDefausse vueDefausse;
     
     //Plateau
     private Grille grille;
@@ -84,6 +85,12 @@ public class Controleur implements Observer {
         vueRegles = new VueRegles();        
         this.vueRegles.addObserver(this);
         this.nbActions = 0;
+        
+        
+        tresorsGagnes.add(Tresor.PIERRE);
+        tresorsGagnes.add(Tresor.CALICE);
+        tresorsGagnes.add(Tresor.CRISTAL);
+        tresorsGagnes.add(Tresor.ZEPHYR);
     }
     
 
@@ -114,8 +121,8 @@ public class Controleur implements Observer {
         }
         
         else if(arg == Commandes.VOIR_DEFAUSSE) {
-//            vueDefausse = new VueDefausse(tresorsGagnes, defausseInondation, defausseTirage);
-//            vueDefausse.addObserver(this);
+            vueDefausse = new VueDefausse(tresorsGagnes, defausseInondation, defausseTirage);
+            vueDefausse.addObserver(this);
         }
     if(jCourant!=null && nbActions<jCourant.getNbAction())  {
         
@@ -149,15 +156,6 @@ public class Controleur implements Observer {
         else if (arg == Commandes.DONNER) {
             phaseDonnerCarte=true;
         }
-       
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -335,7 +333,7 @@ public class Controleur implements Observer {
 //        this.piocherCartesTirage();
         this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
 
-        joueurs.get(1).getPosition().setEtatTuile(EtatTuile.COULEE);
+//        joueurs.get(1).getPosition().setEtatTuile(EtatTuile.COULEE);
     }
     
     public void remplirTuiles() {
@@ -463,14 +461,14 @@ public class Controleur implements Observer {
             }
             
             joueurs.add(a);
-            a.addCarte(piocheTirage.get(2));
-            a.addCarte(piocheTirage.get(3));
-            a.addCarte(piocheTirage.get(10));
-            a.addCarte(piocheTirage.get(4));
-            a.addCarte(piocheTirage.get(5));
-            a.addCarte(piocheTirage.get(6));
-            a.addCarte(piocheTirage.get(7));
-            a.addCarte(piocheTirage.get(8));
+//            a.addCarte(piocheTirage.get(2));
+//            a.addCarte(piocheTirage.get(3));
+//            a.addCarte(piocheTirage.get(10));
+//            a.addCarte(piocheTirage.get(4));
+//            a.addCarte(piocheTirage.get(5));
+//            a.addCarte(piocheTirage.get(6));
+//            a.addCarte(piocheTirage.get(7));
+//            a.addCarte(piocheTirage.get(8));
             i++;
         }
     }
@@ -506,8 +504,8 @@ public class Controleur implements Observer {
         }
         else if (o instanceof VueRegles) {
             this.vueRegles.fermerFenetre();
-//        } else if (o instanceof VueDefausse) {
-//            this.vueDefausse.fermerFenetre();
+        } else if (o instanceof VueDefausse) {
+            this.vueDefausse.fermerFenetre();
         }
     } 
     
