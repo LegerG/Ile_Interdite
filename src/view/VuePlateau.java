@@ -155,6 +155,10 @@ public class VuePlateau extends Observable {
     public void coulerTuile(Tuile tuile) {
         vueGrille.coulerTuile(tuile);
     }
+    
+    public void assecherTuile(Tuile tuile) {
+        vueGrille.assecherTuile(tuile);
+    }
 
     public JFrame getWindow() {
         return window;
