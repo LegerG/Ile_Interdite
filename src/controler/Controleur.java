@@ -141,6 +141,7 @@ public class Controleur implements Observer {
         }
        
         else if(arg instanceof Integer){
+            
             System.out.println((int)arg);
             grille.aff((int)arg);
             if(phaseDeDeplacement){
@@ -153,9 +154,7 @@ public class Controleur implements Observer {
                         }
                     }
                     this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
-//                    this.jCourant.getPosition().getAventuriers().remove(jCourant);
-//                    this.jCourant.setPosition(this.grille.getTuileAvecID((int)arg));
-//                    this.jCourant.getPosition().getAventuriers().add(jCourant);
+
                     
                     this.phaseDeDeplacement=false;
                     this.nbActions++;
@@ -168,82 +167,84 @@ public class Controleur implements Observer {
                     
                 }
                 
-            }
-            if(phaseAssechement && listeIDDynamic.contains(arg))
-            {
-                this.vuePlateau.desurbriller();
-                this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
-//                this.vuePlateau.assecher;
-                this.phaseAssechement=false;
-                
-                if(jCourant.getRoleAventurier()==RoleAventurier.Ingenieur) {
-                    if (((Ingenieur)jCourant).getPouvoirdisposi1()==1){
-                        jCourant.setNbAction(jCourant.getNbAction()+1); 
-                        // il faut que l'ingénieur vienne d'assécher une case, et qu'il n'ait pas bougé entre temps.
                     }
-                    ((Ingenieur)jCourant).setPouvoirdisposi1(((Ingenieur)jCourant).getPouvoirdisposi1()); // +1                     
-            }
-                this.nbActions++;
-        }  
-            if(phaseJouerCarte){
-                if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
-                    for (int i =0;i<24;i++){
-                    this.vuePlateau.surbriller(i);
+                    if(phaseAssechement && listeIDDynamic.contains(arg))
+                    {
+                        this.vuePlateau.desurbriller();
+                        this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
+                        this.vuePlateau.assecherTuile(this.grille.getTuileAvecID((int) arg));
+                        this.phaseAssechement=false;
+
+                        if(jCourant.getRoleAventurier()==RoleAventurier.Ingenieur) {
+                            if (((Ingenieur)jCourant).getPouvoirdisposi1()==1){
+                                System.out.println("J'ai fait mon action pour 0");
+                                
+                                this.nbActions--; 
+                                // il faut que l'ingénieur vienne d'assécher une case, et qu'il n'ait pas bougé entre temps.
+                            }
+                            ((Ingenieur)jCourant).setPouvoirdisposi1(((Ingenieur)jCourant).getPouvoirdisposi1()+1); // +1                     
                     }
-                this.phaseDeDeplacement=true;
-            }
-            else if(jCourant.getMain().get((int)arg).isCarteSac()){
-                for (int i =0;i<24;i++){
-                    this.vuePlateau.surbriller(i);
+                        this.nbActions++;
+                }  
+                    if(phaseJouerCarte){
+                        if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
+                            for (int i =0;i<24;i++){
+                            this.vuePlateau.surbriller(i);
+                            }
+                        this.phaseDeDeplacement=true;
+                    }
+                    else if(jCourant.getMain().get((int)arg).isCarteSac()){
+                        for (int i =0;i<24;i++){
+                            this.vuePlateau.surbriller(i);
+                        }
+                        this.phaseAssechement=true;
+                    }
+                    else{
+                        //On ne peut pas jouer cette carte
+                    }
+
                 }
-                this.phaseAssechement=true;
+
+                if(phaseDeDeplacement && phaseJouerCarte){ //carte hélico  | la case de départ est toujours la position de jCourant. Trop lourd sinon
+                    this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
+                    for(Aventurier j : this.jCourant.getPosition().getAventuriers()) {
+
+                        j.setPosition(this.grille.getTuileAvecID((int)arg));
+                        j.getPosition().getAventuriers().add(j);
+                    }
+
+                    this.jCourant.getPosition().getAventuriers().clear();
+                    this.phaseDeDeplacement=false;
+                    if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
+                    phaseJouerCarte=false;
+                }
+
+                if(phaseAssechement && phaseJouerCarte){ //carte bac à sable
+
+                    this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
+                    this.phaseAssechement=false;
+                    //assecherlacarte
+                    phaseJouerCarte=false;
+                }
+
+                 if(phaseDonnerCarte){
+
+                    if(!jCourant.equals(jCourant.getPosition().getAventuriers().get(0))){
+                        this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
+                        jCourant.removeCarte(jCourant.getMain().get((int)arg));
+                        //mettre a jour l'ihm
+                    }
+                 }
+
+            }
+            }    
+            else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
+                System.out.println("PLUS D'ACTION");
             }
             else{
-                //On ne peut pas jouer cette carte
+                System.out.println("jCourant est null ce petit batard");
             }
-           
         }
-       
-        if(phaseDeDeplacement && phaseJouerCarte){ //carte hélico  | la case de départ est toujours la position de jCourant. Trop lourd sinon
-            this.deplacerJCourant(this.grille.getTuileAvecID((int)arg)); // pour déplacer sur l'ihm
-            for(Aventurier j : this.jCourant.getPosition().getAventuriers()) {
-                
-                j.setPosition(this.grille.getTuileAvecID((int)arg));
-                j.getPosition().getAventuriers().add(j);
-            }
-
-            this.jCourant.getPosition().getAventuriers().clear();
-            this.phaseDeDeplacement=false;
-            if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0); // sert juste à réinitialiser les conditions de pouvoir de l'ingénieur
-            phaseJouerCarte=false;
-        }
-        
-        if(phaseAssechement && phaseJouerCarte){ //carte bac à sable
-            
-            this.grille.getTuileAvecID((int) arg).setEtatTuile(EtatTuile.ASSECHEE);
-            this.phaseAssechement=false;
-            //assecherlacarte
-            phaseJouerCarte=false;
-        }
-         
-         if(phaseDonnerCarte){
-             
-            if(!jCourant.equals(jCourant.getPosition().getAventuriers().get(0))){
-                this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
-                jCourant.removeCarte(jCourant.getMain().get((int)arg));
-                //mettre a jour l'ihm
-            }
-         }
-            
-    }
-    }    
-    else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
-        System.out.println("PLUS D'ACTION");
-    }
-    else{
-        System.out.println("jCourant est null ce petit batard");
-    }
-}
     public void initialiserPartie() {
         //Creation des cartes
         remplirPioches();
