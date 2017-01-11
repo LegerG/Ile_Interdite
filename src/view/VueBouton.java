@@ -48,7 +48,7 @@ public class VueBouton extends JPanel{
         label1 = new JLabel("Se déplacer");
         label1.setHorizontalAlignment(JLabel.CENTER);
         panel1.add(label1, BorderLayout.SOUTH);
-        panel1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel1.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -67,10 +67,12 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel1.setBorder(BorderFactory.createLineBorder(Color.black, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                 panel1.setBorder(null);
             }
         });
         
@@ -82,7 +84,7 @@ public class VueBouton extends JPanel{
         label2 = new JLabel("Assecher");
         label2.setHorizontalAlignment(JLabel.CENTER);
         panel2.add(label2, BorderLayout.SOUTH);
-        panel2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel2.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -101,10 +103,12 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel2.setBorder(BorderFactory.createLineBorder(Color.black, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel2.setBorder(null);
             }
         });
         
@@ -116,7 +120,7 @@ public class VueBouton extends JPanel{
         label3 = new JLabel("Utiliser carte");
         label3.setHorizontalAlignment(JLabel.CENTER);
         panel3.add(label3, BorderLayout.SOUTH);
-        panel3.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel3.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel3.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -135,10 +139,12 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel3.setBorder(BorderFactory.createLineBorder(Color.black, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel3.setBorder(null);
             }
         });
         
@@ -150,7 +156,7 @@ public class VueBouton extends JPanel{
         label4 = new JLabel("Donner une carte");
         label4.setHorizontalAlignment(JLabel.CENTER);
         panel4.add(label4, BorderLayout.SOUTH);
-        panel4.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel4.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel4.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -169,10 +175,12 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel4.setBorder(BorderFactory.createLineBorder(Color.black, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel4.setBorder(null);
             }
         });
         
@@ -184,7 +192,7 @@ public class VueBouton extends JPanel{
         label5 = new JLabel("Récupérer trésor");
         label5.setHorizontalAlignment(JLabel.CENTER);
         panel5.add(label5, BorderLayout.SOUTH);
-        panel5.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel5.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel5.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -203,22 +211,24 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel5.setBorder(BorderFactory.createLineBorder(Color.black, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel5.setBorder(null);
             }
         });
         
         panel6 = new JPanel(new BorderLayout()); 
         this.add(panel6);
-        ImageIcon finTour = new ImageIcon(new ImageIcon("images/icones/iconMove.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)); 
+        ImageIcon finTour = new ImageIcon(new ImageIcon("images/icones/iconDone.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT)); 
         JLabel fin = new JLabel(finTour);
-        panel6.add(dep, BorderLayout.CENTER);
+        panel6.add(fin, BorderLayout.CENTER);
         label6 = new JLabel("Finir Tour");
         label6.setHorizontalAlignment(JLabel.CENTER);
         panel6.add(label6, BorderLayout.SOUTH);
-        panel6.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        panel6.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 3));
         panel6.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -237,10 +247,12 @@ public class VueBouton extends JPanel{
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                panel6.setBorder(BorderFactory.createLineBorder(Color.black, 3));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                panel6.setBorder(null);
             }
         });
         

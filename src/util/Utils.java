@@ -44,7 +44,8 @@ public class Utils {
         REGLES("Règles du jeu"),
         RETOUR("Revenir en arrière"),
         QUITTER("Fin du jeu"),
-        VALIDER_CONNEXION("Les joueurs ont choisi la difficulté et le nombre de joueurs");
+        VALIDER_CONNEXION("Les joueurs ont choisi la difficulté et le nombre de joueurs"),
+        DEFAUSSE("ouverture de la defausse et des trésors obtenus");
     
         private final String libelle ;
 

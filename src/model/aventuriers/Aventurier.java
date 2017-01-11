@@ -17,7 +17,7 @@ public abstract class Aventurier extends ObjetIdentifie {
     protected Pion pion;
     protected Tuile position;
     protected ArrayList<CarteTirage> main;
-    protected ArrayList<CarteTresor> tresors;
+    protected ArrayList<CarteTresor> tresors = new ArrayList<>();
     protected String nom;
     protected RoleAventurier roleAventurier;
 

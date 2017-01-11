@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -14,10 +17,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 import model.aventuriers.Aventurier;
 import model.cases.Grille;
 import model.cases.Tuile;
+import util.Utils;
 
 /**
  *
@@ -33,6 +38,7 @@ public class VuePlateau extends Observable {
     private VueNiveau vueNiveau;
     private VueBouton vueBouton;
     private VueGrille vueGrille;
+    private MessageBox messageBox;
     private ArrayList<VueAventurier> vuesAventuriers = new ArrayList<>();
     
     
@@ -40,7 +46,7 @@ public class VuePlateau extends Observable {
                
         window = new JFrame();
         window.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        window.setTitle("Plateau de Jeu");
+        window.setTitle("Ile interdite");
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
         // Définit la taille de la fenêtre en pixels
@@ -51,73 +57,77 @@ public class VuePlateau extends Observable {
         
         window.setLayout(new BorderLayout());
         
+        
+        // partie gauche (niveau eau)
         vueNiveau = new VueNiveau(nvEau);   
         window.add(vueNiveau, BorderLayout.WEST);
         
+        //partie milieu ( plateau + bouton) 
+        JPanel panelMilieu = new JPanel(new BorderLayout());
+        window.add(panelMilieu);
+        
         vueGrille = new VueGrille(grille, this);
-        window.add(vueGrille, BorderLayout.CENTER);
+        panelMilieu.add(vueGrille, BorderLayout.CENTER);
         
         vueBouton = new VueBouton(this);
-        window.add(vueBouton, BorderLayout.SOUTH);
+        panelMilieu.add(vueBouton, BorderLayout.SOUTH);
         
-        JPanel panelAventuriers = new JPanel(new GridLayout(aventuriers.size(), 1));
-        window.add(panelAventuriers, BorderLayout.EAST);
+        // partie haut droite(joueus)
         
-        for (Aventurier a : aventuriers) {
+        JPanel panelDroite = new JPanel(new GridLayout(2,1));
+        window.add(panelDroite, BorderLayout.EAST);
+        
+        JTabbedPane tabbedPane = new JTabbedPane();
+        panelDroite.add(tabbedPane);
+        
+         for (Aventurier a : aventuriers) {
             //itération pour fabriquer nos vues aventurier
             VueAventurier vueAventurier = new VueAventurier(this, a);
             vuesAventuriers.add(vueAventurier);
-            panelAventuriers.add(vueAventurier);
+            tabbedPane.add(vueAventurier, a.getNom());
             
-        }    
+        }   
+         
+        // partie bas-droite (message box + defausse)
+        JPanel panelBasDroite = new JPanel(new GridLayout (1,2));
+        panelDroite.add(panelBasDroite);
+         
+        messageBox = new MessageBox();
+        panelBasDroite.add(messageBox.getWindow());
         
-        /**
-        
-        window.setLocation(dim.width/2-window.getSize().width, dim.height/2-window.getSize().height/2);
-        
-        vueGrille = new VueGrille(grille);
-        vueGrille.addObserver(o);
-        
-        mainPanel = new JPanel(new BorderLayout()); 
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-        
-        //On met le plateau dans le Center du BorderLayout
-        mainPanel.add(vueGrille.getGrillePanel(), BorderLayout.CENTER);
-        //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
-        
-        mainPanel = new JPanel(new BorderLayout());
-        window.add(mainPanel);
-        
-        
-        // panel de gauche
-        vueNiveau = new VueNiveau(nvEau);   
-        mainPanel.add(vueNiveau.getMainPanel(), BorderLayout.WEST);
-        
-        // panel de droite 
-        
-        // panel du milieu
-        
-        panelMilieu = new JPanel(new BorderLayout());
-        mainPanel.add(panelMilieu, BorderLayout.CENTER);
-        
-        vueGrille = new VueGrille(grille, this);
-        
-        mainPanel = new JPanel(new BorderLayout()); 
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        
-        //On met le plateau dans le Center du BorderLayout
-        panelMilieu.add(vueGrille, BorderLayout.CENTER);
-        //Mettre les pioches inondations et Tirages sur les West ou Est (avec les défausses associés)
-        
-        
-        
-        vueBouton = new VueBouton();
-        panelMilieu.add(vueBouton, BorderLayout.SOUTH);
-        
-        vueAventurier = new VueAventurier(aventuriers, this);
-        mainPanel.add(vueAventurier, BorderLayout.EAST);
-        
-        */
+        JPanel panelDefausse = new JPanel(new BorderLayout());
+        panelDefausse.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+        ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/Fond Bleu.png").getImage().getScaledInstance(200, 300, Image.SCALE_DEFAULT)); 
+        JLabel defausse = new JLabel(carteVerso);
+        panelDefausse.add(defausse, BorderLayout.CENTER);
+        panelDefausse.add(new JLabel("Voir les cartes de la défausse et les trésors obtenus"), BorderLayout.NORTH);
+        panelBasDroite.add(panelDefausse);
+        panelDefausse.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                notifierObservateur(Utils.Commandes.VOIR_DEFAUSSE);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+               
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panelDefausse.setBorder(BorderFactory.createLineBorder(Color.blue, 3));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                panelDefausse.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+            }
+        });
         
         window.setVisible(true);
         
@@ -156,12 +166,20 @@ public class VuePlateau extends Observable {
         vueGrille.coulerTuile(tuile);
     }
     
+    public void afficherCartesAventurier(Aventurier a, int i) {
+       vuesAventuriers.get(i).afficherCartesAventurier(a);
+    }  
+       
     public void assecherTuile(Tuile tuile) {
         vueGrille.assecherTuile(tuile);
     }
 
     public JFrame getWindow() {
         return window;
+    }
+
+    public MessageBox getMessageBox() {
+        return messageBox;
     }
     
     

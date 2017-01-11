@@ -1,6 +1,7 @@
 package controler;
 
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -18,7 +19,6 @@ import model.cartes.CarteMonteeDesEaux;
 import model.cartes.CarteSacsDeSable;
 import model.cartes.CarteTirage;
 import model.cartes.CarteTresor;
-import view.VueAventurier;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
@@ -32,6 +32,7 @@ import static util.Utils.melangerCartesTirages;
 import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
 import view.VueConnexion;
+//import view.VueDefausse;
 import view.VueInscription;
 import view.VueRegles;
 
@@ -44,9 +45,9 @@ public class Controleur implements Observer {
     //IHMs
     private VueInscription vueInscription;
     private VueConnexion vueConnexion;
-    private ArrayList<VueAventurier> vueAventuriers;
     private VuePlateau vuePlateau;
     private VueRegles vueRegles;
+//    private VueDefausse vueDefausse;
     
     //Plateau
     private Grille grille;
@@ -55,25 +56,23 @@ public class Controleur implements Observer {
     
     //Partie
     private ArrayList<Aventurier> joueurs = new ArrayList<>();
+    private ArrayList<Integer> listeIDDynamic = new ArrayList<>();
+    private ArrayList<Tresor> tresorsGagnes= new ArrayList<>();
     private Aventurier jCourant;
-    private Aventurier jExceptionnel; //a prevoir pour les intéruptions de parties lors des deffausses de cartes ou autre
+    private Aventurier jExceptionnel;
     private int nbJoueurs;
     private int nbCartesInnondationsPioches;
-    private ArrayList<Tresor> tresorsGagnes= new ArrayList<>();
+    private int nbActions;
     private boolean phaseDeDeplacement;
     private boolean phaseAssechement;
     private boolean phaseJouerCarte;
-    private ArrayList<Integer> listeIDDynamic = new ArrayList<>();
-    private int nbActions;
+    private boolean phaseDonnerCarte;
 
     //Cartes
     private ArrayList<CarteInondation> defausseInondation = new ArrayList<>();
     private ArrayList<CarteInondation> piocheInondation = new ArrayList<>();
     private ArrayList<CarteTirage> defausseTirage = new ArrayList<>();
     private ArrayList<CarteTirage> piocheTirage = new ArrayList<>();
-    private boolean phaseDonnerCarte;
-    
-    
     
     
     public Controleur() {
@@ -106,6 +105,11 @@ public class Controleur implements Observer {
         else if(arg == Commandes.TERMINER){
             this.finTour(); // fin du tour
             System.out.println("blbllblblbll");
+        }
+        
+        else if(arg == Commandes.VOIR_DEFAUSSE) {
+//            vueDefausse = new VueDefausse(tresorsGagnes, defausseInondation, defausseTirage);
+//            vueDefausse.addObserver(this);
         }
     if(jCourant!=null && nbActions<jCourant.getNbAction())  {
         
@@ -244,7 +248,12 @@ public class Controleur implements Observer {
             else{
                 System.out.println("jCourant est null ce petit batard");
             }
-        }
+        
+       
+       
+    
+}
+    
     public void initialiserPartie() {
         //Creation des cartes
         remplirPioches();
@@ -265,7 +274,6 @@ public class Controleur implements Observer {
         //piocher 6 cartes innondations
         piocherCarteInondation(6);
       
-        
         //donner deux cartes aux joueurs
         
         //Poser les joueurs sur le plateau
@@ -274,6 +282,11 @@ public class Controleur implements Observer {
         }
         jCourant=joueurs.get(0);
         
+        jCourant = joueurs.get(0);
+        this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), phaseDeDeplacement, phaseJouerCarte);
+//        this.piocherCartesTirage();
+        this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
+
        
     }
     
@@ -402,6 +415,9 @@ public class Controleur implements Observer {
             }
             
             joueurs.add(a);
+            a.addCarte(piocheTirage.get(2));
+            a.addCarte(piocheTirage.get(3));
+            a.addCarte(piocheTirage.get(10));
             i++;
         }
     }
@@ -437,6 +453,8 @@ public class Controleur implements Observer {
         }
         else if (o instanceof VueRegles) {
             this.vueRegles.fermerFenetre();
+//        } else if (o instanceof VueDefausse) {
+//            this.vueDefausse.fermerFenetre();
         }
     } 
     
@@ -571,7 +589,7 @@ public class Controleur implements Observer {
         //faire la distribution des cartes
         piocherCartesTirage();
         piocherCarteInondation(nbCartesInnondationsPioches);
-        vuePlateau.getWindow().setVisible(true);
+//        vuePlateau.getWindow().setVisible(true);
         //passer au joueur suivant
         changerJCourant();
         this.nbActions=0;
@@ -581,6 +599,7 @@ public class Controleur implements Observer {
     
     /**
         Cette méthode déplace le joueur a une nouvelle position
+     * @param nouvellePosition
     */
     public void deplacerJCourant(Tuile nouvellePosition) {
         Tuile anciennePosition = jCourant.getPosition();
@@ -609,6 +628,7 @@ public class Controleur implements Observer {
     
     public void changerJCourant() {
         jCourant = joueurs.get((joueurs.indexOf(jCourant) + 1) % nbJoueurs);
+        this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), phaseDeDeplacement, phaseJouerCarte);
     }
 
     private void donnerCarte() {
@@ -616,7 +636,7 @@ public class Controleur implements Observer {
     }
     
 }
-        
+     
         
 
         
