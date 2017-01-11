@@ -70,7 +70,9 @@ public class VueDefausse extends Observable{
         JPanel panelTresor = new JPanel(new GridLayout(tresorsGagnes.size(),1));
         for (int i =0; i< tresorsGagnes.size(); i++){
             JPanel panel = new JPanel(new BorderLayout());
-            panel.add(new JLabel (tresorsGagnes.get(i).toString()), BorderLayout.NORTH);
+            JLabel label = new JLabel(tresorsGagnes.get(i).toString());
+            panel.add(label, BorderLayout.NORTH);
+            label.setHorizontalAlignment(JLabel.CENTER);
             ImageIcon deplacer = new ImageIcon(new ImageIcon(tresorsGagnes.get(i).getPathPicture()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));;
             panel.add(new JLabel (deplacer), BorderLayout.CENTER);
             panelTresor.add(panel);
@@ -82,6 +84,7 @@ public class VueDefausse extends Observable{
         panelCentre.add(panelTirage);
         html = new JEditorPane();
         html.setContentType("text/html");
+        html.setEditable(false);
         scrollPane = new JScrollPane(html); 
         
         JLabel label2 = new JLabel("Défausse des cartes inondation");
@@ -100,6 +103,7 @@ public class VueDefausse extends Observable{
         panelCentre.add(panelInondation);
         html2 = new JEditorPane();
         html2.setContentType("text/html");
+        html2.setEditable(false);
         scrollPane2 = new JScrollPane(html2);  
         
         JLabel label3 = new JLabel("Défausse des cares tirage");
