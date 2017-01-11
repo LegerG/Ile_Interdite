@@ -1,7 +1,8 @@
 package controler;
 
 
-import java.awt.Color;
+
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
@@ -106,7 +107,6 @@ public class Controleur implements Observer {
         }
         else if(arg == Commandes.TERMINER){
             this.finTour(); // fin du tour
-            System.out.println("blbllblblbll");
         }
         
         else if(arg == Commandes.VOIR_DEFAUSSE) {
@@ -152,10 +152,9 @@ public class Controleur implements Observer {
             grille.aff((int)arg);
             if(phaseDeDeplacement){
                 System.out.println("deplac");
-                this.vuePlateau.desurbriller();
-                if (this.grille.getTuilesAccessibles(jCourant).contains(arg))
-                {
+                if (this.grille.getTuilesAccessibles(jCourant).contains(arg)) {
                     
+                    this.vuePlateau.desurbriller();
                     if(jCourant.isPilote()){
                         if(!grille.getAdjacentes(this.jCourant.getPosition().getId()).contains((int)arg)){
                             ((Pilote)jCourant).setPouvoirdispo(false);
@@ -506,7 +505,9 @@ public class Controleur implements Observer {
               this.piocheInondation.addAll(defausseInondation);
               this.niveauEau++;
               this.defausseTirage.add(this.piocheTirage.get(this.piocheTirage.size()-1));
-           }else {
+              this.piocheTirage.remove(this.piocheTirage.size() - 1);
+           }
+           else {
                if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteTresor()){
                    this.jCourant.addCarteTresor((CarteTresor)this.piocheTirage.get(this.piocheTirage.size()-1));
                }
