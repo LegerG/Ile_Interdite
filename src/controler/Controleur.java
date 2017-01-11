@@ -1,6 +1,7 @@
 package controler;
 
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -229,7 +230,6 @@ public class Controleur implements Observer {
         //piocher 6 cartes innondations
         piocherCarteInondation(6);
       
-        
         //donner deux cartes aux joueurs
         
         //Poser les joueurs sur le plateau
@@ -239,6 +239,9 @@ public class Controleur implements Observer {
         jCourant=joueurs.get(0);
         
         jCourant = joueurs.get(0);
+        this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), phaseDeDeplacement, phaseJouerCarte);
+//        this.piocherCartesTirage();
+        this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
     }
     
     public void remplirTuiles() {
@@ -366,6 +369,9 @@ public class Controleur implements Observer {
             }
             
             joueurs.add(a);
+            a.addCarte(piocheTirage.get(2));
+            a.addCarte(piocheTirage.get(3));
+            a.addCarte(piocheTirage.get(10));
             i++;
         }
     }
@@ -527,7 +533,7 @@ public class Controleur implements Observer {
         //faire la distribution des cartes
 //        piocherCartesTirage();
         piocherCarteInondation(nbCartesInnondationsPioches);
-        vuePlateau.getWindow().setVisible(true);
+//        vuePlateau.getWindow().setVisible(true);
         //passer au joueur suivant
         changerJCourant();
       //  this.actionsRestantes=3; PROBLEME avec naviguateur : demander à lylian
@@ -563,6 +569,7 @@ public class Controleur implements Observer {
     
     public void changerJCourant() {
         jCourant = joueurs.get((joueurs.indexOf(jCourant) + 1) % nbJoueurs);
+        this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), phaseDeDeplacement, phaseJouerCarte);
     }
     
 }

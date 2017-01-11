@@ -165,9 +165,17 @@ public class VuePlateau extends Observable {
     public void coulerTuile(Tuile tuile) {
         vueGrille.coulerTuile(tuile);
     }
+    
+    public void afficherCartesAventurier(Aventurier a, int i) {
+       vuesAventuriers.get(i).afficherCartesAventurier(a);
+    }
 
     public JFrame getWindow() {
         return window;
+    }
+
+    public MessageBox getMessageBox() {
+        return messageBox;
     }
     
     

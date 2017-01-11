@@ -29,6 +29,7 @@ public class VueAventurier extends JPanel{
     
     private VuePlateau vuePlateau;
     private ArrayList<VueCarte> vuesCartes;
+    private ArrayList<JLabel> listeLabel = new ArrayList<>();
     private JPanel grilleCarte;
     private JLabel nom;
     private final JEditorPane html ;
@@ -70,6 +71,7 @@ public class VueAventurier extends JPanel{
             JLabel label = new JLabel();
             grilleCarte.add(label);
             label.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+            this.listeLabel.add(label);
         }
         
         panelCentre.add(grilleCarte, BorderLayout.CENTER);
@@ -102,6 +104,13 @@ public class VueAventurier extends JPanel{
         this.nom = nom;
     }
     
+    public void afficherCartesAventurier(Aventurier a) {
+        for (int i =0; i< a.getMain().size(); i++) {
+            ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/"+a.getMain().get(i).getNomFichier()+".png").getImage().getScaledInstance(120, 180, Image.SCALE_DEFAULT));
+            this.listeLabel.get(i).setIcon(carteVerso);
+            
+        }
+    }
     
    
 }
