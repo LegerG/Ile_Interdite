@@ -695,10 +695,10 @@ public class Controleur implements Observer {
             
         }
         
-        //if(jCourant.getMain().size()>5){
-        //    this.vuePlateau.getMessageBox().displayMessage("Vous devez défausser des cartes", jCourant.getPion().getCouleur(), true, true);
-        //    phaseDefausse=true;
-        //}
+        if(jCourant.getMain().size()>5){
+            this.vuePlateau.getMessageBox().displayMessage("Vous devez avoir 5 cartes et donc vous défausser", jCourant.getPion().getCouleur(), true, true);
+            phaseDefausse=true;
+        }
         
         //verifierDefaite();
     }
