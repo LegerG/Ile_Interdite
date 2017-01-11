@@ -113,9 +113,10 @@ public class VueAventurier extends JPanel {
         for (int i =0; i< a.getMain().size(); i++) {
             ImageIcon carteVerso = new ImageIcon(new ImageIcon("images/cartes/"+a.getMain().get(i).getNomFichier()+".png").getImage().getScaledInstance(120, 180, Image.SCALE_DEFAULT));
             this.listeLabel.get(i).setIcon(carteVerso);
-            this.setListener(a);
+            
             
         }
+        this.setListener(a);
     }
     
     public void setListener(Aventurier a){
@@ -123,11 +124,12 @@ public class VueAventurier extends JPanel {
         for (int i = 0; i < a.getMain().size(); i++){
             int j = i;
             
-                listeLabel.get(i).addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    vuePlateau.notifierObservateur((Integer) j);
-                }
+            listeLabel.get(i).addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                vuePlateau.notifierObservateur((Integer) j);
+                System.out.println("ihm : "+j);
+            }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
