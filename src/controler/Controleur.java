@@ -3,10 +3,17 @@ package controler;
 
 
 
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
@@ -265,7 +272,8 @@ public class Controleur implements Observer {
             else{
                 System.out.println("jCourant est null ce petit batard");
             }
-        
+            
+            
        
        
     
@@ -473,6 +481,9 @@ public class Controleur implements Observer {
 //        } else if (o instanceof VueDefausse) {
 //            this.vueDefausse.fermerFenetre();
         }
+        else if (o instanceof JFrame) {
+            vuePlateau.getWindow().dispose();
+        }
     } 
     
     public void retour(){
@@ -629,6 +640,8 @@ public class Controleur implements Observer {
             this.vuePlateau.getMessageBox().displayMessage("Vous devez défausser des cartes", jCourant.getPion().getCouleur(), true, true);
             phaseDefausse=true;
         }
+        
+        verifierDefaite();
     }
     
     /**
@@ -667,6 +680,35 @@ public class Controleur implements Observer {
 
     private void donnerCarte() {
         
+    }
+    
+    public void verifierDefaite() {
+//        if(tuiles[21].getEtatTuile() == EtatTuile.COULEE || 
+//            nbCartesInnondationsPioches == 6 || 
+//                (tuiles[0].getEtatTuile() == EtatTuile.COULEE && tuiles[23].getEtatTuile() == EtatTuile.COULEE) ||
+//                (tuiles[3].getEtatTuile() == EtatTuile.COULEE && tuiles[13].getEtatTuile() == EtatTuile.COULEE) ||
+//                (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) ||
+//                (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[9].getEtatTuile() == EtatTuile.COULEE)
+//                ) 
+if(true)
+        {
+            JFrame fenetrePerdu = new JFrame("Défaite !");
+            vuePlateau.getWindow().setEnabled(false);
+            fenetrePerdu.setLayout(new GridLayout(2, 1));
+            JLabel msg = new JLabel("Vous êtes mort.");
+            fenetrePerdu.add(msg);
+            JButton quitter = new JButton("J'ai compris");
+            quitter.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    quitter(fenetrePerdu);
+                    fenetrePerdu.dispose();
+                }
+            });
+            fenetrePerdu.add(quitter);
+            fenetrePerdu.setLocationRelativeTo(null);
+            fenetrePerdu.setVisible(true);
+        }
     }
     
 }
