@@ -27,6 +27,7 @@ import model.cartes.CarteTresor;
 import view.VuePlateau;
 import model.cases.Grille;
 import model.cases.Tuile;
+import static util.Parameters.SIMPLIFIED;
 import util.Utils;
 import util.Utils.Commandes;
 import util.Utils.EtatTuile;
@@ -386,7 +387,7 @@ public class Controleur implements Observer {
             placerPion(a, a.getPosition());
         }
         jCourant=joueurs.get(0);
-        
+        if (SIMPLIFIED){
         //Scenario :
             //Ajout de quatre cartes calice au premier jCourant
         this.joueurs.get(1).addCarte(new CarteTresor("Calice", Tresor.CALICE));
@@ -406,7 +407,7 @@ public class Controleur implements Observer {
          
 
         this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
-
+        }
         }
     }
     
