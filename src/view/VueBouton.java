@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import util.Utils;
-import view.VuePlateau;
 
 /**
  *
@@ -262,6 +261,7 @@ public class VueBouton extends JPanel{
         
         
     } 
+    
     /**
      * @param args the command line arguments
      */

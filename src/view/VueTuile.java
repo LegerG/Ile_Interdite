@@ -9,8 +9,6 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import model.aventuriers.Aventurier;
-import model.cases.Tuile;
 import util.Utils.Pion;
 
 public class VueTuile extends JPanel {
@@ -70,8 +68,7 @@ public class VueTuile extends JPanel {
     
     public void effacerPion(Pion pion) {
         if (pionsJoueurs.contains(pion)) {
-            labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(null);
-            labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(null);
+            labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(new ImageIcon(new ImageIcon(pion.getPath() + "imagesions/").getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT)));
             pionsJoueurs.remove(pion);
             
         }
