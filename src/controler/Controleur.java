@@ -212,6 +212,9 @@ public class Controleur implements Observer {
                         this.nbActions++;
                         this.vuePlateau.getMessageBox().displayMessage("Il vous reste "+(jCourant.getNbAction()-nbActions)+" actions.", Color.BLACK, true, true);
                 }
+            else if(phase==Phase.ASSECHEMENT && !this.grille.getTuilesAssechables(jCourant).contains(arg)){
+                this.vuePlateau.getMessageBox().displayMessage("Vous ne pouvez pas assécher ici.", jCourant.getPion().getCouleur(), true, true);
+            }
             
               //PHASE JOUER HELICO
             else if(phase==Phase.HELICO){ //carte hélico  | la case de départ est toujours la position de jCourant. Trop lourd sinon
