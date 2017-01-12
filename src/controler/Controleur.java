@@ -363,8 +363,14 @@ public class Controleur implements Observer {
         //Création des joueurs
         attribuerRoleJoueurs();
         
-        Tuile[] tuilesMelange = melangerPositions(tuiles);
-        this.grille = new Grille(tuilesMelange);
+        Tuile[] tuileMelange = new Tuile[24];
+        
+        for (int i = 0; i < tuiles.length; i++) {
+            tuileMelange[i] = tuiles[i];
+        }
+        
+        melangerPositions(tuileMelange);
+        this.grille = new Grille(tuileMelange);
         //Création du plateau
         
     
@@ -730,7 +736,7 @@ public class Controleur implements Observer {
         }
         
         
-        //verifierDefaite();
+        verifierDefaite();
     }
     
     /**
@@ -770,33 +776,23 @@ public class Controleur implements Observer {
     }
    
     public void verifierDefaite() {
-        System.out.println("1");
         if (grille.getTuiles().get(tuiles[21].getId()).getEtatTuile() == EtatTuile.COULEE) {
-            System.out.println("2");
             afficherFenetrePerdu("Votre Héliport à été coulé.");
         }
-        else if (niveauEau >= 10) {
-            System.out.println("3");
+        if (niveauEau >= 10) {
             afficherFenetrePerdu("Vous avez été noyés par le niveau d'eau.");
-        }    
+        }
         else if (grille.getTuiles().get(tuiles[0].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[23].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.CRISTAL)) {
-            System.out.println("4");
             afficherFenetrePerdu("Les deux tuiles CRISTALS ont été coulées.");
         }
         else if (grille.getTuiles().get(tuiles[3].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[13].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.PIERRE)) {
-            System.out.println("5");
             afficherFenetrePerdu("Les deux tuiles PIERRES ont été coulées.");
         }
         else if (grille.getTuiles().get(tuiles[6].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[11].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.CALICE)) {
-            System.out.println("6");
             afficherFenetrePerdu("Les deux tuiles CALICES ont été coulées.");
         }
         else if (grille.getTuiles().get(tuiles[9].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[15].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.ZEPHYR)) {
-            System.out.println("7");
             afficherFenetrePerdu("Les deux tuiles ZEPHYRS ont été coulées.");
-        }
-        else {
-            System.out.println("Aucune defaite");
         }
     }
 
