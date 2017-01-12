@@ -627,6 +627,7 @@ public class Controleur implements Observer {
     public void piocherCarteInondation(int nbCarteInondation) {
         for (int i = 0; i < nbCarteInondation; i++) {
             if(piocheInondation.isEmpty()){
+                this.vuePlateau.getMessageBox().displayMessage("La pioche de cartes inondations est vide. On mélange la défausse et elle devient la pioche", Color.BLACK, true, true);
                 melangerCartesInondations(defausseInondation);
                 this.piocheInondation.addAll(defausseInondation);
                 this.defausseInondation.clear();
