@@ -764,12 +764,9 @@ public class Controleur implements Observer {
     public void changerJCourant() {
         jCourant = joueurs.get((joueurs.indexOf(jCourant) + 1) % nbJoueurs);
         this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
+        vuePlateau.updateTabbedPane(joueurs.indexOf(jCourant));
     }
-
-    private void donnerCarte() {
-        
-    }
-    
+   
     public void verifierDefaite() {
         if  (tuiles[21].getEtatTuile() == EtatTuile.COULEE || 
             (nbCartesInnondationsPioches == 6) || 

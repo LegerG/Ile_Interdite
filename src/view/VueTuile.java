@@ -71,9 +71,11 @@ public class VueTuile extends JPanel {
     public void effacerPion(Pion pion) {
         if (pionsJoueurs.contains(pion)) {
             labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(null);
+            labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(null);
             pionsJoueurs.remove(pion);
-            this.setBorder(BorderFactory.createLineBorder(Color.yellow, 0));
+            
         }
+        this.setBorder(BorderFactory.createLineBorder(Color.yellow, 0));
        
     }
     
