@@ -25,16 +25,10 @@ import model.aventuriers.Plongeur;
  
 public class VueAventurier extends JPanel {
     
-    
-    private JPanel mainPanel;
     private VuePlateau vuePlateau;
-    private ArrayList<VueCarte> vuesCartes;
     private ArrayList<JLabel> listeLabel = new ArrayList<>();
     private JPanel grilleCarte;
-    private JLabel nom;
     private final JEditorPane html ;
-//    private final JEditorPane capacite;
-//    private JScrollPane scrollPane;
     
     public VueAventurier(VuePlateau vuePlateau, Aventurier aventurier){
         this.setLayout(new BorderLayout());
@@ -57,14 +51,9 @@ public class VueAventurier extends JPanel {
         panel.setBackground(aventurier.getPion().getCouleur());
         this.add(panel, BorderLayout.SOUTH);
         
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        
         
         this.vuePlateau = vuePlateau;
         
-        
-        
-//        this.setBorder(BorderFactory.createLineBorder(Color.yellow, 3));
         JPanel panelCentre = new JPanel(new BorderLayout()); 
 
         grilleCarte = new JPanel(new GridLayout(2, 4));
@@ -81,19 +70,24 @@ public class VueAventurier extends JPanel {
         this.add(panelCentre, BorderLayout.CENTER);
         
         JLabel labelCapacite = new JLabel();
-//        capacite = new JEditorPane();
-//        capacite.setContentType("text/html");
+        
+        
         if (aventurier instanceof Pilote) {
             labelCapacite.setText("Une fois par tour, déplacez vous sur n'importe quelle case pour une action");
-        } else if (aventurier instanceof Ingenieur) {
+        } 
+        else if (aventurier instanceof Ingenieur) {
             labelCapacite.setText("Asséchez deux tuiles pour une action ");
-        } else if (aventurier instanceof Plongeur) {
+        } 
+        else if (aventurier instanceof Plongeur) {
             labelCapacite.setText("Passez par une ou plusieurs tuiles innondées"); // coulées pour une action \n(Vous devez terminer votre tour sur une tuile) ");
-        } else if (aventurier instanceof Messager) {
+        } 
+        else if (aventurier instanceof Messager) {
             labelCapacite.setText("Donnez des cartes trésors à un joueur n'importe où sur l'île pour une action par carte ");
-        } else if (aventurier instanceof Navigateur) {
+        } 
+        else if (aventurier instanceof Navigateur) {
             labelCapacite.setText("Vous avez 4 actions au lieu de 3");
-        } else if (aventurier instanceof Explorateur) {
+        } 
+        else if (aventurier instanceof Explorateur) {
             labelCapacite.setText("Peut se déplacer et assécher en diagonale");
         }
        
@@ -101,12 +95,7 @@ public class VueAventurier extends JPanel {
         
         panelCentre.add(labelCapacite, BorderLayout.NORTH);
         
-    }
-
-    public void setNom(JLabel nom) {
-        this.nom = nom;
-    }
-    
+    }    
  
     public void afficherCartesAventurier(Aventurier a) {
         

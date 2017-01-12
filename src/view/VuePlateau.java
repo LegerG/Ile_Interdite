@@ -33,14 +33,12 @@ public class VuePlateau extends Observable {
     
     private JFrame window;
     private ArrayList<JButton> listeBouton = new ArrayList<>();
-    private JPanel mainPanel;
-    private JPanel panelMilieu;
-    private ImageIcon imageFond;
     private VueNiveau vueNiveau;
     private VueBouton vueBouton;
     private VueGrille vueGrille;
     private MessageBox messageBox;
     private ArrayList<VueAventurier> vuesAventuriers = new ArrayList<>();
+    private JTabbedPane tabbedPane;
     
     
     public VuePlateau(Grille grille, ArrayList<Aventurier> aventuriers, int nvEau, Observer o) {
@@ -78,7 +76,7 @@ public class VuePlateau extends Observable {
         JPanel panelDroite = new JPanel(new GridLayout(2,1));
         window.add(panelDroite, BorderLayout.EAST);
         
-        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane = new JTabbedPane();
         panelDroite.add(tabbedPane);
         
          for (Aventurier a : aventuriers) {
@@ -87,8 +85,9 @@ public class VuePlateau extends Observable {
             vueAventurier.setListener(a);
             vuesAventuriers.add(vueAventurier);
             tabbedPane.add(vueAventurier, a.getNom());
-            
+
         }   
+         
          
         // partie bas-droite (message box + defausse)
         JPanel panelBasDroite = new JPanel(new GridLayout (1,2));
@@ -204,5 +203,8 @@ public class VuePlateau extends Observable {
         return vueNiveau;
     }
     
+    public void updateTabbedPane(int index) {
+        tabbedPane.setSelectedIndex(index);
+    }
     
 }

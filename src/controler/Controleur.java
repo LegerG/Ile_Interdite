@@ -90,8 +90,8 @@ public class Controleur implements Observer {
         this.vueRegles.addObserver(this);
         this.nbActions = 0;
         
-        
-//        tresorsGagnes.add(Tresor.PIERRE);
+//        
+//        tresorsGagnes.add(Tresor.PIERRE); // test : on donne des trésors aux joeurs
 //        tresorsGagnes.add(Tresor.CALICE);
 //        tresorsGagnes.add(Tresor.CRISTAL);
 //        tresorsGagnes.add(Tresor.ZEPHYR);
@@ -355,6 +355,15 @@ public class Controleur implements Observer {
     }
     
     public void initialiserPartie() {
+        boolean validerInscription = true;
+        for( int i=0; i < vueInscription.getjTextFieldsJoueurs().size(); i++) {
+            if (vueInscription.getjTextFieldsJoueurs().get(i).getText().equals("")){
+                validerInscription = false;
+                vueInscription.setMessageErreur("Tous les joueurs doivent avoir un nom.");
+            }
+        }
+        if (validerInscription == true) {
+         
         //Creation des cartes
         remplirPioches();
         
@@ -391,7 +400,7 @@ public class Controleur implements Observer {
 
         this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
 
-
+        }
     }
     
     public void remplirTuiles() {
@@ -770,12 +779,9 @@ public class Controleur implements Observer {
     public void changerJCourant() {
         jCourant = joueurs.get((joueurs.indexOf(jCourant) + 1) % nbJoueurs);
         this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
+        vuePlateau.updateTabbedPane(joueurs.indexOf(jCourant));
     }
-
-    private void donnerCarte() {
-        
-    }
-    
+   
     public void verifierDefaite() {
         if  (tuiles[21].getEtatTuile() == EtatTuile.COULEE || 
             (nbCartesInnondationsPioches == 6) || 
