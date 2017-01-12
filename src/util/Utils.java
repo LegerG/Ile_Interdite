@@ -145,7 +145,7 @@ public class Utils {
         DONNERCARTE,
         HELICO,
         SACSABLE,
-        MESSAGER,
+        
         DEFAUSSE;
         
     }

@@ -229,7 +229,7 @@ public class Controleur implements Observer {
 //                        this.deplacerJoueur(this.grille.getTuileAvecID((int)arg),j);
 //                    }
                         System.out.println("c'est censé etre l'id de la tuile qu'on vient de cliquer "+(int)arg);
-                     if(this.grille.getTuileAvecID((int)arg)==null) System.out.println("PUUUTE");
+                    
                     this.deplacerJoueur(this.grille.getTuileAvecID((int)arg));
                     this.vuePlateau.desurbriller();
                     
@@ -307,7 +307,7 @@ public class Controleur implements Observer {
                     else{
                         this.vuePlateau.getMessageBox().displayMessage("Vous ne pouvez pas jouer une carte trésor.", jCourant.getPion().getCouleur(), true, true);
                     }
-                 //   phaseJouerCarte=false;
+                 
                 }
             
          
@@ -729,9 +729,9 @@ public class Controleur implements Observer {
             phase=Phase.DEFAUSSE;
         }
        
-            
+        if(jCourant.getMain().size()<=5){      
             forcerDeplacement();
-            
+        }
         
         
         //verifierDefaite();
