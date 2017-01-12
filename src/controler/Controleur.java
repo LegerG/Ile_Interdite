@@ -398,6 +398,8 @@ public class Controleur implements Observer {
         this.tresorsGagnes.add(Tresor.PIERRE);
         this.tresorsGagnes.add(Tresor.ZEPHYR);
         this.tresorsGagnes.add(Tresor.CRISTAL);
+        this.tresorsGagnes.add(Tresor.CALICE);
+        
             //Don de carte Hélicoptere et Sac de sable au J2
         this.joueurs.get(2).addCarte(new CarteHelicoptere("Helicoptere"));
         this.joueurs.get(2).addCarte(new CarteSacsDeSable("SacsDeSable"));
