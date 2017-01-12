@@ -551,9 +551,13 @@ public class Controleur implements Observer {
     public void quitter(Object o){
         if (o instanceof VueConnexion) {
             this.vueConnexion.fermerFenetre();
+            this.vueInscription.fermerFenetre();
+            this.vuePlateau.getWindow().dispose();
         }
         else if (o instanceof VueInscription) {
             this.vueInscription.fermerFenetre();
+            this.vueConnexion.fermerFenetre();
+            this.vuePlateau.getWindow().dispose();
         }
         else if (o instanceof VueRegles) {
             this.vueRegles.fermerFenetre();
@@ -732,7 +736,6 @@ public class Controleur implements Observer {
             forcerDeplacement();
         }
         
-        
         verifierDefaite();
     }
     
@@ -774,22 +777,22 @@ public class Controleur implements Observer {
    
     public void verifierDefaite() {
         if (grille.getTuiles().get(tuiles[21].getId()).getEtatTuile() == EtatTuile.COULEE) {
-            afficherFenetrePerdu("Votre Héliport à été coulé.");
+            afficherFenetrePerdu(" Votre Héliport à été coulé.");
         }
         if (niveauEau >= 10) {
-            afficherFenetrePerdu("Vous avez été noyés par le niveau d'eau.");
+            afficherFenetrePerdu(" Vous avez été noyés par le niveau d'eau.");
         }
         else if (grille.getTuiles().get(tuiles[0].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[23].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.CRISTAL)) {
-            afficherFenetrePerdu("Les deux tuiles CRISTALS ont été coulées.");
+            afficherFenetrePerdu(" Les deux tuiles CRISTALS ont été coulées.");
         }
         else if (grille.getTuiles().get(tuiles[3].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[13].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.PIERRE)) {
-            afficherFenetrePerdu("Les deux tuiles PIERRES ont été coulées.");
+            afficherFenetrePerdu(" Les deux tuiles PIERRES ont été coulées.");
         }
         else if (grille.getTuiles().get(tuiles[6].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[11].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.CALICE)) {
-            afficherFenetrePerdu("Les deux tuiles CALICES ont été coulées.");
+            afficherFenetrePerdu(" Les deux tuiles CALICES ont été coulées.");
         }
         else if (grille.getTuiles().get(tuiles[9].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[15].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.ZEPHYR)) {
-            afficherFenetrePerdu("Les deux tuiles ZEPHYRS ont été coulées.");
+            afficherFenetrePerdu(" Les deux tuiles ZEPHYRS ont été coulées.");
         }
     }
 
@@ -807,16 +810,16 @@ public class Controleur implements Observer {
     private void verifierVictoire() {
        
         if(this.tresorsGagnes.size()==4
-           && this.jCourant.getPosition().getNom()=="Heliport" 
-           && this.jCourant.getPosition().getAventuriers().size()==joueurs.size()){
-                this.vuePlateau.getMessageBox().displayAlerte("VOUS AVEZ GAGNE!");
+            && this.jCourant.getPosition().getNom()=="Heliport" 
+            && this.jCourant.getPosition().getAventuriers().size()==joueurs.size()){
+               afficherFenetreGagne();
         }
     }
     
     private void afficherFenetrePerdu (String raison) {
         vuePlateau.getWindow().setEnabled(false);
         JFrame fenetrePerdu = new JFrame("Défaite !");
-        fenetrePerdu.setSize(400, 100);
+        fenetrePerdu.setSize(600, 100);
         fenetrePerdu.setAlwaysOnTop(true);
         fenetrePerdu.setLayout(new BorderLayout());
         fenetrePerdu.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -840,6 +843,33 @@ public class Controleur implements Observer {
         fenetrePerdu.setLocationRelativeTo(null);
         fenetrePerdu.setVisible(true);
     }
+    private void afficherFenetreGagne () {
+        vuePlateau.getWindow().setEnabled(false);
+        JFrame fenetreGagne = new JFrame("GAGNE !");
+        fenetreGagne.setSize(600, 100);
+        fenetreGagne.setAlwaysOnTop(true);
+        fenetreGagne.setLayout(new BorderLayout());
+        fenetreGagne.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        JLabel msg = new JLabel("Vous venez de gagner la partie. :)");
+        msg.setForeground(Color.red);
+        msg.setHorizontalAlignment(JLabel.CENTER);
+        fenetreGagne.add(msg, BorderLayout.CENTER);
+
+        JButton quitter = new JButton("J'ai compris");
+        quitter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                quitter(fenetreGagne);
+                fenetreGagne.dispose();
+            }
+        });
+
+        fenetreGagne.add(quitter, BorderLayout.SOUTH);
+
+        fenetreGagne.setLocationRelativeTo(null);
+        fenetreGagne.setVisible(true);
+    }
+    
 }
      
         
