@@ -70,8 +70,7 @@ public class VueTuile extends JPanel {
     
     public void effacerPion(Pion pion) {
         if (pionsJoueurs.contains(pion)) {
-            labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(null);
-            labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(null);
+            labelsJoueurs.get(pionsJoueurs.indexOf(pion)).setIcon(new ImageIcon(new ImageIcon("imagesions/" + pion.getPath()).getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT)));
             pionsJoueurs.remove(pion);
             
         }

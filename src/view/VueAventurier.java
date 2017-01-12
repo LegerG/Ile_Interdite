@@ -32,7 +32,7 @@ public class VueAventurier extends JPanel {
     
     public VueAventurier(VuePlateau vuePlateau, Aventurier aventurier){
         this.setLayout(new BorderLayout());
-        int taille = 670;
+        int taille = 680;
         
         html = new JEditorPane();
         html.setContentType("text/html");
