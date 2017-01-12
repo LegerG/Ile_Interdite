@@ -1,9 +1,5 @@
 package controler;
 
-
-
-
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,7 +39,6 @@ import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
 import view.VueConnexion;
 import view.VueDefausse;
-//import view.VueDefausse;
 import view.VueInscription;
 import view.VueRegles;
 
@@ -71,7 +66,6 @@ public class Controleur implements Observer {
     private int nbCartesInnondationsPioches;
     private int nbActions;
     private Phase phase;
-   
 
     //Cartes
     private ArrayList<CarteInondation> defausseInondation = new ArrayList<>();
@@ -81,8 +75,6 @@ public class Controleur implements Observer {
     private boolean deplacementForce=false;
     
     
-    
-    
     public Controleur() {
         this.vueConnexion = new VueConnexion();
         this.vueConnexion.addObserver(this);
@@ -90,8 +82,8 @@ public class Controleur implements Observer {
         this.vueRegles.addObserver(this);
         this.nbActions = 0;
         
-        
-//        tresorsGagnes.add(Tresor.PIERRE);
+//        
+//        tresorsGagnes.add(Tresor.PIERRE); // test : on donne des trésors aux joeurs
 //        tresorsGagnes.add(Tresor.CALICE);
 //        tresorsGagnes.add(Tresor.CRISTAL);
 //        tresorsGagnes.add(Tresor.ZEPHYR);
@@ -345,6 +337,15 @@ public class Controleur implements Observer {
     }
     
     public void initialiserPartie() {
+        boolean validerInscription = true;
+        for( int i=0; i < vueInscription.getjTextFieldsJoueurs().size(); i++) {
+            if (vueInscription.getjTextFieldsJoueurs().get(i).getText().equals("")){
+                validerInscription = false;
+                vueInscription.setMessageErreur("Tous les joueurs doivent avoir un nom.");
+            }
+        }
+        if (validerInscription == true) {
+         
         //Creation des cartes
         remplirPioches();
         
@@ -381,7 +382,7 @@ public class Controleur implements Observer {
 
         this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
 
-
+        }
     }
     
     public void remplirTuiles() {
@@ -449,10 +450,6 @@ public class Controleur implements Observer {
         piocheInondation.add(new CarteInondation(("LeTempleDeLaLune")));
         
         //Carte Tirage
-        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
-        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
-        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
-        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
         piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
         piocheTirage.add(new CarteTresor("Cristal", Tresor.CRISTAL));
         piocheTirage.add(new CarteTresor("Cristal", Tresor.CRISTAL));
@@ -721,9 +718,9 @@ public class Controleur implements Observer {
             phase=Phase.DEFAUSSE;
         }
        
-            
+        if(jCourant.getMain().size()<=5){      
             forcerDeplacement();
-            
+        }
         
         
         //verifierDefaite();
@@ -766,57 +763,33 @@ public class Controleur implements Observer {
     }
    
     public void verifierDefaite() {
-        if  (tuiles[21].getEtatTuile() == EtatTuile.COULEE || 
-            (nbCartesInnondationsPioches == 6) || 
-            (tuiles[0].getEtatTuile() == EtatTuile.COULEE && tuiles[23].getEtatTuile() == EtatTuile.COULEE) ||
-            (tuiles[3].getEtatTuile() == EtatTuile.COULEE && tuiles[13].getEtatTuile() == EtatTuile.COULEE) ||
-            (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) ||
-            (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[15].getEtatTuile() == EtatTuile.COULEE)) 
-        {   
-            if (tuiles[21].getEtatTuile() == EtatTuile.COULEE) {
-                System.out.println("Heliport+");
-                if (nbCartesInnondationsPioches == 6) {
-                    System.out.println("nbCarteInondation+");
-                   if (tuiles[0].getEtatTuile() == EtatTuile.COULEE && tuiles[23].getEtatTuile() == EtatTuile.COULEE) {
-                       System.out.println("coule cristal");
-                 if (tuiles[3].getEtatTuile() == EtatTuile.COULEE && tuiles[13].getEtatTuile() == EtatTuile.COULEE) {
-                     System.out.println("coule pierre");
-                 if (tuiles[6].getEtatTuile() == EtatTuile.COULEE && tuiles[11].getEtatTuile() == EtatTuile.COULEE) {
-                     System.out.println("coule calice");
-                 if (tuiles[9].getEtatTuile() == EtatTuile.COULEE && tuiles[15].getEtatTuile() == EtatTuile.COULEE) {
-                     System.out.println("coule zephyr");
-                    
-                }   
-                }   
-                }   
-                } 
-                }
-            }
-            //fenetre spéciale défaite
-            vuePlateau.getWindow().setEnabled(false);
-            JFrame fenetrePerdu = new JFrame("Défaite !");
-            fenetrePerdu.setSize(400, 100);
-            fenetrePerdu.setAlwaysOnTop(true);
-            fenetrePerdu.setLayout(new BorderLayout());
-            fenetrePerdu.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            JLabel msg = new JLabel("Vous êtes mort.");
-            msg.setForeground(Color.red);
-            msg.setHorizontalAlignment(JLabel.CENTER);
-            fenetrePerdu.add(msg, BorderLayout.CENTER);
-            
-            JButton quitter = new JButton("J'ai compris");
-            quitter.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    quitter(fenetrePerdu);
-                    fenetrePerdu.dispose();
-                }
-            });
-            
-            fenetrePerdu.add(quitter, BorderLayout.SOUTH);
-            
-            fenetrePerdu.setLocationRelativeTo(null);
-            fenetrePerdu.setVisible(true);
+        System.out.println("1");
+        if (grille.getTuiles().get(tuiles[21].getId()).getEtatTuile() == EtatTuile.COULEE) {
+            System.out.println("2");
+            afficherFenetrePerdu("Votre Héliport à été coulé.");
+        }
+        else if (niveauEau >= 10) {
+            System.out.println("3");
+            afficherFenetrePerdu("Vous avez été noyés par le niveau d'eau.");
+        }    
+        else if (grille.getTuiles().get(tuiles[0].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[23].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.CRISTAL)) {
+            System.out.println("4");
+            afficherFenetrePerdu("Les deux tuiles CRISTALS ont été coulées.");
+        }
+        else if (grille.getTuiles().get(tuiles[3].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[13].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.PIERRE)) {
+            System.out.println("5");
+            afficherFenetrePerdu("Les deux tuiles PIERRES ont été coulées.");
+        }
+        else if (grille.getTuiles().get(tuiles[6].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[11].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.CALICE)) {
+            System.out.println("6");
+            afficherFenetrePerdu("Les deux tuiles CALICES ont été coulées.");
+        }
+        else if (grille.getTuiles().get(tuiles[9].getId()).getEtatTuile() == EtatTuile.COULEE && grille.getTuiles().get(tuiles[15].getId()).getEtatTuile() == EtatTuile.COULEE && !tresorsGagnes.contains(Tresor.ZEPHYR)) {
+            System.out.println("7");
+            afficherFenetrePerdu("Les deux tuiles ZEPHYRS ont été coulées.");
+        }
+        else {
+            System.out.println("Aucune defaite");
         }
     }
 
@@ -838,6 +811,34 @@ public class Controleur implements Observer {
            && this.jCourant.getPosition().getAventuriers().size()==joueurs.size()){
                 this.vuePlateau.getMessageBox().displayAlerte("VOUS AVEZ GAGNE!");
         }
+    }
+    
+    private void afficherFenetrePerdu (String raison) {
+        vuePlateau.getWindow().setEnabled(false);
+        JFrame fenetrePerdu = new JFrame("Défaite !");
+        fenetrePerdu.setSize(400, 100);
+        fenetrePerdu.setAlwaysOnTop(true);
+        fenetrePerdu.setLayout(new BorderLayout());
+        fenetrePerdu.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        JLabel msg = new JLabel("Vous êtes mort.");
+        msg.setText(msg.getText() + raison);
+        msg.setForeground(Color.red);
+        msg.setHorizontalAlignment(JLabel.CENTER);
+        fenetrePerdu.add(msg, BorderLayout.CENTER);
+
+        JButton quitter = new JButton("J'ai compris");
+        quitter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                quitter(fenetrePerdu);
+                fenetrePerdu.dispose();
+            }
+        });
+
+        fenetrePerdu.add(quitter, BorderLayout.SOUTH);
+
+        fenetrePerdu.setLocationRelativeTo(null);
+        fenetrePerdu.setVisible(true);
     }
 }
      

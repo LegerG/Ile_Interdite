@@ -3,7 +3,6 @@ package model.cases;
 import java.util.ArrayList;
 import model.ObjetIdentifie;
 import model.aventuriers.Aventurier;
-import util.Utils;
 import util.Utils.EtatTuile;
 import util.Utils.Tresor;
 

@@ -58,6 +58,7 @@ public class VueInscription extends Observable  {
         centralPanel.add(messageErreur);
         messageErreur.setHorizontalAlignment(JLabel.CENTER);
         messageErreur.setForeground(Color.red);
+                
         
         JPanel panelBouton = new JPanel(new GridLayout(1,3));
         centralPanel.add(panelBouton);
@@ -120,14 +121,14 @@ public class VueInscription extends Observable  {
         for (JTextField t : jTextFieldsJoueurs) {
             if (t.getText() != null) {
                 nomJoueurs.add(t.getText());
-            }
-            else {
-                nomJoueurs.add("T'es un flemmard !");
-            }
-            
+            }  
         }
         
         return nomJoueurs;
+    }
+
+    public ArrayList<JTextField> getjTextFieldsJoueurs() {
+        return jTextFieldsJoueurs;
     }
      
     
