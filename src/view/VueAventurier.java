@@ -128,7 +128,6 @@ public class VueAventurier extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 vuePlateau.notifierObservateur((Integer) j);
-                System.out.println("ihm : "+j);
             }
 
                 @Override

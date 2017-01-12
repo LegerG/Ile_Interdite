@@ -111,7 +111,7 @@ public class Controleur implements Observer {
         else if(arg == Commandes.TERMINER && jCourant.getMain().size()<=5){ 
             this.finTour(); 
         }
-        else if(arg == Commandes.CHOISIR_CARTE){
+        else if(arg == Commandes.CHOISIR_CARTE && jCourant.getMain().size()<=5){
             this.phase=Phase.JOUERCARTE;
             this.vuePlateau.getMessageBox().displayMessage("Cliquer sur la carte que vous voulez jouer.", jCourant.getPion().getCouleur(), true, true);
         }
@@ -120,8 +120,9 @@ public class Controleur implements Observer {
             vueDefausse = new VueDefausse(tresorsGagnes, defausseInondation, defausseTirage);
             vueDefausse.addObserver(this);
         }
+
     if(jCourant!=null && nbActions<jCourant.getNbAction() && jCourant.getMain().size()<=5)  { // On vérifie si le joueur a encore des actions
-        
+                
         if (arg == Commandes.BOUGER){
             this.phase=Phase.DEPLACEMENT;
             
@@ -150,7 +151,7 @@ public class Controleur implements Observer {
         else if (arg == Commandes.DONNER) {
            if(!jCourant.getTresors().isEmpty() && jCourant.getPosition().getAventuriers().size()>1) {
                this.phase=Phase.DONNERCARTE;
-               this.vuePlateau.getMessageBox().displayAlerte("Vous devez choisir un carte trésor à donner");
+               this.vuePlateau.getMessageBox().displayAlerte("Vous devez choisir une carte trésor à donner");
            }
            else if (jCourant.getPosition().getAventuriers().size()==1){
                     this.vuePlateau.getMessageBox().displayAlerte("Vous êtes seul sur votre tuile");
@@ -161,8 +162,6 @@ public class Controleur implements Observer {
     }
         
          if(arg instanceof Integer){
-            System.out.println("val arg " +(int)arg);
-           // grille.aff((int)arg);
             
            if((int)arg>10){
             
@@ -182,6 +181,7 @@ public class Controleur implements Observer {
                     
                     
                     this.nbActions++;
+                    this.vuePlateau.getMessageBox().displayMessage("Il vous reste "+(jCourant.getNbAction()-nbActions)+" actions.", Color.BLACK, true, true);
                     if(jCourant.isIngenieur()) ((Ingenieur)jCourant).setPouvoirdisposi1(0);
                    
                     
@@ -202,7 +202,7 @@ public class Controleur implements Observer {
 
                         if(jCourant.getRoleAventurier()==RoleAventurier.Ingenieur) {
                             if (((Ingenieur)jCourant).getPouvoirdisposi1()==1){
-                                System.out.println("J'ai fait mon action pour 0");
+                                this.vuePlateau.getMessageBox().displayMessage("Vous avez utilisé votre pouvoir", jCourant.getPion().getCouleur(), true, true);
                                 
                                 this.nbActions--; 
                                 // il faut que l'ingénieur vienne d'assécher une case, et qu'il n'ait pas bougé entre temps.
@@ -210,18 +210,15 @@ public class Controleur implements Observer {
                             ((Ingenieur)jCourant).setPouvoirdisposi1(((Ingenieur)jCourant).getPouvoirdisposi1()+1); // +1                     
                     }
                         this.nbActions++;
+                        this.vuePlateau.getMessageBox().displayMessage("Il vous reste "+(jCourant.getNbAction()-nbActions)+" actions.", Color.BLACK, true, true);
                 }
             
               //PHASE JOUER HELICO
             else if(phase==Phase.HELICO){ //carte hélico  | la case de départ est toujours la position de jCourant. Trop lourd sinon
-                    // pour déplacer sur l'ihm
-                    System.out.println("nb aventurier sur la case : "+ this.jCourant.getPosition().getAventuriers().size());
 //                    for(Aventurier j : this.jCourant.getPosition().getAventuriers()) {
 //
 //                        this.deplacerJoueur(this.grille.getTuileAvecID((int)arg),j);
 //                    }
-                        System.out.println("c'est censé etre l'id de la tuile qu'on vient de cliquer "+(int)arg);
-                    
                     this.deplacerJoueur(this.grille.getTuileAvecID((int)arg));
                     this.vuePlateau.desurbriller();
                     
@@ -248,15 +245,14 @@ public class Controleur implements Observer {
                 if(jCourant.getPosition().getAventuriers().size()>1){
                 for(Aventurier a : jCourant.getPosition().getAventuriers() ) {
                     if(!a.equals(jCourant)) jExceptionnel=a;
-                    System.out.println("Main des joueurs sur la meme case :"+a.getMain().size());
                 }
                     if(jExceptionnel.getMain().size()!=9){ // pas de donnation si la main du receveur est pleine
                         this.jExceptionnel.addCarte(jCourant.getMain().get((int)arg)); // qui est joueur exceptionnel?
                         jCourant.removeCarte(jCourant.getMain().get((int)arg));
-                                System.out.println("On va donner");
                         this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));     
                         this.vuePlateau.afficherCartesAventurier(jExceptionnel, joueurs.indexOf(jExceptionnel));
                         this.nbActions++;
+                        this.vuePlateau.getMessageBox().displayMessage("Il vous reste "+(jCourant.getNbAction()-nbActions)+" actions.", Color.BLACK, true, true);
                     }
                     else{
                         this.vuePlateau.getMessageBox().displayAlerte("La main du receveur est pleine!");
@@ -268,16 +264,14 @@ public class Controleur implements Observer {
             
             //PHASE JOUER CARTE
             else if(phase==Phase.JOUERCARTE){
-                        System.out.println("phaseJouerCarte");
                         if (jCourant.getMain().get((int)arg).isCarteHelicoptere()){
-                            System.out.println("hélico");
                             for (Integer i : grille.getTuiles().keySet()){
                                 if(grille.getTuileAvecID(i).getEtatTuile()!=EtatTuile.COULEE){
                             this.vuePlateau.surbriller(i);
                             }
                             }
                         phase=Phase.HELICO;
-                        
+                        this.vuePlateau.getMessageBox().displayMessage("Vous jouez votre carte hélicoptère", jCourant.getPion().getCouleur(), true, true);
                 defausseTirage.add(this.jCourant.getMain().get((int)arg));
                 jCourant.removeCarte(jCourant.getMain().get((int)arg));
                 this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
@@ -285,13 +279,13 @@ public class Controleur implements Observer {
                     }
                     // jouer une carte bac à sable
                     else if(jCourant.getMain().get((int)arg).isCarteSac()){
-                            System.out.println("sac sable");
                         for (Integer i : grille.getTuiles().keySet()){
                             if(grille.getTuileAvecID(i).getEtatTuile()==EtatTuile.INONDEE){
                             this.vuePlateau.surbriller(i);
                             }
                         }
                         phase=Phase.SACSABLE;
+                        this.vuePlateau.getMessageBox().displayMessage("Vous jouez votre carte sac de sable", jCourant.getPion().getCouleur(), true, true);
                         defausseTirage.add(this.jCourant.getMain().get((int)arg));
                 jCourant.removeCarte(jCourant.getMain().get((int)arg));
                 this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
@@ -299,14 +293,12 @@ public class Controleur implements Observer {
                     else{
                         this.vuePlateau.getMessageBox().displayMessage("Vous ne pouvez pas jouer une carte trésor.", jCourant.getPion().getCouleur(), true, true);
                     }
-                 
                 }
             
          
             
              // PHASE DE DEFAUSSE
             if(phase==Phase.DEFAUSSE){
-                    System.out.println("taille main jcourant"+ jCourant.getMain().size());
                     defausseTirage.add(this.jCourant.getMain().get((int)arg));
                     jCourant.removeCarte(jCourant.getMain().get((int)arg));
                     
@@ -314,7 +306,7 @@ public class Controleur implements Observer {
                 
                
                 this.vuePlateau.getMessageBox().displayAlerte("Vous avez défaussé une carte");
-                // SI le joueur a le be nombre de cartes, on fait appel a forcer déplacement pour dire au joueur qu'il doit sortir de la carte coulée
+                // SI le joueur a le bon nombre de cartes, on fait appel a forcer déplacement pour dire au joueur qu'il doit sortir de la carte coulée
                 if(this.jCourant.getMain().size()<=5) forcerDeplacement();
             }
             }
@@ -330,14 +322,13 @@ public class Controleur implements Observer {
   
        
     else if(jCourant != null && this.nbActions==jCourant.getNbAction()){
-        this.vuePlateau.getMessageBox().displayMessage("Vous n'avez plus d'actions", Color.black, true, true);
+        this.vuePlateau.getMessageBox().displayMessage("Vous n'avez plus d'actions.", Color.black, true, true);
     }
     
     else if (jCourant!=null &&jCourant.getMain().size()>5){
         this.vuePlateau.getMessageBox().displayMessage("Vous avez trop de cartes", Color.black, true, true);
     }
     else{
-        System.out.println("");
     }
             
             
@@ -377,11 +368,12 @@ public class Controleur implements Observer {
         this.vueInscription.fermerFenetre();
         this.vuePlateau = new VuePlateau(grille, joueurs, niveauEau, this);
         this.vuePlateau.addObserver(this);
-        
+        this.vuePlateau.getMessageBox().displayMessage("Bonne chance dans votre quête!", Color.BLACK, true, true);
         //piocher 6 cartes innondations
+        this.vuePlateau.getMessageBox().displayMessage("6 tuiles sombrent..", Color.BLACK, true, true);
         piocherCarteInondation(6);
-      
         //donner deux cartes aux joueurs
+        this.vuePlateau.getMessageBox().displayMessage("Chaque aventurier pioche 2 cartes", Color.BLACK, true, true);
         for (Aventurier a : joueurs) {
             piocherCartesTirage(a);
             this.vuePlateau.afficherCartesAventurier(a, joueurs.indexOf(a));
@@ -391,10 +383,10 @@ public class Controleur implements Observer {
             placerPion(a, a.getPosition());
         }
         jCourant=joueurs.get(0);
-        this.jCourant.addCarte(piocheTirage.get(0));
-        this.jCourant.addCarte(piocheTirage.get(1));
-        this.jCourant.addCarte(piocheTirage.get(2));
-        this.jCourant.addCarte(piocheTirage.get(3));
+//        this.jCourant.addCarte(piocheTirage.get(0));
+//        this.jCourant.addCarte(piocheTirage.get(1));
+//        this.jCourant.addCarte(piocheTirage.get(2));
+//        this.jCourant.addCarte(piocheTirage.get(3));
 
         this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
 
@@ -492,7 +484,7 @@ public class Controleur implements Observer {
         
         //melange des pioches initiales
         piocheInondation = melangerCartesInondations(piocheInondation);
-       // piocheTirage = melangerCartesTirages(piocheTirage);
+        piocheTirage = melangerCartesTirages(piocheTirage);
         
         
     }
@@ -614,7 +606,7 @@ public class Controleur implements Observer {
            }
            if(this.piocheTirage.get(this.piocheTirage.size()-1).isCarteMonteeDesEaux()){
               // on ajoute la défausse inondation mélangée à sa pioche, et on met la carte à la défausse.
-              this.vuePlateau.getMessageBox().displayAlerte("Vous venez de piocher une carte Montée des Eaux !");
+              this.vuePlateau.getMessageBox().displayAlerte("Vous venez de piocher une carte Montée des Eaux. Le niveau est monté!");
                melangerCartesInondations(defausseInondation);
               this.piocheInondation.addAll(defausseInondation);
               this.niveauEau++;
@@ -641,11 +633,11 @@ public class Controleur implements Observer {
     public void piocherCarteInondation(int nbCarteInondation) {
         for (int i = 0; i < nbCarteInondation; i++) {
             if(piocheInondation.isEmpty()){
+                this.vuePlateau.getMessageBox().displayMessage("La pioche de cartes inondations est vide. On mélange la défausse et elle devient la pioche", Color.BLACK, true, true);
                 melangerCartesInondations(defausseInondation);
                 this.piocheInondation.addAll(defausseInondation);
                 this.defausseInondation.clear();
             }
-            
             CarteInondation carteInondation = piocheInondation.get(piocheInondation.size() - 1);
             Tuile tuileAInonder = trouverTuile(carteInondation);
             
@@ -692,18 +684,22 @@ public class Controleur implements Observer {
                         }
                     }
                 this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
-                       
+                this.vuePlateau.getMessageBox().displayMessage("Vous avez récupéré le "+this.jCourant.getPosition().getTresor().toString()+"!", Color.BLACK, true, true);
+                if(this.tresorsGagnes.size()==4){
+                    this.vuePlateau.getMessageBox().displayMessage("Vous avez tous les trésors! Rejoignez tous l'héliport et jouer une carte hélicoptère pour gagner!", Color.BLACK, true, true);
+                }
                 this.nbActions++;
+                this.vuePlateau.getMessageBox().displayMessage("Il vous reste "+(jCourant.getNbAction()-nbActions)+" actions.", Color.BLACK, true, true);
             }
             else if(nbCarteTresor<4){
-                System.out.println("nombre de carte trésor insuffisante");
+                this.vuePlateau.getMessageBox().displayMessage("Vous n'avez pas assez de cartes trésor", jCourant.getPion().getCouleur(), true, true);
             }
             else {
-                System.out.println("le trésor en question à déjà été récupéré");
+                this.vuePlateau.getMessageBox().displayMessage("Vous avez déjà récupérer le trésor de la case", jCourant.getPion().getCouleur(), true, true);
             }
         }   
         else{
-            System.out.println("la tuile sur laquelle se trouve le jCourant n'as pas de trésor."); 
+            this.vuePlateau.getMessageBox().displayMessage("Il n'y a pas de trésor récupérable sur cette case", jCourant.getPion().getCouleur(), true, true);
         }
      
         
@@ -717,13 +713,14 @@ public class Controleur implements Observer {
        
         this.vuePlateau.desurbriller();
         //faire la distribution des cartes
+        this.vuePlateau.getMessageBox().displayMessage("Vous tirez 2 cartes", jCourant.getPion().getCouleur(), true, true);
         piocherCartesTirage(jCourant);
+        this.vuePlateau.getMessageBox().displayMessage(this.nbCartesInnondationsPioches+" tuiles sombrent..", jCourant.getPion().getCouleur(), true, true);
         piocherCarteInondation(nbCartesInnondationsPioches);
         this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
         //passer au joueur suivant
         changerJCourant();
         this.nbActions=0;
-        System.out.println(this.jCourant.getRoleAventurier().toString()+jCourant.getMain().size());
        
         
         if(jCourant.getMain().size()>5){
