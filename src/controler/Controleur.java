@@ -90,8 +90,8 @@ public class Controleur implements Observer {
         this.vueRegles.addObserver(this);
         this.nbActions = 0;
         
-        
-//        tresorsGagnes.add(Tresor.PIERRE);
+//        
+//        tresorsGagnes.add(Tresor.PIERRE); // test : on donne des trésors aux joeurs
 //        tresorsGagnes.add(Tresor.CALICE);
 //        tresorsGagnes.add(Tresor.CRISTAL);
 //        tresorsGagnes.add(Tresor.ZEPHYR);
@@ -229,7 +229,7 @@ public class Controleur implements Observer {
 //                        this.deplacerJoueur(this.grille.getTuileAvecID((int)arg),j);
 //                    }
                         System.out.println("c'est censé etre l'id de la tuile qu'on vient de cliquer "+(int)arg);
-                     if(this.grille.getTuileAvecID((int)arg)==null) System.out.println("PUUUTE");
+                    
                     this.deplacerJoueur(this.grille.getTuileAvecID((int)arg));
                     this.vuePlateau.desurbriller();
                     
@@ -307,7 +307,7 @@ public class Controleur implements Observer {
                     else{
                         this.vuePlateau.getMessageBox().displayMessage("Vous ne pouvez pas jouer une carte trésor.", jCourant.getPion().getCouleur(), true, true);
                     }
-                 //   phaseJouerCarte=false;
+                 
                 }
             
          
@@ -355,6 +355,15 @@ public class Controleur implements Observer {
     }
     
     public void initialiserPartie() {
+        boolean validerInscription = true;
+        for( int i=0; i < vueInscription.getjTextFieldsJoueurs().size(); i++) {
+            if (vueInscription.getjTextFieldsJoueurs().get(i).getText().equals("")){
+                validerInscription = false;
+                vueInscription.setMessageErreur("Tous les joueurs doivent avoir un nom.");
+            }
+        }
+        if (validerInscription == true) {
+         
         //Creation des cartes
         remplirPioches();
         
@@ -391,7 +400,7 @@ public class Controleur implements Observer {
 
         this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
 
-
+        }
     }
     
     public void remplirTuiles() {
@@ -728,9 +737,9 @@ public class Controleur implements Observer {
             phase=Phase.DEFAUSSE;
         }
        
-            
+        if(jCourant.getMain().size()<=5){      
             forcerDeplacement();
-            
+        }
         
         
         //verifierDefaite();
