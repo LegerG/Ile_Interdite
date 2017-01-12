@@ -91,10 +91,10 @@ public class Controleur implements Observer {
         this.nbActions = 0;
         
         
-        tresorsGagnes.add(Tresor.PIERRE);
-        tresorsGagnes.add(Tresor.CALICE);
-        tresorsGagnes.add(Tresor.CRISTAL);
-        tresorsGagnes.add(Tresor.ZEPHYR);
+//        tresorsGagnes.add(Tresor.PIERRE);
+//        tresorsGagnes.add(Tresor.CALICE);
+//        tresorsGagnes.add(Tresor.CRISTAL);
+//        tresorsGagnes.add(Tresor.ZEPHYR);
     }
     
 
@@ -384,6 +384,10 @@ public class Controleur implements Observer {
             placerPion(a, a.getPosition());
         }
         jCourant=joueurs.get(0);
+        this.jCourant.addCarte(piocheTirage.get(0));
+        this.jCourant.addCarte(piocheTirage.get(1));
+        this.jCourant.addCarte(piocheTirage.get(2));
+        this.jCourant.addCarte(piocheTirage.get(3));
 
         this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
 
@@ -485,7 +489,7 @@ public class Controleur implements Observer {
         
         //melange des pioches initiales
         piocheInondation = melangerCartesInondations(piocheInondation);
-        piocheTirage = melangerCartesTirages(piocheTirage);
+       // piocheTirage = melangerCartesTirages(piocheTirage);
         
         
     }
@@ -680,10 +684,12 @@ public class Controleur implements Observer {
                         CarteTresor c =(CarteTresor) it.next();
                         if (c.getTypeTresor().equals(jCourant.getPosition().getTresor()) && compteur <4){                
                             it.remove();
+                            this.jCourant.getMain().remove(c);
                             defausseTirage.add(c);
                             compteur++;
                         }
                     }
+                this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
                        
                 this.nbActions++;
             }
