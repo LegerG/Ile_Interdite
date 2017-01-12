@@ -21,5 +21,6 @@ public abstract class CarteTirage extends Carte {
     }
 
     public boolean isCarteSac() {
-return false;    }
+        return false;    
+    }
 }

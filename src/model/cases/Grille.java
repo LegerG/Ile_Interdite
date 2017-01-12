@@ -6,8 +6,6 @@ import java.util.Iterator;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Pilote;
 import util.Utils.EtatTuile;
-import util.Utils.RoleAventurier;
-import static util.Utils.RoleAventurier.Pilote;
 import static util.Utils.getFORME_GRILLE;
 
 /**
@@ -214,8 +212,7 @@ public class Grille {
               }
           i--;
           j--;
-//          System.out.println(i); System.out.println(j);
-//          System.out.println("TROUVE");
+          
           coor[0]=i;
           coor[1]=j;
           return coor;
@@ -242,18 +239,7 @@ public class Grille {
         this.addCasesAdjacentes(i, j, listeID);
         return listeID;
       }
-      
 
-
-
-////      public void setEtatTuile(Tuile tuile) {
-////          tuiles.get(tuile.getId()).setEtatTuile(EtatTuile.COULEE);
-////      }
-//
-//    public void aff(int i) {
-//        System.out.println(tuiles.get(i).getEtatTuile().toString());
-//    }
-//      
       
 }
     

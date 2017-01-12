@@ -1,9 +1,5 @@
 package controler;
 
-
-
-
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,7 +39,6 @@ import static util.Utils.melangerPositions;
 import static util.Utils.melangerRole;
 import view.VueConnexion;
 import view.VueDefausse;
-//import view.VueDefausse;
 import view.VueInscription;
 import view.VueRegles;
 
@@ -71,7 +66,6 @@ public class Controleur implements Observer {
     private int nbCartesInnondationsPioches;
     private int nbActions;
     private Phase phase;
-   
 
     //Cartes
     private ArrayList<CarteInondation> defausseInondation = new ArrayList<>();
@@ -79,8 +73,6 @@ public class Controleur implements Observer {
     private ArrayList<CarteTirage> defausseTirage = new ArrayList<>();
     private ArrayList<CarteTirage> piocheTirage = new ArrayList<>();
     private boolean deplacementForce=false;
-    
-    
     
     
     public Controleur() {
@@ -468,10 +460,6 @@ public class Controleur implements Observer {
         piocheInondation.add(new CarteInondation(("LeTempleDeLaLune")));
         
         //Carte Tirage
-        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
-        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
-        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
-        piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
         piocheTirage.add(new CarteTresor("Calice", Tresor.CALICE));
         piocheTirage.add(new CarteTresor("Cristal", Tresor.CRISTAL));
         piocheTirage.add(new CarteTresor("Cristal", Tresor.CRISTAL));

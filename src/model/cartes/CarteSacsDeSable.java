@@ -10,6 +10,8 @@ public class CarteSacsDeSable extends CarteTirage {
         super(nomFichier);
     }
     
+    @Override
     public boolean isCarteSac() {
-return true;    }
+        return true;    
+    }
 }

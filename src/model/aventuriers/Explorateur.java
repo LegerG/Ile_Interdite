@@ -5,9 +5,7 @@
  */
 package model.aventuriers;
 
-import java.util.HashMap;
 import model.cases.Tuile;
-import util.Utils;
 import util.Utils.Pion;
 import util.Utils.RoleAventurier;
 
