@@ -386,10 +386,24 @@ public class Controleur implements Observer {
             placerPion(a, a.getPosition());
         }
         jCourant=joueurs.get(0);
-//        this.jCourant.addCarte(piocheTirage.get(0));
-//        this.jCourant.addCarte(piocheTirage.get(1));
-//        this.jCourant.addCarte(piocheTirage.get(2));
-//        this.jCourant.addCarte(piocheTirage.get(3));
+        
+        //Scenario :
+            //Ajout de quatre cartes calice au premier jCourant
+        this.joueurs.get(1).addCarte(new CarteTresor("Calice", Tresor.CALICE));
+        this.joueurs.get(1).addCarte(new CarteTresor("Calice", Tresor.CALICE));
+        this.joueurs.get(1).addCarte(new CarteTresor("Calice", Tresor.CALICE));
+        this.joueurs.get(1).addCarte(new CarteTresor("Calice", Tresor.CALICE));
+            //Don de trois des quartre trphée aux joueurs pour accélerer la victiore
+        this.tresorsGagnes.add(Tresor.PIERRE);
+        this.tresorsGagnes.add(Tresor.ZEPHYR);
+        this.tresorsGagnes.add(Tresor.CRISTAL);
+            //Don de carte Hélicoptere et Sac de sable au J2
+        this.joueurs.get(2).addCarte(new CarteHelicoptere("Helicoptere"));
+        this.joueurs.get(2).addCarte(new CarteSacsDeSable("SacsDeSable"));
+        
+        vuePlateau.afficherCartesAventurier(joueurs.get(1), 1);
+        vuePlateau.afficherCartesAventurier(joueurs.get(2), 2);
+         
 
         this.vuePlateau.getMessageBox().displayMessage("A "+jCourant.getNom()+" de jouer !", jCourant.getPion().getCouleur(), true, true);
 
@@ -517,14 +531,7 @@ public class Controleur implements Observer {
             }
             
             joueurs.add(a);
-//            a.addCarte(piocheTirage.get(2));
-//            a.addCarte(piocheTirage.get(3));
-//            a.addCarte(piocheTirage.get(10));
-//            a.addCarte(piocheTirage.get(4));
-//            a.addCarte(piocheTirage.get(5));
-//            a.addCarte(piocheTirage.get(6));
-//            a.addCarte(piocheTirage.get(7));
-//            a.addCarte(piocheTirage.get(8));
+
             i++;
         }
     }
@@ -731,7 +738,7 @@ public class Controleur implements Observer {
        
         
         if(jCourant.getMain().size()>5){
-            this.vuePlateau.getMessageBox().displayMessage("Vous devez avoir 5 cartes et donc vous défausser", jCourant.getPion().getCouleur(), true, true);
+            this.vuePlateau.getMessageBox().displayMessage("Vous devez avoir 5 cartes et donc vous devez vous défausser", jCourant.getPion().getCouleur(), true, true);
             phase=Phase.DEFAUSSE;
         }
        
