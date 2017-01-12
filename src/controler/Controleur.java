@@ -271,7 +271,7 @@ public class Controleur implements Observer {
                             }
                             }
                         phase=Phase.HELICO;
-                        
+                        this.vuePlateau.getMessageBox().displayMessage("Vous jouez votre carte hélicoptère", jCourant.getPion().getCouleur(), true, true);
                 defausseTirage.add(this.jCourant.getMain().get((int)arg));
                 jCourant.removeCarte(jCourant.getMain().get((int)arg));
                 this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
@@ -285,6 +285,7 @@ public class Controleur implements Observer {
                             }
                         }
                         phase=Phase.SACSABLE;
+                        this.vuePlateau.getMessageBox().displayMessage("Vous jouez votre carte sac de sable", jCourant.getPion().getCouleur(), true, true);
                         defausseTirage.add(this.jCourant.getMain().get((int)arg));
                 jCourant.removeCarte(jCourant.getMain().get((int)arg));
                 this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
@@ -363,6 +364,7 @@ public class Controleur implements Observer {
         this.vuePlateau.addObserver(this);
         this.vuePlateau.getMessageBox().displayMessage("Bonne chance dans votre quête!", Color.BLACK, true, true);
         //piocher 6 cartes innondations
+        this.vuePlateau.getMessageBox().displayMessage("6 tuiles sombrent..", Color.BLACK, true, true);
         piocherCarteInondation(6);
         //donner deux cartes aux joueurs
         this.vuePlateau.getMessageBox().displayMessage("Chaque aventurier pioche 2 cartes", Color.BLACK, true, true);
@@ -629,7 +631,6 @@ public class Controleur implements Observer {
                 this.piocheInondation.addAll(defausseInondation);
                 this.defausseInondation.clear();
             }
-            this.vuePlateau.getMessageBox().displayMessage("L'île sombre...", jCourant.getPion().getCouleur(), true, true);
             CarteInondation carteInondation = piocheInondation.get(piocheInondation.size() - 1);
             Tuile tuileAInonder = trouverTuile(carteInondation);
             
@@ -705,7 +706,9 @@ public class Controleur implements Observer {
        
         this.vuePlateau.desurbriller();
         //faire la distribution des cartes
+        this.vuePlateau.getMessageBox().displayMessage("Vous tirez 2 cartes", jCourant.getPion().getCouleur(), true, true);
         piocherCartesTirage(jCourant);
+        this.vuePlateau.getMessageBox().displayMessage(this.nbCartesInnondationsPioches+" tuiles sombrent..", jCourant.getPion().getCouleur(), true, true);
         piocherCarteInondation(nbCartesInnondationsPioches);
         this.vuePlateau.afficherCartesAventurier(jCourant, joueurs.indexOf(jCourant));
         //passer au joueur suivant
