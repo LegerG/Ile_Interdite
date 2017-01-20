@@ -387,6 +387,7 @@ public class Controleur implements Observer {
             placerPion(a, a.getPosition());
         }
         jCourant=joueurs.get(0);
+        
         if (SIMPLIFIED){
         //Scenario :
             //Ajout de quatre cartes calice au premier jCourant
